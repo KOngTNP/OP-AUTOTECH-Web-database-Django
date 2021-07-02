@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% if user.is_authenticated%}
+<h1></h1>
+<h1> </h1>
+<h2 align="center"> Job data </h2>
+
+<a href="createJob" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" style="float: right;">Create new job</a>
+<h1></h1>
+<table class="table">
+    <thead class="table-striped table-dark">
+      <tr>
+        
+        <th scope="col">Job No</th>
+        <th scope="col">Project Name</th>
+        <th scope="col">Project Description</th>
+        <th scope="col"></th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for job in jobs %}
+    <tr>
+        <th scope="row"><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.jobNo}}</a></th>
+        <td>{{job.projectName}}</td>
+        <td>{{job.projectDesc}}</td>
+        <td>
+          <a href='/edit/{{job.jobNo}}'><span class='btn btn-success'>Edit</span></a>
+          <a href='/delete/{{job.jobNo}}' class='btn btn-danger'>Delete</a>
+        </td>
+    </tr>
+    {% endfor %} 
+    </tbody>
+  </table>
+
+
+  <!-- <html>
+    <head>
+      
+        <title>Testing QR code</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            function generateBarCode()
+            {
+                var nric = $('#text').val();
+                var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=50x50';
+                $('#barcode').attr('src', url);
+            }
+        </script>
+    </head>
+    <body>
+        <input id="text" type="text" 
+            value="NRIC or Work Permit" style="Width:20%"
+            onblur='generateBarCode();' /> 
+      
+      <img id='barcode' 
+            src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=1000x1000" 
+            alt=""
+            
+            title= <script>document.getElementById("demo").innerHTML = window.location.href;</script>
+            width="50" 
+            height="50" />
+    </body>
+</html> -->
+
+<!-- 
+<html>
+	<head>
+		<title>basic qrcode </title>
+	</head>
+	<body>
+		<img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https://devbanban.com/&choe=UTF-8" title="Link to my Website" />
+	</body>
+</html>
+<html>
+<body>
+
+<h2>Get the current URL</h2>
+
+<p id="demo"></p>
+
+<script>document.getElementById("demo").innerHTML = window.location.href;</script>
+
+</body>
+</html> -->
+
+
+
+{% else %}
+  <h1 align="center">You need to Login first </h1>
+
+{% endif %}
+
+{% endblock %}

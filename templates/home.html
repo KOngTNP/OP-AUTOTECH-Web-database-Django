@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <h2>{{ text1 }}</h2>
+
+
+    <h2>tags</h2>
+    {% for tag in tag %}
+        <p> {{tag}}  </p>
+    {% endfor %}
+
+    <ul>
+    <h1>hello</h1>
+        {% for tag in tag %}
+        <li> {{tag}}  </li>
+    {% endfor %}
+    </ul>
+
+    <h2>hi</h2>
+    {% if rating > 3 %}
+        <h3> morethan 3</h3>
+    {% else %}
+    <h3> lessthan 3 </h3>
+    {% endif %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <DOCTYPE html>
+<html lang="en">
+<head>
+    <mate charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django</title>
+</head>
+<body>
+        <h2>{{ text1 }}</h2>
+        <h2>{{ text1 }}</h2>
+
+        <h2>tags</h2>
+        {% for tag in tag %}
+            <p> {{tag}}  </p>
+        {% endfor %}
+
+        <ul>
+        <h1>hello</h1>
+            {% for tag in tag %}
+            <li> {{tag}}  </li>
+        {% endfor %}
+        </ul>
+
+        <h2>hi</h2>
+        {% if rating > 3 %}
+            <h3> morethan 3</h3>
+        {% else %}
+        <h3> lessthan 3 </h3>
+        {% endif %}
+</body>
+</html> -->

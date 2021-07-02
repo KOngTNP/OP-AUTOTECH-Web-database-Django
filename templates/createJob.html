@@ -1,0 +1,100 @@
+ {% extends 'layout.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+{% if user.is_authenticated%}
+<h2 align="center">Create Job</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div class='form-group'>
+        <lable for="">Job No.</lable>
+
+        {% render_field form.jobNo class="form-control" %}
+    </div>
+
+    <div class="form-group">
+        <lable for="">Project Name</lable>
+
+        {% render_field form.projectName class="form-control" %}
+    </div>
+
+    <div class="form-group">
+        <lable for="">Project Description</lable>
+
+        {% render_field form.projectDesc class="form-control" %}
+    </div>
+
+    <h1></h1>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        This [Job No] are already exists!
+      </div>
+    {% endif %}
+    <input type="submit" class="btn btn-primary">
+
+</form>
+
+
+
+
+
+
+
+
+
+{% else %}
+    <h1 align="center">You need to login first </h1>
+
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <DOCTYPE html>
+<html lang="en">
+<head>
+    <mate charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django</title>
+</head>
+<body>
+        <h2>{{ text1 }}</h2>
+        <h2>{{ text1 }}</h2>
+
+        <h2>tags</h2>
+        {% for tag in tag %}
+            <p> {{tag}}  </p>
+        {% endfor %}
+
+        <ul>
+        <h1>hello</h1>
+            {% for tag in tag %}
+            <li> {{tag}}  </li>
+        {% endfor %}
+        </ul>
+
+        <h2>hi</h2>
+        {% if rating > 3 %}
+            <h3> morethan 3</h3>
+        {% else %}
+        <h3> lessthan 3 </h3>
+        {% endif %}
+</body>
+</html> -->

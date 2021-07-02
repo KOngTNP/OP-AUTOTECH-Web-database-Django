@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+{% if user.is_authenticated%}
+<h2 align="center">Drawing of {{get_job_id.jobNo}}</h2>
+<form method="POST">
+    {% csrf_token %}
+    <h2 align="center">{{ Drawing.job}}</h2>
+    <div class='form-group'>
+        
+        <lable for="exampleFormControlSelect1">Select job No.</lable>
+
+        {% render_field form.job class="form-control" %}
+        
+    </div>
+
+    <div class="form-group">
+        <lable for="">Drawing No.</lable>
+
+        {% render_field form.drawingNo class="form-control" %}
+    </div>
+
+    <div class="form-group">
+        <lable for="">Drawing Description</lable>
+
+        {% render_field form.drawingDesc class="form-control" %}
+    </div>
+
+
+    <div class="form-group">
+        <lable for="">Drawing quantity</lable>
+
+        {% render_field form.Quantity class="form-control" %}
+    </div>
+
+    <h1></h1>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        This [Drawing No] are already exists!
+      </div>
+    {% endif %}
+    <input type="submit" class="btn btn-primary">
+
+</form>
+
+{% else %}
+    <h1 align="center">You need to login first </h1>
+
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
