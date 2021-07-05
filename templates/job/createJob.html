@@ -6,6 +6,7 @@
 <h2 align="center">Create Job</h2>
 <form method="POST">
     {% csrf_token %}
+    <p hidden>{% render_field form.user class="form-control"%}</p>
     <div class='form-group'>
         <lable for="">Job No.</lable>
 
@@ -28,6 +29,7 @@
     {% if form.errors %}
     <div class="alert alert-danger" role="alert">
         This [Job No] are already exists!
+        {{form.errors}}
       </div>
     {% endif %}
     <input type="submit" class="btn btn-primary">
@@ -43,8 +45,7 @@
 
 
 {% else %}
-    <h1 align="center">You need to login first </h1>
-
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
 {% endblock %}
 

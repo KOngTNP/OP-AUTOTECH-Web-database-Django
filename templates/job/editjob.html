@@ -1,0 +1,45 @@
+<DOCTYPE html>
+{% extends 'layout.html' %}
+
+
+{% block content %}
+{% if user.is_authenticated%}
+<h2 align="center">Edit Job no {{jobs.jobNo}}</h2>
+<form method="POST" action="/jobTable/update/{{jobs.jobNo}}">
+    {% csrf_token %}
+    <div class='form-group'>
+        <lable for="">Job No. (You cannot edit this)</lable>
+        <input type='text' name ='jobNo' class="form-control" value='{{jobs.jobNo}}' readonly>
+
+    </div>
+
+    <div class="form-group">
+        <lable for="">Project Name</lable>
+        <input type='text' name ='projectName' class="form-control" value='{{jobs.projectName}}'>
+
+
+    </div>
+
+    <div class="form-group">
+        <lable for="">Project Description</lable>
+        <input type='text' name ='projectDesc' class="form-control" value='{{jobs.projectDesc}}'>
+
+
+    </div>
+
+    <input type="submit" class='btn btn-success'>
+
+</form>
+
+
+
+
+
+
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+{% endblock %}

@@ -8,6 +8,10 @@ class CreateJobForm(ModelForm):
         model = Job
         fields = "__all__"
 
+class UpdateJobForm(ModelForm):
+    class Meta:
+        model = Job
+        fields = ['projectName', 'projectDesc']
 
 
 
@@ -15,7 +19,12 @@ class CreateJobForm(ModelForm):
 class CreateDrawingForm(ModelForm):
     class Meta:
         model = Drawing
-        fields = ['job', 'drawingNo', 'drawingDesc', 'Quantity']
+        fields = "__all__"
+        
+class UpdateDrawingForm(ModelForm):
+    class Meta:
+        model = Drawing
+        fields = ['drawingNo', 'drawingDesc', 'Quantity']
 
 #     def __init__(self, *args, **kwargs):
 #         super(MyCustomForm, self).__init__(*args, **kwargs)        

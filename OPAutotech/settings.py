@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'OPAutotech.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'OPdatabase',
+      'NAME':'OPAutotechDB',
       'USER':'postgres',
       'PASSWORD':'Isyl8nvvtwi',
       'HOST':'localhost',
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 

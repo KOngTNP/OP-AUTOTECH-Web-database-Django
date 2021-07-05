@@ -6,7 +6,7 @@
 <h2 align="center">Drawing of {{get_job_id.jobNo}}</h2>
 <form method="POST">
     {% csrf_token %}
-    <h2 align="center">{{ Drawing.job}}</h2>
+    <p hidden>{% render_field form.user class="form-control"%}</p>
     <div class='form-group'>
         
         <lable for="exampleFormControlSelect1">Select job No.</lable>
@@ -44,9 +44,12 @@
 
 </form>
 
-{% else %}
-    <h1 align="center">You need to login first </h1>
 
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
 {% endblock %}
 

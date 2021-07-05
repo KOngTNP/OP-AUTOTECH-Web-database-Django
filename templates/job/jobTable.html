@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% if user.is_authenticated%}
+<h1></h1>
+<h1> </h1>
+<h2 align="center"> Job data </h2>
+
+<form class="form-inline my-2 my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right;">
+  <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+<a href="/createJob" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" style="float: left;">Create new job</a>
+<table class="table">
+    <thead class="table-striped table-dark">
+      <tr align="center">
+        
+        <th scope="col">Job No</th>
+        <th scope="col">Project Name</th>
+        <th scope="col">Project Description</th>
+        <th scope="col">Publish date</th>
+        <th scope="col">Create by</th>
+        <th scope="col">Action</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for job in jobs %}
+    <tr align="center">
+        <th scope="row"><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.jobNo}}</a></th>
+        <td>{{job.projectName}}</td>
+        <td>{{job.projectDesc}}</td>
+        <td>{{job.datePublish}}</td>
+        <td>{{job.user}}</td>
+        <td>
+
+          <a href='/jobTable/edit/{{job.jobNo}}'><span class='btn btn-success'>Edit</span></a>
+          <a href='/jobTable/delete/{{job.jobNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+{% endblock %}

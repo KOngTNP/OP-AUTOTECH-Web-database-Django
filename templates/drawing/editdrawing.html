@@ -1,0 +1,75 @@
+<DOCTYPE html>
+{% extends 'layout.html' %}
+
+
+{% block content %}
+{% if user.is_authenticated%}
+<h2 align="center">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
+<form method="POST" action="/drawingTable/{{get_job_id.jobNo}}/update/{{get_drawing_id.drawingNo}}">
+    {% csrf_token %}
+    <div class='form-group'>
+        
+        <lable for="">Job No. (You cannot edit this)</lable>
+
+        <input type='text' name ='Job' class="form-control" value='{{get_drawing_id.job}}' readonly>
+        
+    </div>
+
+    <div class='form-group'>
+        <lable for="">Drawing No. (You cannot edit this)</lable>
+        <input type='text' name ='drawingNo' class="form-control" value='{{get_drawing_id.drawingNo}}' readonly>
+
+    </div>
+
+    <div class="form-group">
+        <lable for="">Drawing Description</lable>
+        <input type='text' name ='drawingDesc' class="form-control" value='{{get_drawing_id.drawingDesc}}'>
+
+
+    </div>
+
+    <div class="form-group">
+        <lable for="">Drawing quantity</lable>
+        <input type='number' name ='Quantity' class="form-control" value='{{get_drawing_id.Quantity}}'>
+
+
+    </div>
+
+
+    <input type="submit" class='btn btn-success'>
+    <!-- {% if messages %}
+    {% for updaterecord in massages %}
+    <a onclick="return Alert('Are you sure you want to delete this item?');">Delete</a>
+    {{updaterecord}}
+    {% endfor %}
+    {% endif %} -->
+
+</form>
+
+
+
+
+
+
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+{% endblock %}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
