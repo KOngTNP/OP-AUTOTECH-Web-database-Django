@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm
-from .models import Job, Drawing, Maker
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm ,CreateDocumentForm ,UpdateDocumentForm
+from .models import Job, Drawing, Document, Maker
 from django.contrib import messages
-
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
@@ -52,7 +53,7 @@ def deleteJob(request,job_id):
 
 def editJob(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
-    return render(request,'job/editjob.html',{'jobs':get_job_id})
+    return render(request,'job/editJob.html',{'jobs':get_job_id})
 
 def updateJob(request,job_id):
     data = Job.objects.all()
@@ -62,6 +63,7 @@ def updateJob(request,job_id):
         form.save()
         # messages.success(request,"Record Updated Successfull!")
         return redirect("/jobTable",{'jobs':data})
+        
 
 
 
@@ -80,8 +82,16 @@ def allDrawing(request):
             data = Drawing.objects.filter(Q(drawingDesc__icontains=search_drawing) & Q(drawingDesc__icontains=search_drawing))
     else:
         data = Drawing.objects.all()
+    return render(request,'drawing/allDrawing.html',{'drawing':data})
+        
 
-    return render(request,'drawing/alldrawing.html',{'drawing':data})
+
+
+
+
+
+
+
 
 def drawingTable(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
@@ -94,7 +104,8 @@ def createDrawing(request,job_id):
         form = CreateDrawingForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
+            return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
+            
     else:
         form = CreateDrawingForm(initial={'job': get_job_id, 'user': user})
     return render(request, 'drawing/createDrawing.html', {'form': form, 'get_job_id':get_job_id})
@@ -103,12 +114,12 @@ def deleteDrawing(request,job_id,drawing_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     get_drawing_id.delete()
-    return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
+    return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
 
 def editDrawing(request,job_id,drawing_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    return render(request, 'drawing/editdrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
+    return render(request, 'drawing/editDrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
 
 
 def updateDrawing(request,job_id,drawing_id):
@@ -118,20 +129,56 @@ def updateDrawing(request,job_id,drawing_id):
     if form.is_valid:
         form.save()
         messages.success(request,"Record Updated Successfull!")
-        return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
-    
+        # return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
+        return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
+    return render(request, 'drawing/editDrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
 
 
 
 
 
 
-def workflow(request,drawing_no):
-    get_drawing_id = Drawing.objects.get(drawingNo=drawing_no)
-    
+def workflow(request,drawing_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    print(get_drawing_id)
+    return render(request,'workflow.html',{'get_drawing_id':get_drawing_id})
 
-    if Maker.objects:
-        get_maker_name = []
+
+
+
+
+
+
+
+def createDocument(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form = CreateDocumentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     else:
-        get_maker_name = Maker.objects.get()
-    return render(request, 'workflow/workflow.html' ,{'get_drawing_id':get_drawing_id, 'get_maker_name':get_maker_name})
+        form = CreateDocumentForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'document/createDocument.html', { 'form':form, 'get_drawing_id':get_drawing_id })
+
+def deleteDocument(request,drawing_id,document_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_document_id = Document.objects.get(id=document_id)
+    get_document_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editDocument(request,drawing_id,document_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_document_id = Document.objects.get(id=document_id)
+    return render(request, 'document/editDocument.html',{'get_drawing_id':get_drawing_id, 'get_document_id':get_document_id})
+
+def updateDocument(request,drawing_id,document_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_document_id = get_object_or_404(Document, pk=document_id)
+    form = UpdateDocumentForm(request.POST, instance=get_document_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editDocument',{'get_drawing_id':get_drawing_id, 'get_document_id':get_document_id})
+

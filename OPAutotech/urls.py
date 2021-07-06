@@ -26,7 +26,7 @@ import mysite
 
 
 urlpatterns = [
-    path('', include('mysite.urls')),
+    path('', include('mysite.urls', namespace='mysite')),
     path('admin/', admin.site.urls),
     path("register/", v.register, name="register"),
     path('', include("django.contrib.auth.urls")),

@@ -1,7 +1,8 @@
 from django.db import models
+from django.db.models import fields
 from django.forms import ModelForm
 
-from .models import Drawing, Job
+from .models import  Job, Drawing, Document
 
 class CreateJobForm(ModelForm):
     class Meta:
@@ -25,6 +26,22 @@ class UpdateDrawingForm(ModelForm):
     class Meta:
         model = Drawing
         fields = ['drawingNo', 'drawingDesc', 'Quantity']
+
+
+
+
+class CreateDocumentForm(ModelForm):
+    class Meta:
+        model = Document
+        fields = "__all__"
+
+class UpdateDocumentForm(ModelForm):
+    class Meta:
+        model = Document
+        fields = ['Quantity']
+
+
+
 
 #     def __init__(self, *args, **kwargs):
 #         super(MyCustomForm, self).__init__(*args, **kwargs)        

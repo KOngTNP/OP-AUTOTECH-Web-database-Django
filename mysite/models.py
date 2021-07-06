@@ -67,7 +67,7 @@ class Maker(models.Model):
 
 # 3
 class Cutting(models.Model):
-    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='cuttingdrawing', blank=True)
+    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='cuttingdrawing')
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
