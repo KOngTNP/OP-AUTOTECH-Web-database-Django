@@ -9,9 +9,9 @@
     {% csrf_token %}
     <div class='form-group'>
         
-        <lable for="">Job No. (You cannot edit this)</lable>
+        <p hidden><lable for="">Job No. (You cannot edit this)</lable>
 
-        <input type='text' name ='Job' class="form-control" value='{{get_drawing_id.job}}' readonly>
+        <input type='text' name ='Job' class="form-control" value='{{get_drawing_id.job}}' readonly></p>
         
     </div>
 

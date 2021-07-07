@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm ,CreateDocumentForm ,UpdateDocumentForm
-from .models import Job, Drawing, Document, Maker
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm
+from .models import Job, Drawing, Document, Maker, Cutting, Machine
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -140,8 +140,16 @@ def updateDrawing(request,job_id,drawing_id):
 
 def workflow(request,drawing_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    print(get_drawing_id)
-    return render(request,'workflow.html',{'get_drawing_id':get_drawing_id})
+    try:
+        get_maker_id = Maker.objects.get(drawing=get_drawing_id)
+        return render(request,'workflow.html',
+        {
+            'get_drawing_id':get_drawing_id, 
+            'get_maker_id':get_maker_id,
+            
+        })
+    except:
+        return render(request,'workflow.html',{'get_drawing_id':get_drawing_id})
 
 
 
@@ -182,3 +190,124 @@ def updateDocument(request,drawing_id,document_id):
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editDocument',{'get_drawing_id':get_drawing_id, 'get_document_id':get_document_id})
 
+
+
+
+
+
+
+
+
+def createMaker(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form = CreateMakerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateMakerForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'maker/createmaker.html', { 'form':form, 'get_drawing_id':get_drawing_id })
+
+def deleteMaker(reqest,drawing_id,maker_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_maker_id = Maker.objects.get(id=maker_id)
+    get_maker_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editMaker(request,drawing_id,maker_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_maker_id = Maker.objects.get(id=maker_id)
+    return render(request, 'maker/editmaker.html',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id})
+
+
+def updateMaker(request,drawing_id,maker_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_maker_id = get_object_or_404(Maker, pk=maker_id)
+    form = UpdateMakerForm(request.POST, instance=get_maker_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editMaker',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id})
+
+
+
+
+
+
+
+
+
+def createCutting(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form = CreateCuttingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateCuttingForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'cutting/createcutting.html', { 'form':form, 'get_drawing_id':get_drawing_id })
+
+def deleteCutting(reqest,drawing_id,cutting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_cutting_id = Cutting.objects.get(id=cutting_id)
+    get_cutting_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editCutting(request,drawing_id,cutting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_cutting_id = Cutting.objects.get(id=cutting_id)
+    return render(request, 'cutting/editcutting.html',{'get_drawing_id':get_drawing_id, 'get_cutting_id':get_cutting_id})
+
+
+def updateCutting(request,drawing_id,cutting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_cutting_id = get_object_or_404(Cutting, pk=cutting_id)
+    form = UpdateCuttingForm(request.POST, instance=get_cutting_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editCutting',{'get_drawing_id':get_drawing_id, 'get_cutting_id':get_cutting_id})
+
+
+
+
+
+
+
+
+def createMachine(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form = CreateMachineForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateMachineForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'machine/createmachine.html', { 'form':form, 'get_drawing_id':get_drawing_id })
+
+def deleteMachine(reqest,drawing_id,machine_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_machine_id = Machine.objects.get(id=machine_id)
+    get_machine_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editMachine(request,drawing_id,machine_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_machine_id = Machine.objects.get(id=machine_id)
+    return render(request, 'machine/editmachine.html',{'get_drawing_id':get_drawing_id, 'get_machine_id':get_machine_id})
+
+
+def updateMachine(request,drawing_id,machine_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_machine_id = get_object_or_404(Machine, pk=machine_id)
+    form = UpdateMachineForm(request.POST, instance=get_machine_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editMachine',{'get_drawing_id':get_drawing_id, 'get_machine_id':get_machine_id})

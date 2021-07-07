@@ -32,4 +32,23 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/update/document/<int:document_id>',views.updateDocument),
     path('workflow/<str:drawing_id>/delete/document/<int:document_id>',views.deleteDocument),
 
+
+    path('createMaker/<str:drawing_id>',views.createMaker, name='createMaker'),
+    path('workflow/<str:drawing_id>/edit/maker/<int:maker_id>',views.editMaker),
+    path('workflow/<str:drawing_id>/update/maker/<int:maker_id>',views.updateMaker),
+    path('workflow/<str:drawing_id>/delete/maker/<int:maker_id>',views.deleteMaker),
+
+
+    path('createCutting/<str:drawing_id>',views.createCutting, name='createCutting'),
+    path('workflow/<str:drawing_id>/edit/cutting/<int:cutting_id>',views.editCutting),
+    path('workflow/<str:drawing_id>/update/cutting/<int:cutting_id>',views.updateCutting),
+    path('workflow/<str:drawing_id>/delete/cutting/<int:cutting_id>',views.deleteCutting),
+
+
+
+    path('createMachine/<str:drawing_id>',views.createMachine, name='createMachine'),
+    path('workflow/<str:drawing_id>/edit/machine/<int:machine_id>',views.editMachine),
+    path('workflow/<str:drawing_id>/update/machine/<int:machine_id>',views.updateMachine),
+    path('workflow/<str:drawing_id>/delete/machine/<int:machine_id>',views.deleteMachine),
+
 ]

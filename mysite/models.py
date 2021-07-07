@@ -58,7 +58,8 @@ class Document(models.Model):
 # 2
 class Maker(models.Model):
     name = models.CharField(max_length=40)
-    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='mekerdrawing')
+    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='makerdrawing')
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)

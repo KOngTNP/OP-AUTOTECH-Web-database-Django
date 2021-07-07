@@ -1,89 +1,83 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-{% if user.is_authenticated%}
+
+{% if user.is_authenticated %}
 
 
-<!DOCTYPE html>
-<html>
 
-<head>
-</head>
-
-<body>
-<div class="container-fluid">
-  <h2>{{ get_maker_name}}</h2>
-    <h2 align="center"> Workflow of {{get_drawing_id}} </h2>
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Qr code</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="text-center">
-                <img class="qr-code img-thumbnail img-responsive" />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  <div class="container-fluid">
+    <h2></h2>
+      <h2 align="center"> Workflow of {{get_drawing_id}} </h2>
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Qr code</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="text-center">
+                  <img class="qr-code img-thumbnail img-responsive" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
             </div>
           </div>
         </div>
+    <!-- <div class="text">
+        <img src="" class="qr-code img-thumbnail img-responsive" />
+    </div> -->
+
+    <div class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-10">
+              <form name='myForm' >
+                  <input type="hidden" size="60"
+                      maxlength="60" class="form-control"
+                      id="content"  name='name' value=''>
+                      <p hidden id="demo"></p>
+              </form> 
+              <script type="text/javascript"> 
+                  document.forms['myForm']['name'].value = document.getElementById("demo").innerHTML = window.location.href;
+              </script>
       </div>
-	<!-- <div class="text">
-	    <img src="" class="qr-code img-thumbnail img-responsive" />
-	</div> -->
-
-	<div class="form-horizontal">
-	<div class="form-group">
-		<div class="col-sm-10">
-            <form name='myForm' >
-                <input type="hidden" size="60"
-                    maxlength="60" class="form-control"
-                    id="content"  name='name' value=''>
-                    <p hidden id="demo"></p>
-            </form> 
-            <script type="text/javascript"> 
-                document.forms['myForm']['name'].value = document.getElementById("demo").innerHTML = window.location.href;
-            </script>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-10">
-		<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter" id="generate">
-			Generate Qr code
-		</button>
-		</div>
-	</div>
-	</div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script>
-	function htmlEncode(value) {
-	return $('<div/>').text(value)
-		.html();
-	}
-	$(function () {
-	$('#generate').click(function () {
-		let finalURL ='https://chart.googleapis.com/chart?cht=qr&chl=' + htmlEncode($('#content').val()) + '&chs=160x160&chld=L|0'
-		$('.qr-code').attr('src', finalURL);});
-	});
-</script>
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 1 -->
-<div id="accordion">
-  <div class="card text-white bg-primary mb-3">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <h5>Document</h5>
-        </button>
-      </h5>
     </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter" id="generate">
+        Generate Qr code
+      </button>
+      </div>
+    </div>
+    </div>
+  </div>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script>
+    function htmlEncode(value) {
+    return $('<div/>').text(value)
+      .html();
+    }
+    $(function () {
+    $('#generate').click(function () {
+      let finalURL ='https://chart.googleapis.com/chart?cht=qr&chl=' + htmlEncode($('#content').val()) + '&chs=160x160&chld=L|0'
+      $('.qr-code').attr('src', finalURL);});
+    });
+  </script>
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 1 -->
+  <div id="accordion">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <h5>Document</h5>
+          </button>
+        </h5>
+      </div>
     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
         {% for document in get_drawing_id.documentdrawing.all %}
@@ -106,114 +100,168 @@
         {% endif %}
       </div>
     </div>
-  </div>
-
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 2 -->
-{% if get_drawing_id.documentdrawing.all %}
-<div id="accordion">
-  <div class="card text-white bg-secondary mb-3">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <h5>Maker</h5>
-        </button>
-      </h5>
     </div>
 
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-      <div class="card-body">
-        {% for document in get_drawing_id.documentdrawing.all %}
-          <h5 class="card-title"></h5>Date</h5> 
-          <p class="card-text">{{document.datePublish}}
-          <h5 class="card-title">Quantity</h5>
-          <p class="card-text">{{document.Quantity }}
-          <h5 class="card-title">Quantity</h5>
-          <p class="card-text">{{document.user }}</p>
-          
-          <a href="/workflow/{{document.drawing}}/edit/document/{{document.id}}"><span class='btn btn-success'>Edit</span></a>
-          <a href='/workflow/{{document.drawing}}/delete/document/{{document.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-        {% endfor %}
-        {% if not get_drawing_id.documentdrawing.all%}
-          <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Create document</a>
-        {% endif %}
+  <!-- ----------------------------------------------------------------------------------------------------------------------------
+  2 -->
+  {% if get_drawing_id.documentdrawing.all %}
+    <div class="card text-white bg-secondary mb-3">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <h5>Maker</h5>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          {% for maker in get_drawing_id.makerdrawing.all %}
+            <h5 class="card-title">Maker name : </h5>
+            <p class="card-text">{{maker.name}}
+            <h5 class="card-title">Checked by : </h5>
+            <p class="card-text">{{maker.user}}</p>
+            <p><u class="card-title">Checked date</u> 
+            <a class="card-text"> : {{maker.datePublish}}</a></p>
+            <p><u class="card-title">Last edit date:</u> 
+            <a class="card-text"> : {{maker.dateUpdate}}</a></p>
+            <h1></h1>
+            {% if user.id == maker.user.id or user.is_superuser %}
+              <a href="/workflow/{{maker.drawing}}/edit/maker/{{maker.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{maker.drawing}}/delete/maker/{{maker.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.makerdrawing.all%}
+            <a href="{% url 'mysite:createMaker' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Maker</a>
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 3 -->
+  {% endif %}
+    
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 3 -->
+  {% if get_maker_id.name == 'OPAutotech'%}
+    <div class="card text-white bg-success mb-3">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <h5>Cutting</h5>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          {% for cutting in get_drawing_id.cuttingdrawing.all %}
+            <h5 class="card-title">Quantity : </h5>
+            <p class="card-text">{{cutting.Quantity}}
+            <h5 class="card-title">Cutting by : </h5>
+            <p class="card-text">{{cutting.user}}</p>
+            <p><u class="card-title">Cutting date</u> 
+            <a class="card-text"> : {{cutting.datePublish}}</a></p>
+            <p><u class="card-title">Last edit date:</u> 
+            <a class="card-text"> : {{cutting.dateUpdate}}</a></p>
+
+            {% if user.id == cutting.user.id or user.is_superuser %}
+              <a href="/workflow/{{cutting.drawing}}/edit/cutting/{{cutting.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{cutting.drawing}}/delete/cutting/{{cutting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.cuttingdrawing.all%}
+            <a href="{% url 'mysite:createCutting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Cutting</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 4 -->
+    {% if get_drawing_id.cuttingdrawing.all %}
+      <div class="card text-white bg-danger mb-3">
+        <div class="card-header" id="headingFour">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              <h5>Machine</h5>
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+          <div class="card-body">
+            {% for machine in get_drawing_id.machinedrawing.all %}
+              <h5 class="card-title">Quantity : </h5>
+              <p class="card-text">{{machine.Quantity}}
+              <h5 class="card-title">Doing by : </h5>
+              <p class="card-text">{{machine.user}}</p>
+              <p><u class="card-title">Doing date</u> 
+              <a class="card-text"> : {{machine.datePublish}}</a></p>
+              <p><u class="card-title">Last edit date:</u> 
+              <a class="card-text"> : {{machine.dateUpdate}}</a></p>
+
+              {% if user.id == machine.user.id or user.is_superuser %}
+                <a href="/workflow/{{machine.drawing}}/edit/machine/{{machine.id}}"><span class='btn btn-success'>Edit</span></a>
+                <a href='/workflow/{{machine.drawing}}/delete/machine/{{machine.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+              {% endif %}
+            {% endfor %}
+            {% if not get_drawing_id.machinedrawing.all%}
+              <a href="{% url 'mysite:createMachine' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Machine</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
 
 
 
-<!-- {% if get_maker_name.name == 'OP'%} -->
-  <div class="card text-white bg-success mb-3">
-    <h5 class="card-header">Cutting</h5>
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 5 -->
+
+  <div class="card text-white bg-warning mb-3">
+    <h5 class="card-header">QC</h5>
     <div class="card-body">
       <h5 class="card-title">Special title treatment</h5>
       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
       <a href="#" class="btn btn-light">Go somewhere</a>
     </div>
   </div>
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 4 -->
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 6 -->
 
-  <div class="card text-white bg-danger mb-3">
-    <h5 class="card-header">Machine</h5>
+  <div class="card text-white bg-info mb-3">
+    <h5 class="card-header">Painting</h5>
     <div class="card-body">
       <h5 class="card-title">Special title treatment</h5>
       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
       <a href="#" class="btn btn-light">Go somewhere</a>
     </div>
   </div>
-<!-- {% endif %} -->
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 5 -->
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 7 -->
 
-<div class="card text-white bg-warning mb-3">
-  <h5 class="card-header">QC</h5>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-light">Go somewhere</a>
+  <div class="card bg-light mb-3">
+    <h5 class="card-header">Painting QC</h5>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
   </div>
-</div>
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 6 -->
-
-<div class="card text-white bg-info mb-3">
-  <h5 class="card-header">Painting</h5>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-light">Go somewhere</a>
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 8 -->
+  
+  <div class="card text-white bg-dark mb-3">
+    <h5 class="card-header">Assamby</h5>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-light">Go somewhere</a>
+    </div>
   </div>
+
+
+
+
+  
 </div>
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 7 -->
-
-<div class="card bg-light mb-3">
-  <h5 class="card-header">Painting QC</h5>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-<!-- 8 -->
-
-<div class="card text-white bg-dark mb-3">
-  <h5 class="card-header">Assamby</h5>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-light">Go somewhere</a>
-  </div>
-</div>
-{% endif %}
-</body>
-
-
 {% else %}
   <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}

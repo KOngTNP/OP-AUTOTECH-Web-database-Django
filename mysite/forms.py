@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models import fields
+from django.db.models.base import Model
 from django.forms import ModelForm
 
-from .models import  Job, Drawing, Document
+from .models import  Job, Drawing, Document, Maker, Cutting, Machine
 
 class CreateJobForm(ModelForm):
     class Meta:
@@ -40,6 +41,45 @@ class UpdateDocumentForm(ModelForm):
         model = Document
         fields = ['Quantity']
 
+
+
+class CreateMakerForm(ModelForm):
+    class Meta:
+        model = Maker
+        fields = "__all__"
+
+
+class UpdateMakerForm(ModelForm):
+    class Meta:
+        model = Maker
+        fields = ['name']
+
+
+
+class CreateCuttingForm(ModelForm):
+    class Meta:
+        model = Cutting
+        fields = "__all__"
+
+
+class UpdateCuttingForm(ModelForm):
+    class Meta:
+        model = Cutting
+        fields = ['Quantity']
+
+
+
+
+class CreateMachineForm(ModelForm):
+    class Meta:
+        model = Machine
+        fields = "__all__"
+
+
+class UpdateMachineForm(ModelForm):
+    class Meta:
+        model = Machine
+        fields = ['Quantity', 'machineNum']
 
 
 
