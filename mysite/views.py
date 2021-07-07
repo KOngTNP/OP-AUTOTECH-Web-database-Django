@@ -53,7 +53,7 @@ def deleteJob(request,job_id):
 
 def editJob(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
-    return render(request,'job/editJob.html',{'jobs':get_job_id})
+    return render(request,'job/editjob.html',{'jobs':get_job_id})
 
 def updateJob(request,job_id):
     data = Job.objects.all()
@@ -119,7 +119,7 @@ def deleteDrawing(request,job_id,drawing_id):
 def editDrawing(request,job_id,drawing_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    return render(request, 'drawing/editDrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
+    return render(request, 'drawing/editdrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
 
 
 def updateDrawing(request,job_id,drawing_id):
@@ -131,7 +131,7 @@ def updateDrawing(request,job_id,drawing_id):
         messages.success(request,"Record Updated Successfull!")
         # return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
         return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
-    return render(request, 'drawing/editDrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
+    return render(request, 'drawing/editdrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
 
 
 
