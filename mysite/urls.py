@@ -51,4 +51,10 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/update/machine/<int:machine_id>',views.updateMachine),
     path('workflow/<str:drawing_id>/delete/machine/<int:machine_id>',views.deleteMachine),
 
+
+
+    path('createQc/<str:drawing_id>',views.createQc, name='createQc'),
+    path('workflow/<str:drawing_id>/edit/qc/<int:qc_id>',views.editQc),
+    path('workflow/<str:drawing_id>/update/qc/<int:qc_id>',views.updateQc),
+    path('workflow/<str:drawing_id>/delete/qc/<int:qc_id>',views.deleteQc),
 ]

@@ -64,7 +64,7 @@ class Maker(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return self.name
+        return self.drawing
 
 # 3
 class Cutting(models.Model):

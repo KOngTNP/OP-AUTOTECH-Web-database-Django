@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm
-from .models import Job, Drawing, Document, Maker, Cutting, Machine
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm
+from .models import Job, Drawing, Document, Maker, Cutting, Machine, Qc
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -291,7 +291,7 @@ def createMachine(request,drawing_id):
         form = CreateMachineForm(initial={'drawing':get_drawing_id, 'user':user})
     return render(request, 'machine/createmachine.html', { 'form':form, 'get_drawing_id':get_drawing_id })
 
-def deleteMachine(reqest,drawing_id,machine_id):
+def deleteMachine(request,drawing_id,machine_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     get_machine_id = Machine.objects.get(id=machine_id)
     get_machine_id.delete()
@@ -311,3 +311,39 @@ def updateMachine(request,drawing_id,machine_id):
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editMachine',{'get_drawing_id':get_drawing_id, 'get_machine_id':get_machine_id})
+
+
+
+
+def createQc(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form  = CreateQcForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateQcForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'qc/createqc.html', {'form':form, 'get_drawing_id':get_drawing_id})
+
+def deleteQc(request,drawing_id,qc_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_qc_id = Qc.objects.get(id=qc_id)
+    get_qc_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editQc(request,drawing_id,qc_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_qc_id = Qc.objects.get(id=qc_id)
+    return render(request, 'qc/editqc.html',{'get_drawing_id':get_drawing_id, 'get_qc_id':get_qc_id})
+
+
+def updateQc(request,drawing_id,qc_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_qc_id = get_object_or_404(Qc, pk=qc_id)
+    form = UpdateQcForm(request.POST, instance=get_qc_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editQc',{'get_drawing_id':get_drawing_id, 'get_qc_id':get_qc_id})

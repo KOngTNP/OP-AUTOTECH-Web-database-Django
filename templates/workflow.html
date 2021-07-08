@@ -78,28 +78,28 @@
           </button>
         </h5>
       </div>
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-        {% for document in get_drawing_id.documentdrawing.all %}
-          <h5 class="card-title">Quantity : </h5>
-          <p class="card-text">{{document.Quantity}}
-          <h5 class="card-title">Checked by : </h5>
-          <p class="card-text">{{document.user}}</p>
-          <p><u class="card-title">Checked date</u> 
-          <a class="card-text"> : {{document.datePublish}}</a></p>
-          <p><u class="card-title">Last edit date:</u> 
-          <a class="card-text"> : {{document.dateUpdate}}</a></p>
-          <h1></h1>
-          {% if user.id == document.user.id or user.is_superuser %}
-            <a href="/workflow/{{document.drawing}}/edit/document/{{document.id}}"><span class='btn btn-success'>Edit</span></a>
-            <a href='/workflow/{{document.drawing}}/delete/document/{{document.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          {% for document in get_drawing_id.documentdrawing.all %}
+            <h5 class="card-title">Quantity : </h5>
+            <p class="card-text">{{document.Quantity}}
+            <h5 class="card-title">Checked by : </h5>
+            <p class="card-text">{{document.user}}</p>
+            <p><u class="card-title">Checked date</u> 
+            <a class="card-text"> : {{document.datePublish}}</a></p>
+            <p><u class="card-title">Last edit date:</u> 
+            <a class="card-text"> : {{document.dateUpdate}}</a></p>
+            <h1></h1>
+            {% if user.id == document.user.id or user.is_superuser %}
+              <a href="/workflow/{{document.drawing}}/edit/document/{{document.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{document.drawing}}/delete/document/{{document.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.documentdrawing.all%}
+            <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked document</a>
           {% endif %}
-        {% endfor %}
-        {% if not get_drawing_id.documentdrawing.all%}
-          <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked document</a>
-        {% endif %}
+        </div>
       </div>
-    </div>
     </div>
 
   <!-- ----------------------------------------------------------------------------------------------------------------------------
@@ -216,15 +216,39 @@
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 5 -->
-
-  <!-- <div class="card text-white bg-warning mb-3">
-    <h5 class="card-header">QC</h5>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-light">Go somewhere</a>
+  {% if get_drawing_id.cuttingdrawing.all and get_drawing_id.machinedrawing.all%}
+    <div class="card text-white bg-warning mb-3">
+      <div class="card-header" id="headingFive">
+        <h5 class="mb-0">
+          <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+            <h5>QC</h5>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+        <div class="card-body">
+          {% for qc in get_drawing_id.qcdrawing.all %}
+            <h5 class="card-title">Quantity : </h5>
+            <p class="card-text">{{qc.Quantity}}
+            <h5 class="card-title">Checked by : </h5>
+            <p class="card-text">{{qc.user}}</p>
+            <p><u class="card-title">Checked date</u> 
+            <a class="card-text"> : {{qc.datePublish}}</a></p>
+            <p><u class="card-title">Last edit date:</u> 
+            <a class="card-text"> : {{qc.dateUpdate}}</a></p>
+            <h1></h1>
+            {% if user.id == qc.user.id or user.is_superuser %}
+              <a href="/workflow/{{qc.drawing}}/edit/qc/{{qc.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{qc.drawing}}/delete/qc/{{qc.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.qcdrawing.all%}
+            <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked Qc</a>
+          {% endif %}
+        </div>
+      </div>
     </div>
-  </div> -->
+  {% endif %}
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 6 -->
 

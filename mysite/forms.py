@@ -3,7 +3,7 @@ from django.db.models import fields
 from django.db.models.base import Model
 from django.forms import ModelForm
 
-from .models import  Job, Drawing, Document, Maker, Cutting, Machine
+from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc
 
 class CreateJobForm(ModelForm):
     class Meta:
@@ -82,6 +82,17 @@ class UpdateMachineForm(ModelForm):
         fields = ['Quantity', 'machineNum']
 
 
+
+class CreateQcForm(ModelForm):
+    class Meta:
+        model = Qc
+        fields = "__all__"
+
+
+class UpdateQcForm(ModelForm):
+    class Meta:
+        model = Qc
+        fields = ['Quantity']
 
 #     def __init__(self, *args, **kwargs):
 #         super(MyCustomForm, self).__init__(*args, **kwargs)        
