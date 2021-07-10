@@ -247,9 +247,9 @@ def createMaker(request,drawing_id):
             if get_maker.name != 'OPAutotech':
                 Cutting.objects.filter(drawing_id=get_drawing_id).delete()
                 Machine.objects.filter(drawing_id=get_drawing_id).delete()
-                Cutting.objects.create(drawing_id=drawing_id)
+                Cutting.objects.create(drawing_id=get_drawing_id)
                 Machine.objects.create(drawing_id=get_drawing_id)
-                Cutting.objects.filter(drawing_id=drawing_id).update(user = None, Quantity = None, datePublish = None, dateUpdate = None)
+                Cutting.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, datePublish = None, dateUpdate = None)
                 Machine.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, machineNum = None, datePublish = None, dateUpdate = None)
             
             else:
@@ -269,7 +269,8 @@ def deleteMaker(reqest,drawing_id,maker_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     get_maker_id = Maker.objects.get(id=maker_id)
     get_maker_id.delete()
-
+    Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+    Machine.objects.filter(drawing_id=get_drawing_id).delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editMaker(request,drawing_id,maker_id):

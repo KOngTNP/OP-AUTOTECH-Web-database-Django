@@ -54,7 +54,7 @@ class Document(models.Model):
     dateUpdate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.drawing
+        return self.drawing.drawingNo
 # 2
 class Maker(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='makerdrawing')
@@ -65,7 +65,8 @@ class Maker(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return self.drawing
+        return self.drawing.drawingNo
+
 
 # 3
 class Cutting(models.Model):
@@ -76,6 +77,9 @@ class Cutting(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return self.drawing.drawingNo
+
 
 # 4
 class Machine(models.Model):
@@ -83,13 +87,12 @@ class Machine(models.Model):
 
     Quantity = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    machineNum = models.IntegerField()
+    machineNum = models.IntegerField(null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
-
     def __str__(self):
-        return self.drawing
+        return self.drawing.drawingNo
 # 5
 class Qc(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcdrawing')
@@ -99,9 +102,8 @@ class Qc(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
-
     def __str__(self):
-        return self.drawing
+        return self.drawing.drawingNo
 
 # 6
 # **********************************************************************************************************************************
@@ -115,7 +117,8 @@ class Painting(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateEnd = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
-    # ...
+    def __str__(self):
+        return self.drawing.drawingNo
 
 
 # **********************************************************************************************************************************
@@ -131,7 +134,7 @@ class QcPainting(models.Model):
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.drawing
+        return self.drawing.drawingNo
 
 # 8
 class Assemby(models.Model):
@@ -144,4 +147,4 @@ class Assemby(models.Model):
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.drawing
+        return self.drawing.drawingNo
