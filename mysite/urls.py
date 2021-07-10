@@ -1,3 +1,4 @@
+from mysite.models import Painting
 from django.urls import path
 from mysite import views
 # from .views import DrawingDetail
@@ -57,4 +58,25 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/edit/qc/<int:qc_id>',views.editQc),
     path('workflow/<str:drawing_id>/update/qc/<int:qc_id>',views.updateQc),
     path('workflow/<str:drawing_id>/delete/qc/<int:qc_id>',views.deleteQc),
+
+
+    path('createPainting/<str:drawing_id>',views.createPainting, name='createPainting'),
+    path('workflow/<str:drawing_id>/end/painting/<int:painting_id>',views.endPainting),
+    path('workflow/<str:drawing_id>/edit/painting/<int:painting_id>',views.editPainting),
+    path('workflow/<str:drawing_id>/update/painting/<int:painting_id>',views.updatePainting),
+    path('workflow/<str:drawing_id>/delete/painting/<int:painting_id>',views.deletePainting),
+
+
+    path('createQcPainting/<str:drawing_id>',views.createQcPainting, name='createQcPainting'),
+    path('workflow/<str:drawing_id>/edit/qcpainting/<int:qcpainting_id>',views.editQcPainting),
+    path('workflow/<str:drawing_id>/update/qcpainting/<int:qcpainting_id>',views.updateQcPainting),
+    path('workflow/<str:drawing_id>/delete/qcpainting/<int:qcpainting_id>',views.deleteQcPainting),
+
+
+    path('createAssemby/<str:drawing_id>',views.createAssemby, name='createAssemby'),
+    path('workflow/<str:drawing_id>/edit/assemby/<int:assemby_id>',views.editAssemby),
+    path('workflow/<str:drawing_id>/update/assemby/<int:assemby_id>',views.updateAssemby),
+    path('workflow/<str:drawing_id>/delete/assemby/<int:assemby_id>',views.deleteAssemby),
+
+    path('export_csv',views.export_csv, name="export-csv")
 ]

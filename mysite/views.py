@@ -1,11 +1,43 @@
 from django.shortcuts import render, redirect
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm
-from .models import Job, Drawing, Document, Maker, Cutting, Machine, Qc
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm
+from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, response
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+import datetime
+import csv
+
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses'
+
+    writer = csv.writer(response)
+    writer.writerow(['Job name','Drawing No','Drawing Description','Quantity','Publish date', 'document drawing_id','document Quan'])
+    get_job_ids = Job.objects.filter()
+    
+
+    # for job in get_job_ids:
+    #     writer.writerow([job.jobNo])
+
+    for get_job_id in get_job_ids:
+        get_drawing_ids = Drawing.objects.filter(job=get_job_id.jobNo)
+        writer.writerow([get_job_id.jobNo, get_job_id.projectName])
+        for get_drawing_id in get_drawing_ids:
+            get_document_ids = Document.objects.filter(drawing=get_drawing_id.drawingNo)
+            writer.writerow([get_drawing_id.drawingNo])
+            for get_document_id in get_document_ids:
+                writer.writerow([get_document_id.Quantity])
+        
+
+    # for get_job_id in get_job_ids:
+    #     writer.writerow([get_job_id.jobNo, get_job_id.projectName])
+    
+    return response
+
+
+
 
 def homepage(request):
     #                                   ชื่อ      ข้อความ
@@ -73,20 +105,26 @@ def updateJob(request,job_id):
 
 
 
-def allDrawing(request):
-    #Query Data from model
-    search_drawing = request.GET.get('search')
-    if search_drawing:
-        data = Drawing.objects.filter(Q(drawingNo__icontains=search_drawing) & Q(drawingNo__icontains=search_drawing))
-        if str(data) == '<QuerySet []>':
-            data = Drawing.objects.filter(Q(drawingDesc__icontains=search_drawing) & Q(drawingDesc__icontains=search_drawing))
-    else:
-        data = Drawing.objects.all()
-    return render(request,'drawing/allDrawing.html',{'drawing':data})
+# def allDrawing(request):
+#     #Query Data from model
+#     search_drawing = request.GET.get('search')
+#     if search_drawing:
+#         data = Drawing.objects.filter(Q(drawingNo__icontains=search_drawing) & Q(drawingNo__icontains=search_drawing))
+#         if str(data) == '<QuerySet []>':
+#             data = Drawing.objects.filter(Q(drawingDesc__icontains=search_drawing) & Q(drawingDesc__icontains=search_drawing))
+#     else:
+#         drawing = Drawing.objects.all()
+#         # document = Document.objects.all()
+#         document = Document.objects.all()
+
+#     return render(request,'drawing/allDrawing.html',{'drawing':drawing , 'document':document})
         
 
 
+def allDrawing(request):
+    first_person = Drawing.objects.raw('SELECT "job_id" , "projectName", "drawingNo" , "Quantity", "mysite_drawing"."datePublish" as "a" FROM mysite_drawing, mysite_job WHERE "jobNo" = "job_id"')
 
+    return render(request,'drawing/allDrawing.html',{'first_person':first_person})
 
 
 
@@ -204,7 +242,24 @@ def createMaker(request,drawing_id):
     if request.method == "POST":
         form = CreateMakerForm(request.POST)
         if form.is_valid():
-            form.save()
+            get_maker = form.save()
+            
+            if get_maker.name != 'OPAutotech':
+                Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+                Machine.objects.filter(drawing_id=get_drawing_id).delete()
+                Cutting.objects.create(drawing_id=drawing_id)
+                Machine.objects.create(drawing_id=get_drawing_id)
+                Cutting.objects.filter(drawing_id=drawing_id).update(user = None, Quantity = None, datePublish = None, dateUpdate = None)
+                Machine.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, machineNum = None, datePublish = None, dateUpdate = None)
+            
+            else:
+                try:
+                    get_cutting = Cutting.objects.filter(drawing_id=get_drawing_id)
+                    get_cutting.delete()
+                    get_machine = Machine.objects.filter(drawing_id=get_drawing_id)
+                    get_machine.delete()
+                except:
+                    pass
             return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     else:
         form = CreateMakerForm(initial={'drawing':get_drawing_id, 'user':user})
@@ -214,6 +269,7 @@ def deleteMaker(reqest,drawing_id,maker_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     get_maker_id = Maker.objects.get(id=maker_id)
     get_maker_id.delete()
+
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editMaker(request,drawing_id,maker_id):
@@ -228,11 +284,23 @@ def updateMaker(request,drawing_id,maker_id):
     form = UpdateMakerForm(request.POST, instance=get_maker_id)
     if form.is_valid:
         form.save()
+        if form.is_valid():
+            get_maker = form.save()
+            if get_maker.name != 'OPAutotech':
+                Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+                Machine.objects.filter(drawing_id=get_drawing_id).delete()
+                Cutting.objects.create(drawing_id=drawing_id)
+                Machine.objects.create(drawing_id=get_drawing_id)
+                Cutting.objects.filter(drawing_id=drawing_id).update(user = None, Quantity = None, datePublish = None, dateUpdate = None)
+                Machine.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, machineNum = None, datePublish = None, dateUpdate = None)
+            else:
+                Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+                Machine.objects.filter(drawing_id=get_drawing_id).delete()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editMaker',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id})
 
 
-
+#  you neet to add maker fk to both cutting and machine becouses if delete maker cutting and machine it will delete 
 
 
 
@@ -347,3 +415,128 @@ def updateQc(request,drawing_id,qc_id):
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editQc',{'get_drawing_id':get_drawing_id, 'get_qc_id':get_qc_id})
+
+
+
+
+
+
+def createPainting(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form  = CreatePaintingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            Painting.objects.filter(drawing_id=get_drawing_id).update(dateEnd = None)
+
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreatePaintingForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'painting/createpainting.html', {'form':form, 'get_drawing_id':get_drawing_id})
+
+def deletePainting(request,drawing_id,painting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_painting_id = Painting.objects.get(id=painting_id)
+    get_painting_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+
+def endPainting(request,drawing_id,painting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    Painting.objects.filter(drawing_id=get_drawing_id).update( dateEnd = datetime.datetime.now())
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editPainting(request,drawing_id,painting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_painting_id = Painting.objects.get(id=painting_id)
+    return render(request, 'painting/editpainting.html',{'get_drawing_id':get_drawing_id, 'get_painting_id':get_painting_id})
+
+
+def updatePainting(request,drawing_id,painting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_painting_id = get_object_or_404(Painting, pk=painting_id)
+    form = UpdatePaintingForm(request.POST, instance=get_painting_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editPainting',{'get_drawing_id':get_drawing_id, 'get_painting_id':get_painting_id})
+
+
+
+
+
+
+
+def createQcPainting(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form  = CreateQcPaintingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateQcPaintingForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'qcpainting/createqcpainting.html', {'form':form, 'get_drawing_id':get_drawing_id})
+
+def deleteQcPainting(request,drawing_id,qcpainting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_qcpainting_id = QcPainting.objects.get(id=qcpainting_id)
+    get_qcpainting_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editQcPainting(request,drawing_id,qcpainting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_qcpainting_id = QcPainting.objects.get(id=qcpainting_id)
+    return render(request, 'qcpainting/editqcpainting.html',{'get_drawing_id':get_drawing_id, 'get_qcpainting_id':get_qcpainting_id})
+
+
+def updateQcPainting(request,drawing_id,qcpainting_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_qcpainting_id = get_object_or_404(QcPainting, pk=qcpainting_id)
+    form = UpdateQcPaintingForm(request.POST, instance=get_qcpainting_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editQcPainting',{'get_drawing_id':get_drawing_id, 'get_qcpainting_id':get_qcpainting_id})
+
+
+
+
+
+
+
+
+def createAssemby(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form  = CreateAssembyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateAssembyForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'assemby/createassemby.html', {'form':form, 'get_drawing_id':get_drawing_id})
+
+def deleteAssemby(request,drawing_id,assemby_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_assemby_id = Assemby.objects.get(id=assemby_id)
+    get_assemby_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editAssemby(request,drawing_id,assemby_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_assemby_id = Assemby.objects.get(id=assemby_id)
+    return render(request, 'assemby/editassemby.html',{'get_drawing_id':get_drawing_id, 'get_assemby_id':get_assemby_id})
+
+
+def updateAssemby(request,drawing_id,assemby_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_assemby_id = get_object_or_404(Assemby, pk=assemby_id)
+    form = UpdateAssembyForm(request.POST, instance=get_assemby_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editAssemby',{'get_drawing_id':get_drawing_id, 'get_assemby_id':get_assemby_id})

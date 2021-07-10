@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'OPAutotech.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'OPAutotechDB',
+      'NAME':'OPdatabase',
       'USER':'postgres',
       'PASSWORD':'Isyl8nvvtwi',
       'HOST':'localhost',
@@ -135,6 +135,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'OPAutotech/statics'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -148,7 +153,6 @@ MEDIA_ROOT = os.path.join(os.path.dirname(
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

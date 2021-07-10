@@ -1,0 +1,205 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% load static %}
+{% if user.is_authenticated%}
+<body>
+  <h2 align="center"> All Drawing </h2>
+  <a href="{url 'export-csv' %}" class="btn btn-secondary">Exportttttt</a>
+  <form class="form-inline my-2 my-lg-0" action="{% url 'mysite:allDrawing' %}" style="float: right;">
+    <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <table class="table" id="tblStocks" cellpadding="0" cellspacing="0">
+    <thead class="table-striped table-dark" >
+      <tr>
+        <th scope="col">Job name</th>
+        <th scope="col">Drawing No</th>
+        <th scope="col">Drawing Description</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Publish date</th>
+        <th scope="col">Create by</th>
+
+        <th scope="col">document drawing_id</th>
+        <th scope="col">document Quan</th>
+        <th scope="col">document user</th>
+      </tr>
+    </thead>
+    {% for drawing in drawing %}
+    
+    <tr align="center" >
+        <th scope="row"><a href="{% url 'mysite:drawingTable' job_id=drawing.job %}">{{drawing.job}}</a></th>
+        <th scope="row"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
+        <td>{{drawing.drawingDesc}}</td>
+        <td>{{drawing.Quantity}}</td>
+        <td>{{drawing.datePublish}}</td>
+        <td>{{drawing.user}}</td>
+        
+        {% for document in document %}
+        {% if drawing.drawingNo == document.drawing_id %}
+        <td>{{document.drawing_id}}</td>
+        <td>{{document.Quantity}}</td>
+        <td>{{document.user}}</td>
+        {% else %}
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        {% endif %}
+        {% endfor %}
+
+
+
+        
+    </tr>
+    {% endfor %}
+    
+
+
+  </table>
+  <br />
+  <button onclick="exportData()">
+      <span class="glyphicon glyphicon-download"></span>
+      Download list</button>
+</body>
+</html>
+
+
+<h2 align="center"> All Drawing </h2>
+
+<form class="form-inline my-2 my-lg-0" action="{% url 'mysite:allDrawing' %}" style="float: right;">
+  <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+<table class="table"  id="tblStocks" >
+    <thead class="table-striped table-dark" >
+      <tr class="d-flex">
+        <th scope="col">Job name</th>
+        <th scope="col">Drawing No</th>
+        <th scope="col">Drawing Description</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Publish date</th>
+        <th scope="col">Create by</th>
+
+        <th scope="col">document drawing_id</th>
+        <th scope="col">document Quan</th>
+        <th scope="col">document user</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+    {% for drawing in drawing %}
+    
+    <tr align="center" class="d-flex">
+        <th scope="row"><a href="{% url 'mysite:drawingTable' job_id=drawing.job %}">{{drawing.job}}</a></th>
+        <th scope="row"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
+        <td>{{drawing.drawingDesc}}</td>
+        <td>{{drawing.Quantity}}</td>
+        <td>{{drawing.datePublish}}</td>
+        <td>{{drawing.user}}</td>
+        
+        {% for document in document %}
+        {% if drawing.drawingNo == document.drawing_id %}
+        <td>{{document.drawing_id}}</td>
+        <td>{{document.Quantity}}</td>
+        <td>{{document.user}}</td>
+
+        {% endif %}
+        {% endfor %}
+
+
+
+        
+    </tr>
+    {% endfor %}
+    
+    </tbody>
+  </table>
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+this is to query all the data but it have some PB, it's not show all data that it not have doc
+
+SELECT "job_id" , "projectName", "drawingNo" , "Quantity", "mysite_drawing"."datePublish" as "a"
+FROM mysite_drawing, mysite_job
+WHERE "jobNo" = "job_id";
+
+
+
+
+this is try to show null in this query
+SELECT "job_id" , "projectName", "drawingNo" , "mysite_drawing"."Quantity", "mysite_drawing"."datePublish", "mysite_document"."Quantity" as "Quantity_doc"
+FROM mysite_drawing, mysite_job, mysite_document
+WHERE "jobNo" = "job_id" and "mysite_document"."Quantity" IS NOT NULL;
+
+
+SELECT "job_id" , "projectName", "drawingNo" , "mysite_drawing"."Quantity", "mysite_drawing"."datePublish", "mysite_document"."Quantity" as "Quantity_doc"
+FROM mysite_job, mysite_drawing join mysite_document on "drawingNo" = "drawing_id"
+where "jobNo" = "job_id"
+
+
+
+
+
+
+
+
+
+
+
+          SSID BSSID             RSSI CHANNEL          HT    CC   SECURITY (auth/unicast/group)
+        OPAUTOTECH_5G    14:4d:67:ad:12:f8 -73  36      Y    US    WPA2(PSK/AES/AES) 
+           vivo 1819 3e:32:29:db:73:7a -82  10          Y    --    WPA2(PSK/AES/AES) 
+        OPAUTOTECH_2.4G 14:4d:67:ad:12:fc -65  6,-1     Y    --    WPA2(PSK/AES/AES) 
+
+
+export BSSID=14:4d:67:ad:12:f8
+
+export BSSID=da:5f:01:6d:d9:6d
+
+
+export BSSID=14:4d:67:ad:12:fc
+Hardware Port: Wi-Fi
+Device: en0
+Ethernet Address: dc:a9:04:87:6f:7b
+
+Hardware Port: Bluetooth PAN
+Device: en3
+Ethernet Address: 88:e9:fe:71:4d:b9
+
+Hardware Port: Thunderbolt 1
+Device: en1
+Ethernet Address: 82:c3:ca:6a:48:01
+
+Hardware Port: Thunderbolt 2
+Device: en2
+Ethernet Address: 82:c3:ca:6a:48:00
+
+Hardware Port: Thunderbolt Bridge
+Device: bridge0
+Ethernet Address: 82:c3:ca:6a:48:01

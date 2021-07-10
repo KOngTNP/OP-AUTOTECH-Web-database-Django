@@ -251,29 +251,115 @@
   {% endif %}
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 6 -->
-
-  <!-- <div class="card text-white bg-info mb-3">
-    <h5 class="card-header">Painting</h5>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-light">Go somewhere</a>
+  {% if get_drawing_id.qcdrawing.all %}
+  <div class="card text-white bg-info mb-3">
+    <div class="card-header" id="headingSix">
+      <h5 class="mb-0">
+        <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+          <h5>Painting</h5>
+        </button>
+      </h5>
     </div>
-  </div> -->
+    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+      <div class="card-body">
+        {% for painting in get_drawing_id.paintingdrawing.all %}
+          <h5 class="card-title">Quantity : </h5>
+          <p class="card-text">{{painting.Quantity}}
+          <h5 class="card-title">Painted by : </h5>
+          <p class="card-text">{{painting.user}}</p>
+          <p><u class="card-title">Starting date</u> 
+          <a class="card-text"> : {{painting.datePublish}}</a></p>
+          <p><u class="card-title">End date:</u> 
+            <a class="card-text"> : {{painting.dateEnd}}</a></p>
+          <p><u class="card-title">Last edit date:</u> 
+          <a class="card-text"> : {{painting.dateUpdate}}</a></p>
+          <h1></h1>
+
+          <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}"><span class='btn btn-success'>Add end date</span></a>
+          {% if user.id == painting.user.id or user.is_superuser %}
+            <a href="/workflow/{{painting.drawing}}/edit/painting/{{painting.id}}"><span class='btn btn-success'>Edit</span></a>
+            <a href='/workflow/{{painting.drawing}}/delete/painting/{{painting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+          {% endif %}
+        {% endfor %}
+        {% if not get_drawing_id.paintingdrawing.all%}
+          <a href="{% url 'mysite:createPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked Painting</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 7 -->
-
-  <!-- <div class="card bg-light mb-3">
-    <h5 class="card-header">Painting QC</h5>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+  {% if get_drawing_id.paintingdrawing.all %}
+    <div class="card text-dark bg-light mb-3">
+      <div class="card-header" id="headingSeven">
+        <h5 class="mb-0">
+          <button class="btn btn-link text-dark" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
+            <h5>Painting QC</h5>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+        <div class="card-body">
+          {% for qcpainting in get_drawing_id.qcpaintingdrawing.all %}
+            <h5 class="card-title">Quantity : </h5>
+            <p class="card-text">{{qcpainting.Quantity}}
+            <h5 class="card-title">Checked by : </h5>
+            <p class="card-text">{{qcpainting.user}}</p>
+            <p><u class="card-title">Checked date</u> 
+            <a class="card-text"> : {{qcpainting.datePublish}}</a></p>
+            <p><u class="card-title">Last edit date:</u> 
+            <a class="card-text"> : {{qcpainting.dateUpdate}}</a></p>
+            <h1></h1>
+            {% if user.id == qcpainting.user.id or user.is_superuser %}
+              <a href="/workflow/{{qcpainting.drawing}}/edit/qcpainting/{{qcpainting.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{qcpainting.drawing}}/delete/qcpainting/{{qcpainting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.qcpaintingdrawing.all%}
+            <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked Painting Qc</a>
+          {% endif %}
+        </div>
+      </div>
     </div>
-  </div> -->
+  {% endif %}
+
+
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 8 -->
-  
+  {% if get_drawing_id.qcpaintingdrawing.all %}
+  <div class="card text-white bg-dark mb-3">
+    <div class="card-header" id="headingEight">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+          <h5>Assemby</h5>
+        </button>
+      </h5>
+    </div>
+    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+      <div class="card-body">
+        {% for assemby in get_drawing_id.assembydrawing.all %}
+          <h5 class="card-title">Quantity : </h5>
+          <p class="card-text">{{assemby.Quantity}}
+          <h5 class="card-title">Assemby by : </h5>
+          <p class="card-text">{{assemby.user}}</p>
+          <p><u class="card-title">Assemby date</u> 
+          <a class="card-text"> : {{assemby.datePublish}}</a></p>
+          <p><u class="card-title">Last edit date:</u> 
+          <a class="card-text"> : {{assemby.dateUpdate}}</a></p>
+
+          {% if user.id == assemby.user.id or user.is_superuser %}
+            <a href="/workflow/{{assemby.drawing}}/edit/assemby/{{assemby.id}}"><span class='btn btn-success'>Edit</span></a>
+            <a href='/workflow/{{assemby.drawing}}/delete/assemby/{{assemby.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+          {% endif %}
+        {% endfor %}
+        {% if not get_drawing_id.assembydrawing.all%}
+          <a href="{% url 'mysite:createAssemby' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Assemby</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
   <!-- <div class="card text-white bg-dark mb-3">
     <h5 class="card-header">Assamby</h5>
     <div class="card-body">

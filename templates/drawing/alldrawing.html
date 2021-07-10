@@ -2,52 +2,71 @@
 
 {% block content %}
 {% if user.is_authenticated%}
-<h1></h1>
-<h1> </h1>
-<h2 align="center"> All Drawing </h2>
+<h2 align="center"> Drawing of </h2>
 
-<form class="form-inline my-2 my-lg-0" action="{% url 'mysite:allDrawing' %}" style="float: right;">
-  <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
-
+<div style="overflow-x: auto;">
 <table class="table">
     <thead class="table-striped table-dark" >
       <tr>
-        <th scope="col">Job name</th>
+        <!-- <th scope="col">Job name</th> -->
         <th scope="col">Drawing No</th>
         <th scope="col">Drawing Description</th>
         <th scope="col">Quantity</th>
         <th scope="col">Publish date</th>
         <th scope="col">Create by</th>
-        <th scope="col">Action</th>
+
+        <th scope="col">document No</th>
+        <th scope="col">documentQuantity</th>
+        <th scope="col">document Publish date</th>
+        <th scope="col">document Create by</th>
+        <th scope="col">document No</th>
+        <th scope="col">documentQuantity</th>
+        <th scope="col">document Publish date</th>
+        <th scope="col">document Create by</th>
+        <th scope="col">document No</th>
+        <th scope="col">documentQuantity</th>
+        <th scope="col">document Publish date</th>
+        <th scope="col">document Create by</th>
+        <th scope="col">document No</th>
+        <th scope="col">documentQuantity</th>
+        <th scope="col">document Publish date</th>
+        <th scope="col">document Create by</th>
+
       </tr>
     </thead>
     <tbody>
-    {% for drawing in drawing %}
+    {% for first_person in first_person %}
+
     <tr align="center">
-        <th scope="row"><a href="{% url 'mysite:drawingTable' job_id=drawing.job %}">{{drawing.job}}</a></th>
-        <th scope="row"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
-        <td>{{drawing.drawingDesc}}</td>
-        <td>{{drawing.Quantity}}</td>
-        <td>{{drawing.datePublish}}</td>
-        <td>{{drawing.user}}</td>
-        <td>
-          <a href='/drawingTable/{{drawing.job}}/edit/{{drawing.drawingNo}}'><span class='btn btn-success'>Edit</span></a>
-          <a href='/drawingTable/{{drawing.job}}/delete/{{drawing.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-        </td>
+
+        <th>{{first_person.jobNo}}</a></th>
+        <td>{{first_person.projectName}}</td>
+        <td>{{first_person.projectDesc}}</td>
+        <td>{{first_person.job_id}}</td>
+        <td>{{first_person.Quantity}}</td>
+        <td>{{first_person.a}}</td>
+
+        <td>{{first_person.user}}</td>
+        <td>{{first_person.datePublish}}
+
+
+
+        {% if drawing.drawingNo == cutting.drawing_id %}
+        <td>{{cutting.drawing}}</td>
+        <td>{{cutting.Quantity}}</td>
+        <td>{{cutting.datePublish}}</td>
+        <td>{{cutting.user}}</td>
+        {% endif %}
+        
+
     </tr>
     {% endfor %} 
     </tbody>
   </table>
-
-
-
-
-
+</div>
 
 
 {% else %}
-    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+  <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
 {% endblock %}

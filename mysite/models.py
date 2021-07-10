@@ -57,8 +57,9 @@ class Document(models.Model):
         return self.drawing
 # 2
 class Maker(models.Model):
-    name = models.CharField(max_length=40)
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='makerdrawing')
+
+    name = models.CharField(max_length=20)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True)
@@ -69,34 +70,35 @@ class Maker(models.Model):
 # 3
 class Cutting(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='cuttingdrawing')
-    Quantity = models.IntegerField()
+
+    Quantity = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
-    datePublish = models.DateTimeField(auto_now_add=True)
-    dateUpdate = models.DateTimeField(auto_now=True)
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
-    def __str__(self):
-        return self.drawing
 # 4
 class Machine(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='machinedrawing')
-    Quantity = models.IntegerField()
+
+    Quantity = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     machineNum = models.IntegerField()
 
-    datePublish = models.DateTimeField(auto_now_add=True)
-    dateUpdate = models.DateTimeField(auto_now=True)
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.drawing
 # 5
 class Qc(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcdrawing')
+
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
-    datePublish = models.DateTimeField(auto_now_add=True)
-    dateUpdate = models.DateTimeField(auto_now=True)
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.drawing
@@ -104,12 +106,15 @@ class Qc(models.Model):
 # 6
 # **********************************************************************************************************************************
 class Painting(models.Model):
-    name = models.CharField(max_length=20, default='OPAUTOTECH')
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='paintingdrawing')
-    Quantity = models.IntegerField()
 
-    dateStart = models.DateTimeField(auto_now_add=True)
-    dateEnd = models.DateTimeField()
+    name = models.CharField(max_length=20)
+    Quantity = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateEnd = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
     # ...
 
 
@@ -117,24 +122,26 @@ class Painting(models.Model):
 
 # 7
 class QcPainting(models.Model):
-    painting = models.ForeignKey(Painting, on_delete=models.CASCADE, related_name='qcpainting')
+    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcpaintingdrawing')
+
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
-    datePublish = models.DateTimeField(auto_now_add=True)
-    dateUpdate = models.DateTimeField(auto_now=True)
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.painting
+        return self.drawing
 
 # 8
 class Assemby(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='assembydrawing')
+    
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
 
-    datePublish = models.DateTimeField(auto_now_add=True)
-    dateUpdate = models.DateTimeField(auto_now=True)
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.drawing
