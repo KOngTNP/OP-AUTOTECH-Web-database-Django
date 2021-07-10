@@ -21,15 +21,16 @@
     {% for drawing in get_job_id.drawingjob.all %}
     <tr align="center">
 
-        <th scope="row"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
-        <td>{{drawing.drawingDesc}}</td>
-        <td>{{drawing.Quantity}}</td>
-        <td>{{drawing.datePublish}}</td>
-        <td>{{drawing.user}}</td>
+        <th scope="row" class="align-middle"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
+        <td class="align-middle">{{drawing.drawingDesc}}</td>
+        <td class="align-middle">{{drawing.Quantity}}</td>
+        <td class="align-middle">{{drawing.datePublish}}</td>
+        <td class="align-middle">{{drawing.user}}</td>
         
         {% if user.id == drawing.user.id or user.is_superuser %}
         <td>
           <a href='/drawingTable/{{get_job_id.jobNo}}/edit/{{drawing.drawingNo}}'><span class='btn btn-success'>Edit</span></a>
+          <h1></h1>
           <a href='/drawingTable/{{get_job_id.jobNo}}/delete/{{drawing.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
         </td>
         {% endif %}
