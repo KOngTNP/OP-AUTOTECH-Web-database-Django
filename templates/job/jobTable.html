@@ -2,16 +2,19 @@
 
 {% block content %}
 {% if user.is_authenticated%}
+<DOCTYPE html>
+  <html lang="en">
 <h1></h1>
 <h1> </h1>
-<h2 align="center"> Job data </h2>
-<div style="overflow-x: auto;">
-<form class="form-inline my-2 my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right;">
-  <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
-
-  <a href="/createJob" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" style="float: left;">Create new job</a>
+<body>
+  <h2 align="center"> Job data </h2>
+    <div style="overflow-x: auto;">
+    <form class="form-inline my-2 my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right;">
+      <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <a href="/createJob" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true" text-align="left" >Create new job</a>
+  
   <table class="table">
       <thead class="table-striped table-dark">
         <tr text-align="center">
@@ -47,7 +50,7 @@
       </tbody>
     </table>
   </div>
-
+</body>
 
 
 

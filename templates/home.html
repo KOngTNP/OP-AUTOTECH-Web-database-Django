@@ -2,27 +2,82 @@
 
 {% block content %}
 
-    <h2>{{ text1 }}</h2>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Page Title -->
+    <title>Spyre - Slick contemporary multipurpose theme</title>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../assets/img/favicons/site.webmanifest">
+    <link rel="mask-icon" href="../assets/img/favicons/safari-pinned-tab.svg" color="#f23838">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor Stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700%7CRoboto:300,400,700" rel="stylesheet">
+    <link href="../assets/vendor/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/dist/aos.css" rel="stylesheet">
+
+    <!-- Theme Stylesheets -->
+    <link href="../assets/css/theme.css" rel="stylesheet">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-129313359-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-129313359-1');
+    </script>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1020.0" data-gr-ext-installed="" class="vsc-initialized" data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
+    <!-- Preloader -->
+    <div class="preloader" style="display: none;">
+        <div class="spinner" style="display: none;">
+            <div class="circles"></div>
+        </div>
+    </div>
+    <!-- End of Preloader -->
 
 
-    <h2>tags</h2>
-    {% for tag in tag %}
-        <p> {{tag}}  </p>
-    {% endfor %}
 
-    <ul>
-    <h1>hello</h1>
-        {% for tag in tag %}
-        <li> {{tag}}  </li>
-    {% endfor %}
-    </ul>
 
-    <h2>hi</h2>
-    {% if rating > 3 %}
-        <h3> morethan 3</h3>
-    {% else %}
-    <h3> lessthan 3 </h3>
-    {% endif %}
+    <!-- Main Content -->
+    <main class="main minh-100vh">
+        <!-- Section -->
+        <section class="py-0 overflow-hidden text-center">
+            <div class="bg-container overlay overlay-60 parallax" data-rellax-percentage="0.5" style="background-image: url(&quot;../assets/img/backgrounds/bg-15.jpg&quot;); transform: translate3d(0px, 0px, 0px);"></div>
+            <div class="container">
+                <div class="row h-100vh justify-content-center align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="text-dark text-uppercase fs-5 fs-lg-7 aos-init aos-animate" data-aos="fade-down" data-aos-duration="1000">OPAutotech</h1>
+                        <p class="mb-5 fs-lg-1 text-dark aos-init aos-animate" data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000">WED DATABASE</p>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <a href="#" class="btn btn-primary mx-2 px-5 mb-3 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000" data-smooth-scroll="" data-smooth-scroll-hash="false">PROJECTS</a>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#" target="_blank" class="btn btn-light px-5 mx-2 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000">REPORTS<i class="zmdi zmdi-long-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="move d-none d-lg-block">
+                        <a href="#section-2" class="text-white" data-smooth-scroll="" data-smooth-scroll-hash="false">
+                            <i class="zmdi zmdi-long-arrow-down zmdi-hc-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
 {% endblock %}

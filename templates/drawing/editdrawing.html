@@ -5,6 +5,7 @@
 {% block content %}
 {% if user.is_authenticated%}
 <h2 align="center">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
+<div style="overflow-x: auto;">
 <form method="POST" action="/drawingTable/{{get_job_id.jobNo}}/update/{{get_drawing_id.drawingNo}}">
     {% csrf_token %}
     <div class='form-group'>
@@ -45,7 +46,7 @@
     {% endif %} -->
 
 </form>
-
+</div>
 
 
 
