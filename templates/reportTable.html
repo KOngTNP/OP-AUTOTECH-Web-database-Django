@@ -5,6 +5,7 @@
 {% if user.is_authenticated%}
 <body>
   <h2 align="center"> All Drawing </h2>
+  <button onclick="ExportToExcel('xlsx')" class="btn btn-secondary btn-lg active" aria-pressed="true" >Export table to excel</button>
   <div style="overflow-x: auto;" >
   <table  class="table table-striped" id="tbl_exporttable_to_xls"  border="1">
     <thead class="thead-dark" align="center" >
@@ -63,6 +64,7 @@
     </thead>
     {% for first_person in first_person %}
 
+
     
     <tr align="center" >
       
@@ -74,43 +76,100 @@
   
 
       <td class="align-middle">{{first_person.Document_QTY}}</td>
-      <td class="align-middle">{{first_person.Document_user}}</td>
+      {% if first_person.Document_user == null%}
+        <td class="align-middle">{{first_person.Document_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Document_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Document_date}}</td>
+
 
       <td class="align-middle">{{first_person.Maker_name}}</td>
       
+
       <td class="align-middle">{{first_person.Cutting_QTY}}</td>
-      <td class="align-middle">{{first_person.Cutting_user}}</td>
+      {% if first_person.Cutting_user == null%}
+        <td class="align-middle">{{first_person.Cutting_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Cutting_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Cutting_date}}</td>
 
+
       <td class="align-middle">{{first_person.Machine_QTY}}</td>
-      <td class="align-middle">{{first_person.Machine_user}}</td>
+      {% if first_person.Machine_user == null%}
+        <td class="align-middle">{{first_person.Machine_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Machine_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Machine_number}}</td>
       <td class="align-middle">{{first_person.Machine_date}}</td>
 
 
       <td class="align-middle">{{first_person.Qc_QTY}}</td>
-      <td class="align-middle">{{first_person.Qc_user}}</td>
+      {% if first_person.Qc_user == null%}
+        <td class="align-middle">{{first_person.Qc_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Qc_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Qc_date}}</td>
+
 
       <td class="align-middle">{{first_person.Painting_name}}</td>
       <td class="align-middle">{{first_person.Painting_QTY}}</td>
-      <td class="align-middle">{{first_person.Painting_user}}</td>
+      {% if first_person.Painting_user == null%}
+        <td class="align-middle">{{first_person.Painting_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Painting_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Painting_starting_date}}</td>
       <td class="align-middle">{{first_person.Painting_End_date}}</td>
 
 
       <td class="align-middle">{{first_person.Qc_Painting_QTY}}</td>
-      <td class="align-middle">{{first_person.Qc_Painting_user}}</td>
+      {% if first_person.Qc_Painting_user == null%}
+        <td class="align-middle">{{first_person.Qc_Painting_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Qc_Painting_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Qc_Painting_date}}</td>
 
+
       <td class="align-middle">{{first_person.Assemby_QTY}}</td>
-      <td class="align-middle">{{first_person.Assemby_user}}</td>
+      {% if first_person.Assemby_user == null%}
+        <td class="align-middle">{{first_person.Assemby_user}}</td>
+      {% else %}
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == first_person.Assemby_user %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <td class="align-middle">{{first_person.Assemby_date}}</td>
-
-
-
-        
     </tr>
     {% endfor %}
     
@@ -118,7 +177,6 @@
 
   </table>
   <br/>
-  <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
 </div>
 </body>
 </html>

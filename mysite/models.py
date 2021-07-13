@@ -12,6 +12,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 # Create your models here.
 
+
+
 class Job(models.Model):
     jobNo = models.CharField(max_length=20, primary_key=True)
     projectName = models.CharField(max_length=80)
