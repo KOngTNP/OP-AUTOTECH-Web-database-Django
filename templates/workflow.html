@@ -7,7 +7,7 @@
 
 
   <div class="container-fluid">
-    <h2></h2>
+
       <h2 align="center"> Workflow of {{get_drawing_id}} </h2>
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -27,6 +27,14 @@
             </div>
           </div>
         </div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'mysite:jobTable' %}">Jobs</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'mysite:drawingTable' job_id=get_drawing_id.job_id %}">Drawings</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Workflow</li>
+          </ol>
+        </nav>
     <!-- <div class="text">
         <img src="" class="qr-code img-thumbnail img-responsive" />
     </div> -->
