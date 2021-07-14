@@ -1,11 +1,18 @@
+
+
 {% extends 'layout.html' %}
 
 {% block content %}
 
 {% if user.is_authenticated%}
+<DOCTYPE html>
+  <html lang="en">
+
 <body>
-  <h2 align="center"> All Drawing </h2>
-  <button onclick="ExportToExcel('xlsx')" class="btn btn-secondary btn-lg active" aria-pressed="true" >Export table to excel</button>
+  <div class="table-wrapper">
+  
+  <h2 align="center"> REPORT </h2>
+  <button onclick="ExportToExcel('xlsx')" class="btn btn-success btn-lg active export" aria-pressed="true"><i class="fa fa-download"></i> Export table to excel</button>
   
   <div style="overflow-x: auto;" >
   <table  class="table table-striped js-sort-table" id="tbl_exporttable_to_xls"  border="1">
@@ -27,40 +34,40 @@
         <th class="align-middle js-sort-string">Project name</th>
         <th class="align-middle js-sort-string">Number</th>
         <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-string">Name</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
         <th class="align-middle js-sort-number">Machine number</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-string">Company name</th>
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle">Start date</th>
-        <th class="align-middle">End date</th>
+        <th class="align-middle" style="min-width:130px">Start date</th>
+        <th class="align-middle" style="min-width:130px">End date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
         
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle">Date</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
       </tr>
     </thead>
     {% for first_person in first_person %}
@@ -178,6 +185,7 @@
 
   </table>
   <br/>
+</div>
 </div>
 </body>
 </html>
