@@ -1,5 +1,23 @@
+.bg {
+  /* The image used */
+  background-image: url("../images/home-img.png");
 
+  /* Full height */
+  height: 100%; 
 
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+.home {
+  color: white;
+  text-align: center;
+  font-size: 45px;
+  padding-top: 160px;
+}
 
 
 /*//////////////////////////////////////////////////////////////////

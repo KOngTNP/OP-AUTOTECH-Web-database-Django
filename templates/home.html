@@ -9,34 +9,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django</title>
 </head>
-<body>
-    <main class="main minh-100vh">
-
-        <section class="py-0 overflow-hidden text-center">
-            <div class="bg-container overlay overlay-60 parallax" data-rellax-percentage="0.5" style="background-image: url(&quot;../assets/img/backgrounds/bg-15.jpg&quot;); transform: translate3d(0px, 0px, 0px);"></div>
-            <div class="container">
-                <div class="row h-100vh justify-content-center align-items-center">
-                    <div class="col-lg-8">
-                        <h1 class="text-dark text-uppercase fs-5 fs-lg-7 aos-init aos-animate" data-aos="fade-down" data-aos-duration="1000">OPAutotech</h1>
-                        <p class="mb-5 fs-lg-1 text-dark aos-init aos-animate" data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000">WED DATABASE</p>
-                        <div class="row justify-content-center">
-                            <div class="col-auto">
-                                <a href="/jobTable" class="btn btn-primary mx-2 px-5 mb-3 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000" data-smooth-scroll="" data-smooth-scroll-hash="false">PROJECTS</a>
-                            </div>
-                            <div class="col-auto">
-                                <a href="/reportTable" target="_blank" class="btn btn-light px-5 mx-2 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000">REPORTS<i class="zmdi zmdi-long-arrow-right ml-2"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="move d-none d-lg-block">
-                        <a href="#section-2" class="text-white" data-smooth-scroll="" data-smooth-scroll-hash="false">
-                            <i class="zmdi zmdi-long-arrow-down zmdi-hc-2x"></i>
-                        </a>
-                    </div>
-                </div>
+<body class="bg">
+    
+        <div class="home">
+        <h>OP AUTOTECH</h>
+        <p class="mb-5 fs-lg-1  aos-init aos-animate" data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000" style="color:gray;">WED DATABASE</p>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a href="/jobTable" class="btn btn-success mx-2 px-5 mb-3 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000" data-smooth-scroll="" data-smooth-scroll-hash="false">PROJECTS</a>
             </div>
-        </section>
+            <div class="col-auto">
+                <a href="/reportTable"  class="btn btn-light px-5 mx-2 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000">REPORTS<i class="zmdi zmdi-long-arrow-right ml-2"></i></a>
+            </div>
+        </div>
+        </div>
+    
+
     </body>
     </html>
 {% endblock %}
