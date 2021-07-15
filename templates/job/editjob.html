@@ -3,6 +3,14 @@
 
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Job</title>
+
+</head>
+<body>
+<div class="table-wrapper">
 {% if user.is_authenticated%}
 <h2 align="center">Edit Job no {{jobs.jobNo}}</h2>
 <form method="POST" action="/jobTable/update/{{jobs.jobNo}}">
@@ -28,7 +36,7 @@
     </div>
 
     <input type="submit" class='btn btn-success' onclick="submitbtn()">
-
+    <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 
 
@@ -42,4 +50,7 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</div>
+</body>
+</html>
 {% endblock %}

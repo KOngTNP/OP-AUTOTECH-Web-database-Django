@@ -3,6 +3,14 @@
 
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit drawing</title>
+
+</head>
+<body>
+<div class="table-wrapper">
 {% if user.is_authenticated%}
 <h2 align="center">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
 <div style="overflow-x: auto;">
@@ -38,12 +46,7 @@
 
 
     <input type="submit" class='btn btn-success' onclick="submitbtn()">
-    <!-- {% if messages %}
-    {% for updaterecord in massages %}
-    <a onclick="return Alert('Are you sure you want to delete this item?');">Delete</a>
-    {{updaterecord}}
-    {% endfor %}
-    {% endif %} -->
+    <a style="color: #c80000;">{{ form.non_field_errors }}</a>
 
 </form>
 </div>
@@ -55,9 +58,13 @@
 
 
 
+
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</div>
+</body>
+</html>
 {% endblock %}
     
     

@@ -4,10 +4,12 @@
 
 {% block content %}
 
-{% if user.is_authenticated%}
+
 <DOCTYPE html>
   <html lang="en">
 
+
+  {% if user.is_authenticated%}
 <body>
   <div class="table-wrapper">
   
@@ -187,9 +189,10 @@
   <br/>
 </div>
 </div>
-</body>
-</html>
+
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</body>
+</html>
 {% endblock %}

@@ -1,11 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-{% if user.is_authenticated%}
+
 <DOCTYPE html>
   <html lang="en">
-
+    
 <body>
+{% if user.is_authenticated%}
+
   <div class="container-lg">
     <div class="table-responsive">
       <div class="table-wrapper">
@@ -25,7 +27,7 @@
                 <tr align="center">
                   
                   <th scope="col" class="js-sort-string">Job No</th>
-                  <th scope="col" class="js-sort-string">Project Name</th>
+                  <th scope="col" class="js-sort-string" style="min-width:150px">Project Name</th>
                   <!-- <th scope="col">Project Description</th> -->
                   <th scope="col" style="min-width:130px">Publish date</th>
                   <th scope="col" class="js-sort-string">Create by</th>
@@ -64,4 +66,6 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</body>
+</html>
 {% endblock %}

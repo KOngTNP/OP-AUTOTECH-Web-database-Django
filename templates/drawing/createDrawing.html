@@ -2,8 +2,16 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Drawing</title>
+
+</head>
+<body>
+<div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Drawing of {{get_job_id.jobNo}}</h2>
+<h2 align="center">Create drawing of {{get_job_id.jobNo}}</h2>
 <form method="POST">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
@@ -35,13 +43,9 @@
     </div>
 
     <h1></h1>
-    {% if form.errors %}
-    <div class="alert alert-danger" role="alert">
-        This [Drawing No] are already exists!
-      </div>
-    {% endif %}
+    
     <input type="submit" class="btn btn-primary" onclick="submitbtn()">
-
+    <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 
 
@@ -51,6 +55,9 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</div>
+</body>
+</html>
 {% endblock %}
 
 

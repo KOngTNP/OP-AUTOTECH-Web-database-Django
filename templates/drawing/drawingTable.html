@@ -1,11 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-{% if user.is_authenticated%}
+
 <DOCTYPE html>
   <html lang="en">
 
 <body>
+<div class="table-wrapper">
+{% if user.is_authenticated%}
+
   <div class="container-lg">
     <div class="table-responsive">
         <div class="table-wrapper">
@@ -40,7 +43,7 @@
                     
                     <th scope="row"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
                     <!-- <td class="align-middle">{{drawing.drawingDesc}}</td> -->
-                    <td >{{drawing.Quantity}}</td>
+                    <td style="text-align:center">{{drawing.Quantity}}</td>
                     <td>{{drawing.datePublish.date}}</td>
                     <td >{{drawing.user}}</td>
                     
@@ -64,4 +67,7 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</div>
+</body>
+</html>
 {% endblock %}

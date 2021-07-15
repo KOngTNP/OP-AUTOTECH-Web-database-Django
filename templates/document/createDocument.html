@@ -2,8 +2,16 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Document</title>
+
+</head>
+<body>
+<div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Drawing of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center">Create document of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
@@ -19,18 +27,14 @@
     </div>
 
     <h1></h1>
-    {% if form.errors %}
-    <div class="alert alert-danger" role="alert">
-        {{form.errors}}
-      </div>
-    {% endif %}
 
-    <p><input type="checkbox" required name="terms"> Have checked <u>This Drawing </u>already.</p>
+    <p><input type="checkbox" required name="terms"> I have checked <u>this Drawing</u> already.</p>
     
     <input id="submit" type="submit" class="btn btn-primary" onclick="submitbtn()">
 
-
+    <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
+
 
 
 
@@ -39,6 +43,9 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</div>
+</body>
+</html>
 {% endblock %}
 
 

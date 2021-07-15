@@ -3,8 +3,16 @@
 
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Document</title>
+
+</head>
+<body>
+<div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Document of drawing number {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center">Edit document of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/document/{{get_document_id.id}}">
     {% csrf_token %}
 
@@ -16,16 +24,12 @@
         <lable for="">(Quantity of this drawing = {{get_drawing_id.Quantity}})</lable>
         
     </div>
-    <p><input type="checkbox" required name="terms"> Have checked <u>This Drawing </u>already.</p>
+    <p><input type="checkbox" required name="terms"> I have checked <u>this Drawing</u> already.</p>
     <input type="submit" class='btn btn-success' onclick="submitbtn()">
-    <!-- {% if messages %}
-    {% for updaterecord in massages %}
-    <a onclick="return Alert('Are you sure you want to delete this item?');">Delete</a>
-    {{updaterecord}}
-    {% endfor %}
-    {% endif %} -->
+    <a style="color: #c80000;">{{ form.errors }}</a>
 
 </form>
+
 
 
 
@@ -38,6 +42,9 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
+</div>
+</body>
+</html>
 {% endblock %}
     
     

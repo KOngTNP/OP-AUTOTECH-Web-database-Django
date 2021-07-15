@@ -1,34 +1,52 @@
-<DOCTYPE html>
-    {% extends 'layout.html' %}
-    
-    
-    {% block content %}
-    {% if user.is_authenticated%}
-    <h2 align="center">Machine of drawing number {{get_drawing_id.drawingNo}}</h2>
-    <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/document/{{get_document_id.id}}">
-        {% csrf_token %}
-    
-    
-        <div class='form-group'>
-            <lable for="">Quantity</lable>
-            <input type='number' name ='Quantity' class="form-control" max='{{get_drawing_id.Quantity}}' min='0' value='{{get_machine_id.Quantity}}'>
-            <lable for="">(Quantity of this drawing = {{get_drawing_id.Quantity}})</lable>
-        </div>
 
-        <div class='form-group'>
-            <lable for="">Machine number</lable>
-            <input type='number' name ='machineNum' class="form-control" min='0' value='{{get_machine_id.machineNum}}'>
-        </div>
-        
-        <input type="submit" class='btn btn-success' onclick="submitbtn()">
-        <!-- {% if messages %}
-        {% for updaterecord in massages %}
-        <a onclick="return Alert('Are you sure you want to delete this item?');">Delete</a>
-        {{updaterecord}}
-        {% endfor %}
-        {% endif %} -->
+{% extends 'layout.html' %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Machine</title>
+
+</head>
+<body>
+<div class="table-wrapper">
+{% if user.is_authenticated%}
+<h2 align="center">Edit machine of {{get_drawing_id.drawingNo}}</h2>
+<form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/document/{{get_document_id.id}}">
+    {% csrf_token %}
+
+
+    <div class='form-group'>
+        <lable for="">Quantity</lable>
+        <input type='number' name ='Quantity' class="form-control" max='{{get_drawing_id.Quantity}}' min='0' value='{{get_machine_id.Quantity}}'>
+        <lable for="">(Quantity of this drawing = {{get_drawing_id.Quantity}})</lable>
+    </div>
+
+    <div class='form-group'>
+        <lable for="">Machine number</lable>
+        <input type='number' name ='machineNum' class="form-control" min='0' value='{{get_machine_id.machineNum}}'>
+    </div>
     
-    </form>
+    <input type="submit" class='btn btn-success' onclick="submitbtn()">
+    <a style="color: #c80000;">{{ form.errors }}</a>
+
+</form>
+
+
+
+
+
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+</div>
+</body>
+</html>
+{% endblock %}
     
     
     
@@ -38,22 +56,9 @@
     
     
     
-    {% else %}
-        <h1 align="center"><a href="/login" >You need to login first</a></h1>
-    {% endif %}
-    {% endblock %}
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    
+    
+    
+    
+    
+    

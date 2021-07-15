@@ -2,9 +2,16 @@
 
 {% block content %}
 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Work flow</title>
+
+</head>
+<body>
 {% if user.is_authenticated %}
-
-
 <div class="table-wrapper">
   <h2 align="center" class="work-flow"> Workflow of <b>{{get_drawing_id}}</b></h2>
   <div class="container-fluid">
@@ -389,10 +396,13 @@
 
 
 
-
+</div>
 </div>
 {% else %}
   <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
-</div>
+
+</body>
+</html>
+
 {% endblock %}
