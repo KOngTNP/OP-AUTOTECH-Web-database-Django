@@ -12,25 +12,39 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Edit Job no {{jobs.jobNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Edit Job no {{jobs.jobNo}}</h2>
 <form method="POST" action="/jobTable/update/{{jobs.jobNo}}">
     {% csrf_token %}
-    <div class='form-group'>
-        <lable for="">Job No. (You cannot edit this)</lable>
-        <input type='text' name ='jobNo' class="form-control" value='{{jobs.jobNo}}' readonly>
 
+
+    <lable style="margin-left: 25px;">Job No. (You cannot edit this)</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="text" name="projectName" value='{{jobs.jobNo}}' readonly>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </span>
     </div>
 
-    <div class="form-group">
-        <lable for="">Project Name</lable>
-        <input type='text' name ='projectName' class="form-control" value='{{jobs.projectName}}'>
 
-
+    <lable style="margin-left: 25px;">Project Name</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="text" name="projectName" value='{{jobs.projectName}}'>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+        </span>
     </div>
+
+
+    
+
+
+    
 
     <div class="form-group">
         <lable for="">Project Description</lable>
-        <input type='text' name ='projectDesc' class="form-control" value='{{jobs.projectDesc}}'>
+        <textarea name ='projectDesc' class="form-control" value='{{jobs.projectDesc}}' rows="3">{{jobs.projectDesc}}</textarea>
 
 
     </div>
