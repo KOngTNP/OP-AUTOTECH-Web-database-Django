@@ -9,24 +9,18 @@
   <div class="container-lg">
     <div class="table-responsive">
         <div class="table-wrapper">
-            <div class="table-title">
-              <a href="{% url 'mysite:createDrawing' job_id=get_job_id.jobNo %}" class="btn btn-success add-new" role="button" aria-pressed="true" text-align="left" ><i class="fa fa-plus"></i>  Create new drawing</a>
-                <div class="row">
-                    <div class="col-sm-8"><h1>Drawing of <b>{{get_job_id.jobNo}}</b></h1>
+          <div class="table-title">
+              <h1 align="center" class="work-flow">Drawing of <b>{{get_job_id.jobNo}}</b></h1>
+          </div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'mysite:jobTable' %}">Jobs</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Drawings</li>
+              </ol>
+            </nav>
+            <a style="display:inline-block;" href="{% url 'mysite:createDrawing' job_id=get_job_id.jobNo %}" class="btn btn-success add-new" role="button" aria-pressed="true" text-align="left" ><i class="fa fa-plus"></i>  Create drawing</a>
           
-                      <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                          <li class="breadcrumb-item"><a href="/">Home</a></li>
-                          <li class="breadcrumb-item"><a href="{% url 'mysite:jobTable' %}">Jobs</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">Drawings</li>
-                        </ol>
-                      </nav>
-                    </nav>
-                  </div>
-                  
-                </div>
-                
-            </div>
             <div style="overflow-x: auto;">
               <table class="table table-bordered js-sort-table">
                 <thead class="table-striped table-dark" >

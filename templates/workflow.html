@@ -94,9 +94,10 @@
             <p class="card-text">{{document.Quantity}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text">{{document.user}}</p>
+            <hr>
             <p><u class="card-title">Checked date</u> 
             <a class="card-text"> : {{document.datePublish}}</a></p>
-            <p><u class="card-title">Last edit date:</u> 
+            <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{document.dateUpdate}}</a></p>
             <h1></h1>
             {% if user.id == document.user.id or user.is_superuser %}
@@ -129,9 +130,10 @@
             <p class="card-text">{{maker.name}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text">{{maker.user}}</p>
+            <hr>
             <p><u class="card-title">Checked date</u> 
             <a class="card-text"> : {{maker.datePublish}}</a></p>
-            <p><u class="card-title">Last edit date:</u> 
+            <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{maker.dateUpdate}}</a></p>
             <h1></h1>
             {% if user.id == maker.user.id or user.is_superuser %}
@@ -165,9 +167,10 @@
             <p class="card-text">{{cutting.Quantity}}
             <h5 class="card-title">Cutting by : </h5>
             <p class="card-text">{{cutting.user}}</p>
+            <hr>
             <p><u class="card-title">Cutting date</u> 
             <a class="card-text"> : {{cutting.datePublish}}</a></p>
-            <p><u class="card-title">Last edit date:</u> 
+            <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{cutting.dateUpdate}}</a></p>
 
             {% if user.id == cutting.user.id or user.is_superuser %}
@@ -202,9 +205,10 @@
               <p class="card-text">{{machine.user}}
               <h5 class="card-title">Machine number : </h5>
               <p class="card-text">{{machine.machineNum}}</p>
+              <hr>
               <p><u class="card-title">Doing date</u> 
               <a class="card-text"> : {{machine.datePublish}}</a></p>
-              <p><u class="card-title">Last edit date:</u> 
+              <p><u class="card-title">Last edit date</u> 
               <a class="card-text"> : {{machine.dateUpdate}}</a></p>
 
               {% if user.id == machine.user.id or user.is_superuser %}
@@ -241,9 +245,10 @@
             <p class="card-text">{{qc.Quantity}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text">{{qc.user}}</p>
+            <hr>
             <p><u class="card-title">Checked date</u> 
             <a class="card-text"> : {{qc.datePublish}}</a></p>
-            <p><u class="card-title">Last edit date:</u> 
+            <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{qc.dateUpdate}}</a></p>
             <h1></h1>
             {% if user.id == qc.user.id or user.is_superuser %}
@@ -276,11 +281,12 @@
           <p class="card-text">{{painting.Quantity}}
           <h5 class="card-title">Painted by : </h5>
           <p class="card-text">{{painting.user}}</p>
+          <hr>
           <p><u class="card-title">Starting date</u> 
           <a class="card-text"> : {{painting.datePublish}}</a></p>
-          <p><u class="card-title">End date:</u> 
+          <p><u class="card-title">End date</u> 
             <a class="card-text"> : {{painting.dateEnd}}</a></p>
-          <p><u class="card-title">Last edit date:</u> 
+          <p><u class="card-title">Last edit date</u> 
           <a class="card-text"> : {{painting.dateUpdate}}</a></p>
           <h1></h1>
 
@@ -315,9 +321,10 @@
             <p class="card-text">{{qcpainting.Quantity}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text">{{qcpainting.user}}</p>
+            <hr>
             <p><u class="card-title">Checked date</u> 
             <a class="card-text"> : {{qcpainting.datePublish}}</a></p>
-            <p><u class="card-title">Last edit date:</u> 
+            <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{qcpainting.dateUpdate}}</a></p>
             <h1></h1>
             {% if user.id == qcpainting.user.id or user.is_superuser %}
@@ -352,9 +359,10 @@
           <p class="card-text">{{assemby.Quantity}}
           <h5 class="card-title">Assemby by : </h5>
           <p class="card-text">{{assemby.user}}</p>
+          <hr>
           <p><u class="card-title">Assemby date</u> 
           <a class="card-text"> : {{assemby.datePublish}}</a></p>
-          <p><u class="card-title">Last edit date:</u> 
+          <p><u class="card-title">Last edit date</u> 
           <a class="card-text"> : {{assemby.dateUpdate}}</a></p>
 
           {% if user.id == assemby.user.id or user.is_superuser %}
