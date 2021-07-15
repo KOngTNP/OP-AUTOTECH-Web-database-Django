@@ -6,7 +6,7 @@
   <html lang="en">
 
 <body>
-<div class="table-wrapper">
+
 {% if user.is_authenticated%}
 
   <div class="container-lg">
@@ -67,7 +67,7 @@
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
-</div>
+
 </body>
 </html>
 {% endblock %}
