@@ -12,44 +12,50 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
-<div style="overflow-x: auto;">
+<h2 align="center" style="margin-bottom: 20px;">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
+
 <form method="POST" action="/drawingTable/{{get_job_id.jobNo}}/update/{{get_drawing_id.drawingNo}}">
     {% csrf_token %}
-    <div class='form-group'>
+
         
         <p hidden><lable for="">Job No. (You cannot edit this)</lable>
 
         <input type='text' name ='Job' class="form-control" value='{{get_drawing_id.job}}' readonly></p>
          
+
+
+
+        <p hidden><lable for="">Drawing No. (You cannot edit this)</lable>
+        <input type='text' name ='drawingNo' class="form-control" value='{{get_drawing_id.drawingNo}}' readonly></p>
+
+
+
+    <lable style="margin-left: 25px;">Drawing quantity</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="number" name="Quantity" value='{{get_drawing_id.Quantity}}'>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+        </span>
     </div>
 
-    <div class='form-group'>
-        <lable for="">Drawing No. (You cannot edit this)</lable>
-        <input type='text' name ='drawingNo' class="form-control" value='{{get_drawing_id.drawingNo}}' readonly>
-
+    <lable style="margin-left: 25px;">Drawing Description</lable>
+    <div class="wrap-input100 validate-input">
+        <textarea class="input100 form-control" type="text" name="drawingDesc" rows="4" value='{{get_drawing_id.drawingDesc}}'>{{get_drawing_id.drawingDesc}}</textarea>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-file" aria-hidden="true"></i>
+        </span>
     </div>
 
-    <div class="form-group">
-        <lable for="">Drawing Description</lable>
-        <input type='text' name ='drawingDesc' class="form-control" value='{{get_drawing_id.drawingDesc}}'>
-
-
-    </div>
-
-    <div class="form-group">
-        <lable for="">Drawing quantity</lable>
-        <input type='number' name ='Quantity' class="form-control" value='{{get_drawing_id.Quantity}}'>
-
-
-    </div>
 
 
     <input type="submit" class='btn btn-success' onclick="submitbtn()">
+    <a href='/drawingTable/{{get_job_id.jobNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.non_field_errors }}</a>
 
 </form>
-</div>
+
 
 
 

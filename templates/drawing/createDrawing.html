@@ -11,43 +11,48 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Create drawing of {{get_job_id.jobNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create drawing of {{get_job_id.jobNo}}</h2>
 <form method="POST">
     {% csrf_token %}
-    <p hidden>{% render_field form.user class="form-control"%}</p>
-    <div class='form-group'>
-        
+    <p hidden>{% render_field form.user class="form-control"%}
         <lable for="exampleFormControlSelect1">Select job No.</lable>
+        {% render_field form.job class="form-control" %} 
+    </p>
 
-        {% render_field form.job class="form-control" %}
-        
-    </div>
-
-    <div class="form-group">
-        <lable for="">Drawing No.</lable>
-
-        {% render_field form.drawingNo class="form-control" %}
-    </div>
-
-    <div class="form-group">
-        <lable for="">Drawing Description</lable>
-
-        {% render_field form.drawingDesc class="form-control" %}
+    <lable style="margin-left: 25px;">Drawing No.</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="text" name="drawingNo" >
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </span>
     </div>
 
 
-    <div class="form-group">
-        <lable for="">Drawing quantity</lable>
-
-        {% render_field form.Quantity class="form-control" %}
+    <lable style="margin-left: 25px;">Drawing quantity</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="number" name="Quantity" >
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+        </span>
     </div>
+
+    <lable style="margin-left: 25px;">Drawing Description</lable>
+    <div class="wrap-input100 validate-input">
+        <textarea class="input100 form-control" type="text" name="drawingDesc"  rows="4"></textarea>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-file" aria-hidden="true"></i>
+        </span>
+    </div>
+
 
     <h1></h1>
     
-    <input type="submit" class="btn btn-primary" onclick="submitbtn()">
+    <input type="submit" class="btn btn-success" onclick="submitbtn()">
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
-
 
 
 

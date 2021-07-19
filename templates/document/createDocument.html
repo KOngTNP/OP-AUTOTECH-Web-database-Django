@@ -11,7 +11,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Create document of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create document of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
@@ -20,18 +20,22 @@
         {% render_field form.drawing class="form-control" %}</p> 
     </div>
 
-    <div class="form-group">
-        <lable for="">Checking quantity</lable>
-        <input type='number' name ='Quantity' class="form-control" max='{{get_drawing_id.Quantity}}' min='0'>
-        <lable for="">(Quantity of this drawing = {{get_drawing_id.Quantity}})</lable>
+
+    <lable style="margin-left: 25px;">Checking quantity</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="number" name="Quantity" max='{{get_drawing_id.Quantity}}' min='0' placeholder="Drawing quantity = {{get_drawing_id.Quantity}}">
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </span>
+       
     </div>
 
-    <h1></h1>
 
     <p><input type="checkbox" required name="terms"> I have checked <u>this Drawing</u> already.</p>
     
-    <input id="submit" type="submit" class="btn btn-primary" onclick="submitbtn()">
-
+    <input id="submit" type="submit" class="btn btn-success" onclick="submitbtn()">
+    <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 

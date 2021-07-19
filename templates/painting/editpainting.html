@@ -12,24 +12,33 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Edit painting of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Edit painting of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/painting/{{get_painting_id.id}}">
     {% csrf_token %}
 
-    <div class='form-group'>
-        <lable for="">Painting company</lable>
-        <input type='text' name ='name' class="form-control" value='{{get_painting_id.name}}'>
+
+    <lable style="margin-left: 25px;">Painting company</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="text" name="name" value='{{get_painting_id.name}}'>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </span>
     </div>
 
-    <div class='form-group'>
-        <lable for="">Cutting quantity</lable>
-        <input type='number' name ='Quantity' class="form-control" max='{{get_drawing_id.Quantity}}' min='0' value='{{get_painting_id.Quantity}}'>
-        <lable for="">(Quantity of this drawing = {{get_drawing_id.Quantity}})</lable>
+    <lable style="margin-left: 25px;">Painting quantity</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="number" name="Quantity" max='{{get_drawing_id.Quantity}}' min='0' value='{{get_painting_id.Quantity}}' placeholder="Drawing quantity = {{get_drawing_id.Quantity}}">
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </span>
     </div>
 
-
+ 
     
-    <input type="submit" class='btn btn-success' onclick="submitbtn()">
+    <input id="submit" type="submit" class="btn btn-success" onclick="submitbtn()">
+    <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 

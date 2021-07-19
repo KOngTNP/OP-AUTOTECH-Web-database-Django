@@ -11,7 +11,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center">Create maker of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create maker of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
@@ -20,17 +20,24 @@
         {% render_field form.drawing class="form-control" %}</p> 
     </div>
 
-    <div class="form-group">
-        <lable for="">Maker company</lable>
-        <input type='text' name ='name' class="form-control" value='OPAutotech'>
-        
+    <lable style="margin-left: 25px;">Maker company name</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" type="text" name="name" value='OPAutotech'>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </span>
+       
     </div>
+
+
 
     <h1></h1>
 
 
     
-    <input type="submit" class="btn btn-primary" onclick="submitbtn()">
+    <input type="submit" class="btn btn-success" onclick="submitbtn()">
+    <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 

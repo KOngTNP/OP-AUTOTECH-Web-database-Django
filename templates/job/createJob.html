@@ -36,14 +36,16 @@
     </div>
 
 
-
-    <div class="form-group">
-        <lable for="">Project Description</lable>
-
-        {% render_field form.projectDesc class="form-control" %}
+    <lable style="margin-left: 25px;">Project Description</lable>
+    <div class="wrap-input100 validate-input">
+        <textarea class="input100 form-control" type="text" name="projectDesc"  rows="4"></textarea>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-file" aria-hidden="true"></i>
+        </span>
     </div>
 
-    <h1></h1>
+
     
     <input type="submit" class="btn btn-success" onclick="submitbtn()">
     <a style="color: #c80000;">{{ form.errors }}</a>

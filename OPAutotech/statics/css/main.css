@@ -88,7 +88,7 @@ p {
 	font-family: Poppins-Regular;
 	font-size: 14px;
 	line-height: 1.7;
-	color: #666666;
+	/* color: #666666; */
 	margin: 0px;
 }
 
@@ -492,6 +492,31 @@ body {
   background: #fff;
   padding: 20px;	
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.table-wrapper input[type="checkbox"]:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  content: "\f096";
+  opacity: 1 !important;
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  appearance: none;
+  background: #fff;
+}
+
+.table-wrapper input[type="checkbox"]:checked:before {
+  content: "\f046";
+}
+
+.table-wrapper input[type="checkbox"] {
+  font-size: 22px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .table-wrapper .work-flow{
