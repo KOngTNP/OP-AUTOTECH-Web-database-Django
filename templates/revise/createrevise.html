@@ -1,51 +1,56 @@
-
 {% extends 'layout.html' %}
-
+{% load widget_tweaks %}
 
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Edit Painting</title>
+	<title>REVISE</title>
 
 </head>
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center" style="margin-bottom: 20px;">Edit painting of {{get_drawing_id.drawingNo}}</h2>
-<form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/painting/{{get_painting_id.id}}">
+
+<h2 align="center" style="margin-bottom: 20px;">Revise of {{get_drawing_id.drawingNo}}</h2>
+<form method="POST">
     {% csrf_token %}
+    <p hidden>{% render_field form.user class="form-control"%}</p>
+    <div class='form-group'>
+        <p hidden><lable for="exampleFormControlSelect1">Drawing No.</lable>
+        {% render_field form.drawing class="form-control" %}</p> 
+    </div>
 
 
-    <lable style="margin-left: 25px;">Painting company</lable>
+    
+    <lable style="margin-left: 25px;">Revise times</lable>
     <div class="wrap-input100 validate-input">
-        <input class="input100 form-control" type="text" name="name" value='{{get_painting_id.name}}' required>
+        <input class="input100 form-control" type="number" name="numTimes"  min='0' value='1'>
         <span class="focus-input100"></span>
         <span class="symbol-input100">
             <i class="fa fa-lock" aria-hidden="true"></i>
         </span>
     </div>
 
-    <lable style="margin-left: 25px;">Painting quantity</lable>
+
+
+    <lable style="margin-left: 25px;">Description</lable>
     <div class="wrap-input100 validate-input">
-        <input class="input100 form-control" type="number" name="Quantity" max='{{get_drawing_id.Quantity}}' min='0' value='{{get_painting_id.Quantity}}' placeholder="Drawing quantity = {{get_drawing_id.Quantity}}" required>
+        <textarea class="input100 form-control" type="text" name="reviseDesc" rows="4" ></textarea>
         <span class="focus-input100"></span>
         <span class="symbol-input100">
-            <i class="fa fa-lock" aria-hidden="true"></i>
+            <i class="fa fa-file" aria-hidden="true"></i>
         </span>
     </div>
 
  
+
+
     
     <input id="submit" type="submit" class="btn btn-success" onclick="submitbtn()">
     <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
-
-
-
-
-
 
 
 
@@ -58,18 +63,13 @@
 </body>
 </html>
 {% endblock %}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-        
-        
+
+
+
+
+
+
+
+
+
+

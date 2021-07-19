@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm
-from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm, CreateReviseForm ,UpdateReviseForm
+from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, response
 from django.urls import reverse
@@ -122,7 +122,7 @@ def updateJob(request,job_id):
 
 
 def reportTable(request):
-    first_person = Drawing.objects.raw('SELECT "job_id" as "Job_number", "projectName" as "Project_name" , "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date", "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date", "mysite_maker"."name" as "Maker_name", "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date","mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machineNum" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date","mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date","mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date","mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date","mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date" FROM mysite_job, mysite_drawing  LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"  LEFT JOIN mysite_maker on  "drawingNo" ="mysite_maker"."drawing_id" LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id" LEFT JOIN mysite_machine on  "drawingNo" ="mysite_machine"."drawing_id" LEFT JOIN mysite_qc on  "drawingNo" ="mysite_qc"."drawing_id" LEFT JOIN mysite_painting on  "drawingNo" ="mysite_painting"."drawing_id" LEFT JOIN mysite_qcpainting on  "drawingNo" ="mysite_qcpainting"."drawing_id" LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id" WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
+    first_person = Drawing.objects.raw('SELECT "job_id" as "Job_number", "projectName" as "Project_name" , "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date", "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date", "mysite_maker"."name" as "Maker_name", "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date","mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machineNum" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date","mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date","mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date","mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date","mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date", "mysite_revise"."numTimes" as "Revise_Times", "mysite_revise"."user_id" as "Revise_user" FROM mysite_job, mysite_drawing  LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"  LEFT JOIN mysite_maker on  "drawingNo" ="mysite_maker"."drawing_id" LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id" LEFT JOIN mysite_machine on  "drawingNo" ="mysite_machine"."drawing_id" LEFT JOIN mysite_qc on  "drawingNo" ="mysite_qc"."drawing_id" LEFT JOIN mysite_painting on  "drawingNo" ="mysite_painting"."drawing_id" LEFT JOIN mysite_qcpainting on  "drawingNo" ="mysite_qcpainting"."drawing_id" LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id" LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"  WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
     get_user_id = User.objects.all
     return render(request,'reportTable.html',{'first_person':first_person, 'get_user_id':get_user_id})
 
@@ -541,3 +541,39 @@ def updateAssemby(request,drawing_id,assemby_id):
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editAssemby',{'get_drawing_id':get_drawing_id, 'get_assemby_id':get_assemby_id})
+
+
+
+def createRevise(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form  = CreateReviseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = CreateReviseForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'revise/createrevise.html', {'form':form, 'get_drawing_id':get_drawing_id})
+
+def deleteRevise(request,drawing_id,revise_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_revise_id = Revise.objects.get(id=revise_id)
+    get_revise_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+def editRevise(request,drawing_id,revise_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_revise_id = Revise.objects.get(id=revise_id)
+    numTimes = get_revise_id.numTimes + 1
+    return render(request, 'revise/editrevise.html',{'get_drawing_id':get_drawing_id, 'get_revise_id':get_revise_id, 'numTimes':numTimes})
+
+
+def updateRevise(request,drawing_id,revise_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_revise_id = get_object_or_404(Revise, pk=revise_id)
+    form = UpdateReviseForm(request.POST, instance=get_revise_id)
+    if form.is_valid:
+        form.save()
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    return redirect('/editRevise',{'get_drawing_id':get_drawing_id, 'get_revise_id':get_revise_id})

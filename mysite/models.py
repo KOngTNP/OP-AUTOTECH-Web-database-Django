@@ -150,3 +150,16 @@ class Assemby(models.Model):
 
     def __str__(self):
         return self.drawing.drawingNo
+
+# 9
+class Revise(models.Model):
+    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='revisedrawing')
+
+    numTimes = models.IntegerField()
+    reviseDesc = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return self.drawing.drawingNo

@@ -83,6 +83,7 @@
       $('.qr-code').attr('src', finalURL);});
     });
   </script>
+
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 1 -->
   <div id="accordion" class="card-workflow">
@@ -119,8 +120,8 @@
       </div>
     </div>
 
-  <!-- ----------------------------------------------------------------------------------------------------------------------------
-  2 -->
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 2 -->
   {% if get_drawing_id.documentdrawing.all %}
     <div class="card text-white bg-secondary mb-3">
       <div class="card-header" id="headingTwo">
@@ -232,8 +233,6 @@
     {% endif %}
   {% endif %}
 
-
-
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 5 -->
   {% if get_drawing_id.cuttingdrawing.all and get_drawing_id.machinedrawing.all%}
@@ -270,6 +269,7 @@
       </div>
     </div>
   {% endif %}
+
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 6 -->
   {% if get_drawing_id.qcdrawing.all %}
@@ -297,7 +297,9 @@
           <a class="card-text"> : {{painting.dateUpdate}}</a></p>
           <h1></h1>
           {% if not painting.dateEnd%}
-          <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure that painting is completed?');">Add end date</a>
+            <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure that painting is completed?');">Add end date</a>
+          {% else %}
+          <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure you want to update end date?');">Update end date</a>
           {% endif %}
           {% if user.id == painting.user.id or user.is_superuser %}
             <a href="/workflow/{{painting.drawing}}/edit/painting/{{painting.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -311,6 +313,7 @@
     </div>
   </div>
   {% endif %}
+
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 7 -->
   {% if get_drawing_id.paintingdrawing.all %}
@@ -348,7 +351,6 @@
     </div>
   {% endif %}
 
-
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 8 -->
   {% if get_drawing_id.qcpaintingdrawing.all %}
@@ -385,18 +387,21 @@
     </div>
   </div>
   {% endif %}
-  <!-- <div class="card text-white bg-dark mb-3">
-    <h5 class="card-header">Assamby</h5>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-light">Go somewhere</a>
-    </div>
-  </div> -->
 
-
-
-
+  <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- 9 -->
+  {% if get_drawing_id.revisedrawing.all %}
+  {% for revise in get_drawing_id.revisedrawing.all %}
+  <a href="/workflow/{{revise.drawing}}/edit/revise/{{revise.id}}"><span class='btn btn-danger'>ADD REVISE</span></a>
+  <p><b>Revise times : </b> {{revise.numTimes}}</p>
+  <p><b> Last revise at :</b> {{revise.dateUpdate}}</p>
+  <p><a href="/workflow/{{revise.drawing}}/delete/revise/{{revise.id}}" onclick="return confirm('Are you sure you want to RESET all revise?');"> <u>RESET</u> </a></p>
+  {% endfor %}
+  {% else %}
+  
+  <a href="{% url 'mysite:createRevise' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-danger">R E V I S E !!!</a>
+  {% endif %}
+  
 </div>
 </div>
 {% else %}

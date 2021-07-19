@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting ,Assemby
+from .models import Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting ,Assemby, Revise
 # Register your models here.
 
 admin.site.register(Job)
@@ -12,3 +12,4 @@ admin.site.register(Qc)
 admin.site.register(Painting)
 admin.site.register(QcPainting)
 admin.site.register(Assemby)
+admin.site.register(Revise)

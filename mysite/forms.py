@@ -3,7 +3,7 @@ from django.db.models import fields
 from django.db.models.base import Model
 from django.forms import ModelForm
 
-from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc ,Painting, QcPainting, Assemby
+from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc ,Painting, QcPainting, Assemby, Revise
 
 class CreateJobForm(ModelForm):
     class Meta:
@@ -131,6 +131,17 @@ class UpdateAssembyForm(ModelForm):
     class Meta:
         model = Assemby
         fields = ['Quantity']
+
+
+class CreateReviseForm(ModelForm):
+    class Meta:
+        model = Revise
+        fields = "__all__"
+
+class UpdateReviseForm(ModelForm):
+    class Meta:
+        model = Revise
+        fields = ['numTimes', 'reviseDesc']
 
 #     def __init__(self, *args, **kwargs):
 #         super(MyCustomForm, self).__init__(*args, **kwargs)        
