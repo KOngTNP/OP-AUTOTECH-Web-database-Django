@@ -1,21 +1,21 @@
 
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, response
+from django.urls import reverse
 from .forms import RegisterForm
 
 
 
 def register(response):
-    if response.method == "POST":
-	    form = RegisterForm(response.POST)
-	    if form.is_valid():
-	        form.save()
+	if response.method == "POST":
+		form = RegisterForm(response.POST)
+		if form.is_valid():
+			form.save()
 
-	    return redirect("/")
-    else:
-	    form = RegisterForm()
+			return HttpResponseRedirect(reverse('mysite:home'))
+	else:
+		form = RegisterForm()
 
-    return render(response, "registration/register.html", {"form":form})
-
-
+	return render(response, "registration/register.html", {"form":form})
 
 
