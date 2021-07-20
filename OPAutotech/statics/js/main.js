@@ -57,7 +57,9 @@
 })(jQuery);
 
 function submitbtn () {
-    document.getElementById("submit").onclick = null;
+    document.getElementById("submit").submit();
+    alert("Something is done!");
+    document.getElementById("myButton").disabled = true;
 
     }
 
