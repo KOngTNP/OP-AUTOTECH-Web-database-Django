@@ -13,7 +13,7 @@
 <div class="table-wrapper">
 {% if user.is_authenticated%}
 <h2 align="center" style="margin-bottom: 20px;">Edit Job no {{jobs.jobNo}}</h2>
-<form method="POST" action="/jobTable/update/{{jobs.jobNo}}">
+<form method="POST" action="/jobTable/update/{{jobs.jobNo}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
 
 

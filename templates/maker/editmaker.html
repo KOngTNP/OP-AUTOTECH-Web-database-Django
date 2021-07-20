@@ -13,7 +13,7 @@
 <div class="table-wrapper">
 {% if user.is_authenticated%}
 <h2 align="center" style="margin-bottom: 20px;">Edit maker of {{get_drawing_id.drawingNo}}</h2>
-<form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/maker/{{get_maker_id.id}}">
+<form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/maker/{{get_maker_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
 
     <lable style="margin-left: 25px;">Maker company name</lable>
