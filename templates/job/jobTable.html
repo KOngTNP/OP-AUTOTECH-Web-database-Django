@@ -20,8 +20,8 @@
               <li class="breadcrumb-item active" aria-current="page">Jobs</li>
             </ol>
           </nav>
+          
           <form class="form-inline my-2 my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right;">
-
             <div class="wrap-input100 validate-input" style="width: auto; margin-bottom: 15px;">
                 <input class="input100 form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" style="width: 230px; height: 45px;">
                 <span class="focus-input100" style="width: 200px;"></span>
@@ -29,12 +29,11 @@
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </span>
             </div>
-            
-
             <button class="btn btn-outline-success add-new" type="submit" style="border-radius: 80px;">Search</button>
           </form>
-          <a href="/createJob" class="btn btn-success add-new" role="button" aria-pressed="true" ><i class="fa fa-plus"></i>  Create new job</a>
-            <div style="overflow-x: auto;">
+
+          <a href="/createJob" class="btn btn-success add-new" role="button" aria-pressed="true"><i class="fa fa-plus"></i>  Create new job</a>
+            <div style="overflow-x: auto; margin-top: 20px;">
             <table class="table table-bordered js-sort-table">
               <thead class="table-striped table-dark">
                 <tr align="center">
