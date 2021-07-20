@@ -58,8 +58,8 @@
 
 function submitbtn () {
     document.getElementById("submit").submit();
-    alert("Something is done!");
-    document.getElementById("myButton").disabled = true;
+    
+    document.getElementById("submit").disabled = true;
 
     }
 
