@@ -46,15 +46,23 @@
  
 
 
-    
-    <input id="submit" type="submit" class="btn btn-success" onclick="submitbtn()">
-    <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+    <form action="">
+        <input id="submit" type="submit" class="btn btn-success" value="Submit">
+        <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+    </form>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 
 
 
-
+<script>
+$("#submit").click(function() {
+    if(!$("form").hasClass("submit")){
+    $("form").addClass("submit");
+    $("form").submit();
+    }
+});
+</script>
 
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
