@@ -57,7 +57,7 @@
 })(jQuery);
 
 function submitbtn () {
-    document.getElementById("submit").onclick = null;
+    document.getElementById("submit").disabled = true;
 
     }
 

@@ -38,14 +38,14 @@
               <tbody>
               {% for job in jobs %}
               <tr >
-                  <th scope="row"  ><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.jobNo}}</a></th>
+                  <th scope="row" style="text-align: center;"><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.jobNo}}</a></th>
                   <td >{{job.projectName}}</td>
                   <!-- <td>{{job.projectDesc}}</td> -->
                   <td >{{job.datePublish.date}}</td>
                   <td>{{job.user}}</td>
         
                   
-                  {% if user.id == job.user.id or user.is_superuser %}
+                  {% if user.id == job.user.id or user.is_staff %}
                   <td>
                     <a class="edit" title="Edit" data-toggle="tooltip" href='/jobTable/edit/{{job.jobNo}}'><i class="material-icons">&#xE254;</i> </a>
                     

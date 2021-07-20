@@ -12,7 +12,7 @@ def register(response):
 		if form.is_valid():
 			form.save()
 
-			return HttpResponseRedirect(reverse('mysite:home'))
+			return HttpResponseRedirect(reverse('mysite:homepage'))
 	else:
 		form = RegisterForm()
 
