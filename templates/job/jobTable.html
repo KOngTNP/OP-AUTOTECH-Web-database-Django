@@ -20,6 +20,19 @@
               <li class="breadcrumb-item active" aria-current="page">Jobs</li>
             </ol>
           </nav>
+          <form class="form-inline my-2 my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right;">
+
+            <div class="wrap-input100 validate-input" style="width: auto; margin-bottom: 15px;">
+                <input class="input100 form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" style="width: 230px; height: 45px;">
+                <span class="focus-input100" style="width: 200px;"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </span>
+            </div>
+            
+
+            <button class="btn btn-outline-success add-new" type="submit" style="border-radius: 80px;">Search</button>
+          </form>
           <a href="/createJob" class="btn btn-success add-new" role="button" aria-pressed="true" ><i class="fa fa-plus"></i>  Create new job</a>
             <div style="overflow-x: auto;">
             <table class="table table-bordered js-sort-table">
@@ -39,7 +52,7 @@
               {% for job in jobs %}
               <tr >
                   <th scope="row" style="text-align: center;"><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.jobNo}}</a></th>
-                  <td >{{job.projectName}}</td>
+                  <th ><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.projectName}}</a></th>
                   <!-- <td>{{job.projectDesc}}</td> -->
                   <td >{{job.datePublish.date}}</td>
                   <td>{{job.user}}</td>
