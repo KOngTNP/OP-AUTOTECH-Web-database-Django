@@ -56,9 +56,11 @@
 
 })(jQuery);
 
-function submitbtn () {
-    document.getElementById("submit").onclick = null;
-
-    }
+function checkForm(form)
+  {
+    form.myButton.disabled = true;
+    form.myButton.value = "Please wait...";
+    return true;
+  }
 
 
