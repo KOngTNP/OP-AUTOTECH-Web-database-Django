@@ -19,7 +19,7 @@
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/revise/{{get_revise_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
 
-    <lable style="margin-left: 25px;">Revise times</lable>
+    <lable style="margin-left: 25px;">Revise times (Auto fill)</lable>
     <div class="wrap-input100 validate-input">
         <input class="input100 form-control" type="number" name="numTimes"  min='0' value='{{numTimes}}' required>
         <span class="focus-input100"></span>
