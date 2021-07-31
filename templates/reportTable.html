@@ -76,7 +76,7 @@
 
         <th class="align-middle js-sort-number">Times</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number">Description</th>
+        <th class="align-middle js-sort-number" style="max-width:100px">Description</th>
 
       </tr>
     </thead>
@@ -198,7 +198,7 @@
         {% endif %}
       {% endfor %}
     {% endif %}
-    <td class="align-middle">{{first_person.Revise_Description}}</td>
+    <td class="align-middle" align="left">{{first_person.Revise_Description}}</td>
 
     </tr>
     {% endfor %}
