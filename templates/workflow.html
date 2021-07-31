@@ -402,6 +402,7 @@
         <a href="/workflow/{{revise.drawing}}/edit/revise/{{revise.id}}"><span class='btn btn-danger'>ADD REVISE</span></a>
         <p><b>Revise times : </b> {{revise.numTimes}}</p>
         <p><b> Last revise at :</b> {{revise.dateUpdate}}</p>
+        <p><b>Revise Description : </b> {{revise.reviseDesc}}</p>
         <p><a href="/workflow/{{revise.drawing}}/delete/revise/{{revise.id}}" onclick="return confirm('Are you sure you want to RESET all revise?');"> <u>RESET</u> </a></p>
       {% endfor %}
     {% else %}

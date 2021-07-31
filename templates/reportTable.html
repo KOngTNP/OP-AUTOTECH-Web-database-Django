@@ -31,7 +31,7 @@
         <th colspan="5"><h4>PAINTING</h4></th>
         <th colspan="3"><h4>PAINTING QC</h4></th>
         <th colspan="3"><h4>ASSEMBY</h4></th>
-        <th colspan="2"><h4>REVISE</h4></th>
+        <th colspan="3"><h4>REVISE</h4></th>
       </tr>
 
       <tr>
@@ -76,6 +76,7 @@
 
         <th class="align-middle js-sort-number">Times</th>
         <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number">Description</th>
 
       </tr>
     </thead>
@@ -188,15 +189,16 @@
   
     
     <td class="align-middle">{{first_person.Revise_Times}}</td>
-      {% if first_person.Revise_user == null%}
-        <td class="align-middle">{{first_person.Revise_user}}</td>
-      {% else %}
-        {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Revise_user %}
-            <td class="align-middle">{{get_user_id.username}}</td>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+    {% if first_person.Revise_user == null%}
+      <td class="align-middle">{{first_person.Revise_user}}</td>
+    {% else %}
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == first_person.Revise_user %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    <td class="align-middle">{{first_person.Revise_Description}}</td>
 
     </tr>
     {% endfor %}
