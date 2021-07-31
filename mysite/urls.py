@@ -82,6 +82,4 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/edit/revise/<int:revise_id>',views.editRevise),
     path('workflow/<str:drawing_id>/update/revise/<int:revise_id>',views.updateRevise),
     path('workflow/<str:drawing_id>/delete/revise/<int:revise_id>',views.deleteRevise),
-
-    path('export_csv',views.export_csv, name="export-csv")
 ]
