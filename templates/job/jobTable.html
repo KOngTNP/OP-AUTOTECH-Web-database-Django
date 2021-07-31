@@ -57,7 +57,7 @@
                   <td>{{job.user}}</td>
         
                   
-                  {% if user.id == job.user.id or user.is_staff %}
+                  {% if user.is_staff %}
                   <td>
                     <a class="edit" title="Edit" data-toggle="tooltip" href='/jobTable/edit/{{job.jobNo}}'><i class="material-icons">&#xE254;</i> </a>
                     
