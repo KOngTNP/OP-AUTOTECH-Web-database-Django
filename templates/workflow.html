@@ -124,7 +124,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.documentdrawing.all%}
-            <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked document</a>
+            <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked Document</a>
           {% endif %}
         </div>
       </div>
@@ -296,7 +296,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_machine_id.qcmachine.all%}
-            <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked Qc</a>
+            <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked QC</a>
           {% endif %}
         </div>
       </div>
@@ -393,7 +393,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_painting_id.qcpaintingpainting.all%}
-            <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked Painting Qc</a>
+            <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked Painting QC</a>
           {% endif %}
         </div>
       </div>

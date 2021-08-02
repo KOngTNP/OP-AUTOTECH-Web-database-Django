@@ -11,7 +11,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center" style="margin-bottom: 20px;">Create QC of {{get_cutting_id.id}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create QC of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
