@@ -11,14 +11,15 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center" style="margin-bottom: 20px;">Create QC of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create QC of {{get_cutting_id.id}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
-    <div class='form-group'>
-        <p hidden><lable for="exampleFormControlSelect1">Drawing No.</lable>
-        {% render_field form.drawing class="form-control" %}</p>
-    </div></p>
+    <div hidden>
+        
+            <input class="input100 form-control" type="text" name="cutting" value = "{{get_cutting_id.id}}" required>
+            <input class="input100 form-control" type="text" name="machine" value = "{{get_machine_id.id}}" required>
+    </div>
 
     <lable style="margin-left: 25px;">Checking quantity</lable>
     <div class="wrap-input100 validate-input">

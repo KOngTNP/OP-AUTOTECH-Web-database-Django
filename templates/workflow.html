@@ -64,7 +64,7 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10 ">
         <span class="symbol-input100">
-          <i class="fa fa fa-qrcode" style="color: white; margin-left: -5px;" aria-hidden="true"></i>
+          <i class="fa fa-qrcode" style="color: white; margin-left: -5px;" aria-hidden="true"></i>
       </span>
       <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter" id="generate" style="width: 175px; text-align: right;">
         Generate Qr code
@@ -73,7 +73,7 @@
     </div>
     </div>
   </div>
-
+  
 
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script>
@@ -95,7 +95,13 @@
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
           <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            <h5>Document</h5>
+            <h5>
+              {% if get_drawing_id.documentdrawing.all %}
+                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+              {% endif %}  
+            
+              Document
+            </h5>
           </button>
         </h5>
       </div>
@@ -131,7 +137,13 @@
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            <h5>Maker</h5>
+            <h5>
+              {% if get_drawing_id.makerdrawing.all %}
+                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+              {% endif %}  
+
+              Maker
+            </h5>
           </button>
         </h5>
       </div>
@@ -168,7 +180,13 @@
       <div class="card-header" id="headingThree">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            <h5>Cutting</h5>
+            <h5>
+              {% if get_drawing_id.cuttingdrawing.all %}
+                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+              {% endif %}  
+              
+              Cutting
+            </h5>
           </button>
         </h5>
       </div>
@@ -200,11 +218,17 @@
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 4 -->
     {% if get_drawing_id.cuttingdrawing.all %}
-      <div class="card text-white bg-danger mb-3">
+      <div class="card text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);">
         <div class="card-header" id="headingFour">
           <h5 class="mb-0">
             <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-              <h5>Machine</h5>
+              <h5>
+                {% if get_drawing_id.machinedrawing.all %}
+                  <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+                {% endif %}
+
+                Machine
+              </h5>
             </button>
           </h5>
         </div>
@@ -244,13 +268,18 @@
       <div class="card-header" id="headingFive">
         <h5 class="mb-0">
           <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-            <h5>QC</h5>
+            <h5>
+              {% if get_machine_id.qcmachine.all %}
+                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+              {% endif %}  
+              QC
+            </h5>
           </button>
         </h5>
       </div>
       <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
         <div class="card-body">
-          {% for qc in get_drawing_id.qcdrawing.all %}
+          {% for qc in get_machine_id.qcmachine.all %}
             <h5 class="card-title">Quantity : </h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{qc.Quantity}}
             <h5 class="card-title">Checked by : </h5>
@@ -262,11 +291,11 @@
             <a class="card-text"> : {{qc.dateUpdate}}</a></p>
             <h1></h1>
             {% if user.is_staff %}
-              <a href="/workflow/{{qc.drawing}}/edit/qc/{{qc.id}}"><span class='btn btn-success'>Edit</span></a>
-              <a href='/workflow/{{qc.drawing}}/delete/qc/{{qc.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+              <a href="/workflow/{{get_drawing_id}}/edit/qc/{{qc.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{get_drawing_id}}/delete/qc/{{qc.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
-          {% if not get_drawing_id.qcdrawing.all%}
+          {% if not get_machine_id.qcmachine.all%}
             <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked Qc</a>
           {% endif %}
         </div>
@@ -276,12 +305,20 @@
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 6 -->
-  {% if get_drawing_id.qcdrawing.all %}
+  {% if get_machine_id.qcmachine.all %}
   <div class="card text-white bg-info mb-3">
     <div class="card-header" id="headingSix">
       <h5 class="mb-0">
         <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-          <h5>Painting</h5>
+          <h5>
+            {% for painting in get_drawing_id.paintingdrawing.all %}
+              {% if painting.dateEnd %}
+                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+              {% endif %}
+            {% endfor %}
+
+            Painting
+          </h5>
         </button>
       </h5>
     </div>
@@ -327,13 +364,19 @@
       <div class="card-header" id="headingSeven">
         <h5 class="mb-0">
           <button class="btn btn-link text-dark" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
-            <h5>Painting QC</h5>
+            <h5>
+              {% if get_painting_id.qcpaintingpainting.all %}
+                <i class="fa fa-check-circle" style="color: black;" aria-hidden="true"></i>
+              {% endif %}  
+              
+              Painting QC
+            </h5>
           </button>
         </h5>
       </div>
       <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
         <div class="card-body">
-          {% for qcpainting in get_drawing_id.qcpaintingdrawing.all %}
+          {% for qcpainting in get_painting_id.qcpaintingpainting.all %}
             <h5 class="card-title">Quantity : </h5>
             <p class="card-text" style="color: black; margin-bottom: 10px; margin-top: -5px;">{{qcpainting.Quantity}}
             <h5 class="card-title">Checked by : </h5>
@@ -345,11 +388,11 @@
             <a class="card-text"> : {{qcpainting.dateUpdate}}</a></p>
             <h1></h1>
             {% if user.is_staff %}
-              <a href="/workflow/{{qcpainting.drawing}}/edit/qcpainting/{{qcpainting.id}}"><span class='btn btn-success'>Edit</span></a>
-              <a href='/workflow/{{qcpainting.drawing}}/delete/qcpainting/{{qcpainting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+              <a href="/workflow/{{get_drawing_id}}/edit/qcpainting/{{qcpainting.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{get_drawing_id}}/delete/qcpainting/{{qcpainting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
-          {% if not get_drawing_id.qcpaintingdrawing.all%}
+          {% if not get_painting_id.qcpaintingpainting.all%}
             <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked Painting Qc</a>
           {% endif %}
         </div>
@@ -359,12 +402,18 @@
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 8 -->
-  {% if get_drawing_id.qcpaintingdrawing.all %}
+  {% if get_painting_id.qcpaintingpainting.all %}
   <div class="card text-white bg-dark mb-3">
     <div class="card-header" id="headingEight">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-          <h5>Assemby</h5>
+          <h5>
+            {% if get_drawing_id.assembydrawing.all %}
+              <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+            {% endif %}
+            
+            Assemby
+          </h5>
         </button>
       </h5>
     </div>

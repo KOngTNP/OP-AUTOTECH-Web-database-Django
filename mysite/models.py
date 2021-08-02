@@ -97,7 +97,9 @@ class Machine(models.Model):
         return self.drawing.drawingNo
 # 5
 class Qc(models.Model):
-    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcdrawing')
+    cutting = models.ForeignKey(Cutting, on_delete=models.CASCADE, related_name='qccutting')
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE, related_name='qcmachine')
+    # drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcdrawing')
 
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
@@ -105,7 +107,7 @@ class Qc(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
-        return self.drawing.drawingNo
+        return self.id
 
 # 6
 # **********************************************************************************************************************************
@@ -127,7 +129,8 @@ class Painting(models.Model):
 
 # 7
 class QcPainting(models.Model):
-    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcpaintingdrawing')
+    painting = models.ForeignKey(Painting, on_delete=models.CASCADE, related_name='qcpaintingpainting')
+    
 
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
@@ -136,7 +139,7 @@ class QcPainting(models.Model):
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.drawing.drawingNo
+        return self.painting.drawing_id
 
 # 8
 class Assemby(models.Model):

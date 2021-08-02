@@ -63,7 +63,7 @@ def updateJob(request,job_id):
 
 
 def reportTable(request):
-    first_person = Drawing.objects.raw('SELECT "job_id" as "Job_number", "projectName" as "Project_name" , "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date", "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date", "mysite_maker"."name" as "Maker_name", "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date","mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machineNum" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date","mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date","mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date","mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date","mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date", "mysite_revise"."numTimes" as "Revise_Times", "mysite_revise"."user_id" as "Revise_user", "mysite_revise"."reviseDesc" as "Revise_Description" FROM mysite_job, mysite_drawing  LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"  LEFT JOIN mysite_maker on  "drawingNo" ="mysite_maker"."drawing_id" LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id" LEFT JOIN mysite_machine on  "drawingNo" ="mysite_machine"."drawing_id" LEFT JOIN mysite_qc on  "drawingNo" ="mysite_qc"."drawing_id" LEFT JOIN mysite_painting on  "drawingNo" ="mysite_painting"."drawing_id" LEFT JOIN mysite_qcpainting on  "drawingNo" ="mysite_qcpainting"."drawing_id" LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id" LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"  WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
+    first_person = Drawing.objects.raw('SELECT "job_id" as "Job_number", "projectName" as "Project_name" , "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date", "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date", "mysite_maker"."name" as "Maker_name", "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date","mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machineNum" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date","mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date","mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date","mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date","mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date", "mysite_revise"."numTimes" as "Revise_Times", "mysite_revise"."user_id" as "Revise_user", "mysite_revise"."reviseDesc" as "Revise_Description" FROM mysite_job, mysite_drawing  LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"  LEFT JOIN mysite_maker on  "drawingNo" ="mysite_maker"."drawing_id" LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id" LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id"LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id" LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
     get_user_id = User.objects.all
     return render(request,'reportTable.html',{'first_person':first_person, 'get_user_id':get_user_id})
 
@@ -106,7 +106,6 @@ def updateDrawing(request,job_id,drawing_id):
     if form.is_valid:
         form.save()
         messages.success(request,"Record Updated Successfull!")
-        # return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
         return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
     return render(request, 'drawing/editdrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
 
@@ -119,15 +118,21 @@ def workflow(request,drawing_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     try:
         get_maker_id = Maker.objects.get(drawing=get_drawing_id)
-        return render(request,'workflow.html',
-        {
-            'get_drawing_id':get_drawing_id, 
-            'get_maker_id':get_maker_id,
-            
-        })
-    except:
-        return render(request,'workflow.html',{'get_drawing_id':get_drawing_id})
+    except Maker.DoesNotExist:
+        get_maker_id = None
 
+    try:
+        get_machine_id = Machine.objects.get(drawing=get_drawing_id)
+    except Machine.DoesNotExist:
+        get_machine_id = None
+
+    try:
+        get_painting_id = Painting.objects.get(drawing=get_drawing_id)
+    except Painting.DoesNotExist:
+        get_painting_id = None
+    
+    return render(request,'workflow.html',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id, 'get_machine_id':get_machine_id, 'get_painting_id':get_painting_id})
+ 
 
 
 
@@ -326,14 +331,16 @@ def updateMachine(request,drawing_id,machine_id):
 def createQc(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_cutting_id = get_object_or_404(Cutting, drawing_id=get_drawing_id)
+    get_machine_id = get_object_or_404(Machine, drawing_id=get_drawing_id)
     if request.method == "POST":
         form  = CreateQcForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     else:
-        form = CreateQcForm(initial={'drawing':get_drawing_id, 'user':user})
-    return render(request, 'qc/createqc.html', {'form':form, 'get_drawing_id':get_drawing_id})
+        form = CreateQcForm(initial={'user':user})
+    return render(request, 'qc/createqc.html', {'form':form, 'get_drawing_id':get_drawing_id, 'get_cutting_id':get_cutting_id, 'get_machine_id':get_machine_id})
 
 def deleteQc(request,drawing_id,qc_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
@@ -411,14 +418,15 @@ def updatePainting(request,drawing_id,painting_id):
 def createQcPainting(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_painting_id = get_object_or_404(Painting, drawing_id=get_drawing_id)
     if request.method == "POST":
         form  = CreateQcPaintingForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     else:
-        form = CreateQcPaintingForm(initial={'drawing':get_drawing_id, 'user':user})
-    return render(request, 'qcpainting/createqcpainting.html', {'form':form, 'get_drawing_id':get_drawing_id})
+        form = CreateQcPaintingForm(initial={'user':user})
+    return render(request, 'qcpainting/createqcpainting.html', {'form':form, 'get_drawing_id':get_drawing_id, 'get_painting_id':get_painting_id})
 
 def deleteQcPainting(request,drawing_id,qcpainting_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)

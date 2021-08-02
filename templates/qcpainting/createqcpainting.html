@@ -12,13 +12,12 @@
 <div class="table-wrapper">
 {% if user.is_authenticated%}
 
-<h2 align="center" style="margin-bottom: 20px;">Create Painting QC of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create Painting QC of {{get_drawing_id}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
-    <div class='form-group'>
-        <p hidden><lable for="exampleFormControlSelect1">Drawing No.</lable>
-        {% render_field form.drawing class="form-control" %}</p> 
+    <div hidden>
+        <input class="input100 form-control" type="text" name="painting" value = "{{get_painting_id.id}}" required>
     </div>
 
 
