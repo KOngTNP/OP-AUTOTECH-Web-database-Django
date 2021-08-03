@@ -1,20 +1,49 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm, CreateReviseForm ,UpdateReviseForm
 from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
 from django.db.models import Q
 import datetime
 
 
 def homepage(request):
-    #                                   ชื่อ      ข้อความ
-    # return render(request,'index.html',{'name':'test'})
-    tags=['1','2','3','4']
-    rating=3
-    return render(request,'home.html',{'text1':'wellcome to homepage','text2':'this is test homepage','tag':tags,'rating':rating})
+    return render(request,'home.html',{'text1':'wellcome to homepage','text2':'this is test homepage'})
+
+
+
+
+
+def reportTable(request):
+    first_person = Drawing.objects.raw(
+        'SELECT "job_id" as "Job_number", "projectName" as "Project_name",\
+        "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date",\
+        "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date",\
+        "mysite_maker"."name" as "Maker_name",\
+        "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date",\
+        "mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machineNum" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date",\
+        "mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date",\
+        "mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date",\
+        "mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date",\
+        "mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date",\
+        "mysite_revise"."numTimes" as "Revise_Times", "mysite_revise"."user_id" as "Revise_user", "mysite_revise"."reviseDesc" as "Revise_Description"\
+        FROM mysite_job, mysite_drawing\
+        LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"\
+        LEFT JOIN mysite_maker on  "drawingNo" ="mysite_maker"."drawing_id"\
+        LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id"\
+        LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id"\
+        LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
+        LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id"\
+        LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"\
+        WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
+    get_user_id = User.objects.all
+    return render(request,'reportTable.html',{'first_person':first_person, 'get_user_id':get_user_id})
+
+
+
+
+
 
 
 def jobTable(request):
@@ -62,10 +91,6 @@ def updateJob(request,job_id):
         
 
 
-def reportTable(request):
-    first_person = Drawing.objects.raw('SELECT "job_id" as "Job_number", "projectName" as "Project_name" , "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date", "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date", "mysite_maker"."name" as "Maker_name", "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date","mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machineNum" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date","mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date","mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date","mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date","mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date", "mysite_revise"."numTimes" as "Revise_Times", "mysite_revise"."user_id" as "Revise_user", "mysite_revise"."reviseDesc" as "Revise_Description" FROM mysite_job, mysite_drawing  LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"  LEFT JOIN mysite_maker on  "drawingNo" ="mysite_maker"."drawing_id" LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id" LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id"LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id" LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
-    get_user_id = User.objects.all
-    return render(request,'reportTable.html',{'first_person':first_person, 'get_user_id':get_user_id})
 
 
 
@@ -245,7 +270,7 @@ def updateMaker(request,drawing_id,maker_id):
     return redirect('/editMaker',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id})
 
 
-#  you neet to add maker fk to both cutting and machine becouses if delete maker cutting and machine it will delete 
+
 
 
 
@@ -324,6 +349,9 @@ def updateMachine(request,drawing_id,machine_id):
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editMachine',{'get_drawing_id':get_drawing_id, 'get_machine_id':get_machine_id})
+
+
+
 
 
 
@@ -488,6 +516,10 @@ def updateAssemby(request,drawing_id,assemby_id):
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editAssemby',{'get_drawing_id':get_drawing_id, 'get_assemby_id':get_assemby_id})
+
+
+
+
 
 
 
