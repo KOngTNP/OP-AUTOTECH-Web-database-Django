@@ -8,11 +8,11 @@ For Linux or MacOS use **pip3 and python3**
 
 Open the Terminal and use command:
 
-    git clone https://github.com/kidstylex/TELLING.git
+    git clone https://github.com/KOngTNP/OP-AUTOTECH-Web-database-Django.git
 
 ### Step 2: Go to the project directory
 
-    cd TELLING
+    cd OP-AUTOTECH-Web-database-Django
 
 ### Step 3: Create new virtual enviroment
 
@@ -44,11 +44,8 @@ or
 
     python manage.py migrate
 
-### Step 8: Load data from data.json
-
-    python manage.py loaddata data.json
     
-### Step 9: Run server at localhost:8000
+### Step 8: Run server at localhost:8000
 
     python manage.py runserver 
 
