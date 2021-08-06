@@ -19,6 +19,7 @@ Login Here
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+	{% if not user.is_authenticated%}
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -68,6 +69,9 @@ Login Here
 			</div>
 		</div>
 	</div>
+	{% else %}
+		<h1 align="center"><a href="/" > Go to home page </a></h1>
+	{% endif %}
 </body>
 </html>
 
