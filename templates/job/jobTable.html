@@ -47,7 +47,11 @@
                   <!-- <th scope="col">Project Description</th> -->
                   <th scope="col" style="min-width:130px">Publish date</th>
                   <th scope="col" class="js-sort-string">Create by</th>
-                  <th scope="col" style="min-width:100px">Action</th>
+                  <th scope="col" style="max-width:100px;">Quantity</th>
+                  <th scope="col" style="max-width:100px;">Done</th>
+                  {% if user.is_staff %}
+                    <th scope="col" style="min-width:100px">Action</th>
+                  {% endif %}
                   
                 </tr>
               </thead>
@@ -59,8 +63,20 @@
                   <!-- <td>{{job.projectDesc}}</td> -->
                   <td >{{job.datePublish.date}}</td>
                   <td>{{job.user}}</td>
-        
-                  
+                  {% for all in all_qty %}
+                    {% if job.jobNo == all.jobNo%}
+                      <td style="text-align: center; color: green;">{{all.QTY}}</td>
+                    {% for done in done_qty %}
+                      {% if job.jobNo == done.jobNo%}
+                      {% if all.QTY == done.Assemby_QTY %}
+                        <td style="text-align: center;"><i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i></td>
+                      {% else %}
+                        <td style="text-align: center; color: red;">{{done.Assemby_QTY}}</td>
+                        {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                  {% endfor %}
                   {% if user.is_staff %}
                   <td>
                     <a class="edit" title="Edit" data-toggle="tooltip" href='/jobTable/edit/{{job.jobNo}}'><i class="material-icons">&#xE254;</i> </a>
@@ -72,6 +88,7 @@
               {% endfor %}
               </tbody>
             </table>
+
           </div>
         </div>
     </div>

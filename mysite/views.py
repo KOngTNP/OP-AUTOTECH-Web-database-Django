@@ -55,8 +55,14 @@ def jobTable(request):
             data = Job.objects.filter(Q(projectName__icontains=search_job) & Q(projectName__icontains=search_job))
     else:
         data = Job.objects.all()
+    all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo", sum("mysite_drawing"."Quantity") as "QTY" FROM mysite_drawing , mysite_job WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
+    done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assemby"."Quantity") as "Assemby_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assemby on "drawingNo" ="mysite_assemby"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
 
-    return render(request,'job/jobTable.html',{'jobs':data})
+
+        
+    
+
+    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty})
 
 def createJob(request):
     user = request.user
@@ -97,7 +103,8 @@ def updateJob(request,job_id):
 
 def drawingTable(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
-    return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id})
+    done_qty = Drawing.objects.raw('SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_assemby"."Quantity" as "Assemby_QTY" FROM mysite_drawing LEFT JOIN mysite_assemby on "drawingNo" ="mysite_assemby"."drawing_id"')
+    return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id, "done_qty":done_qty})
 
 def createDrawing(request,job_id):
     user = request.user
