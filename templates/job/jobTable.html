@@ -49,11 +49,11 @@
                   <th scope="col" class="js-sort-string">Create by</th>
                   
                   {% if user.is_staff %}
-                    <th scope="col" style="width:100px">Action</th>
+                    <th scope="col" style="min-width:100px;">Action</th>
                   {% endif %}
                   
-                  <th scope="col" style="max-width:50px;">Quantity</th>
-                  <th scope="col" style="max-width:70px;">Done</th>
+                  <th scope="col" style="max-width:100px;">Quantity</th>
+                  <th scope="col" style="max-width:100px;">Done</th>
                   
                 </tr>
               </thead>
@@ -67,7 +67,7 @@
                   <td>{{job.user}}</td>
                   
                   {% if user.is_staff %}
-                  <td>
+                  <td style="width: 100px; text-align: center;">
                     <a class="edit" title="Edit" data-toggle="tooltip" href='/jobTable/edit/{{job.jobNo}}'><i class="material-icons">&#xE254;</i> </a>
                     <a class="delete" title="Delete" data-toggle="tooltip" href='/jobTable/delete/{{job.jobNo}}'  onclick="return confirm('Are you sure you want to delete this item?');"><i class="material-icons">&#xE872;</i></a>
                   </td>
@@ -75,7 +75,7 @@
 
                   {% for all in all_qty %}
                     {% if job.jobNo == all.jobNo%}
-                      <td style="text-align: center; color: green;">{{all.QTY}}</td>
+                      <td style="text-align: center; color: green; width: 100px;">{{all.QTY}}</td>
                       {% for done in done_qty %}
                         {% if job.jobNo == done.jobNo%}
                           {% if all.QTY == done.Assemby_QTY %}
