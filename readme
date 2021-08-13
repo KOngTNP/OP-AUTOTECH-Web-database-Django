@@ -514,3 +514,28 @@ LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"
 
 WHERE "jobNo" = "job_id" 
 ORDER BY "mysite_drawing"."datePublish"
+
+
+
+
+
+
+
+
+
+//select form day
+SELECT *
+FROM mysite_document
+where "mysite_document"."datePublish" > now() - interval '1 day';
+
+
+//select form week
+SELECT *, to_char("datePublish", 'day')
+FROM mysite_document
+WHERE "mysite_document"."datePublish" >= date_trunc('week', CURRENT_DATE);
+
+
+//select form month
+SELECT *
+FROM mysite_document
+WHERE "mysite_document"."datePublish" >= date_trunc('month', CURRENT_DATE);

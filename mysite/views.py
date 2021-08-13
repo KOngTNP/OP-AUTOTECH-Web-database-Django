@@ -16,7 +16,8 @@ def homepage(request):
 
 
 def reportTable(request):
-    first_person = Drawing.objects.raw(
+    get_user_id = User.objects.all
+    select_all_report = Drawing.objects.raw(
         'SELECT "job_id" as "Job_number", "projectName" as "Project_name",\
         "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date",\
         "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date",\
@@ -37,8 +38,54 @@ def reportTable(request):
         LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id"\
         LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"\
         WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
-    get_user_id = User.objects.all
-    return render(request,'reportTable.html',{'first_person':first_person, 'get_user_id':get_user_id})
+
+    document_day_report = Document.objects.raw("""SELECT * FROM mysite_document where "mysite_document"."datePublish" > now() - interval '1 day';""")
+    document_week_report = Document.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_document WHERE "mysite_document"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_document"."datePublish";""")
+    document_month_report = Document.objects.raw("""SELECT * FROM mysite_document WHERE "mysite_document"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_document"."datePublish";""")
+    
+    # maker_day_report = Maker.objects.raw('SELECT * FROM mysite_maker where "mysite_maker"."datePublish" > now() - interval "1 day";')
+    # maker_week_report = Maker.objects.raw('SELECT *, to_char("datePublish", "day") FROM mysite_maker WHERE "mysite_maker"."datePublish" >= date_trunc("week", CURRENT_DATE);')
+    # maker_month_report = Maker.objects.raw('SELECT * FROM mysite_maker WHERE "mysite_maker"."datePublish" >= date_trunc("month", CURRENT_DATE);')
+
+    cutting_day_report = Cutting.objects.raw("""SELECT * FROM mysite_cutting where "mysite_cutting"."datePublish" > now() - interval '1 day';""")
+    cutting_week_report = Cutting.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_cutting WHERE "mysite_cutting"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_cutting"."datePublish";""")
+    cutting_month_report = Cutting.objects.raw("""SELECT * FROM mysite_cutting WHERE "mysite_cutting"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_cutting"."datePublish";""")
+    
+    machine_day_report = Machine.objects.raw("""SELECT * FROM mysite_machine where "mysite_machine"."datePublish" > now() - interval '1 day';""")
+    machine_week_report = Machine.objects.raw("""SELECT *, to_char("datePublish", 'day') as day FROM mysite_machine WHERE "mysite_machine"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_machine"."datePublish";""")
+    machine_month_report = Machine.objects.raw("""SELECT * FROM mysite_machine WHERE "mysite_machine"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_machine"."datePublish";""")
+
+    qc_day_report = Qc.objects.raw("""SELECT "mysite_qc"."id", "mysite_machine"."drawing_id", "mysite_qc"."Quantity", "mysite_qc"."datePublish", "mysite_qc"."dateUpdate", "mysite_qc"."user_id" FROM mysite_qc LEFT JOIN mysite_machine on "mysite_machine"."id" ="mysite_qc"."machine_id" where "mysite_qc"."datePublish" > now() - interval '1 day';""")
+    qc_week_report = Qc.objects.raw("""SELECT "mysite_qc"."id", "mysite_machine"."drawing_id", "mysite_qc"."Quantity", "mysite_qc"."datePublish", "mysite_qc"."dateUpdate", "mysite_qc"."user_id", to_char("mysite_qc"."datePublish", 'day') as "day" FROM mysite_qc LEFT JOIN mysite_machine on "mysite_machine"."id" ="mysite_qc"."machine_id" WHERE "mysite_qc"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_qc"."datePublish";""")
+    qc_month_report = Qc.objects.raw("""SELECT "mysite_qc"."id", "mysite_machine"."drawing_id", "mysite_qc"."Quantity", "mysite_qc"."datePublish", "mysite_qc"."dateUpdate", "mysite_qc"."user_id" FROM mysite_qc LEFT JOIN mysite_machine on "mysite_machine"."id" ="mysite_qc"."machine_id" WHERE "mysite_qc"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_qc"."datePublish";""")
+
+    painting_day_report = Painting.objects.raw("""SELECT * FROM mysite_painting where "mysite_painting"."dateEnd" > now() - interval '1 day';""")
+    painting_week_report = Painting.objects.raw("""SELECT *, to_char("dateEnd", 'day') as "day" FROM mysite_painting WHERE "mysite_painting"."dateEnd" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_painting"."dateEnd";""")
+    painting_month_report = Painting.objects.raw("""SELECT * FROM mysite_painting WHERE "mysite_painting"."dateEnd" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_painting"."dateEnd";""")
+
+    qcpainting_day_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" where "mysite_qcpainting"."datePublish" > now() - interval '1 day';""")
+    qcpainting_week_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id", to_char("mysite_qcpainting"."datePublish", 'day') as "day" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
+    qcpainting_month_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
+
+    assemby_day_report = Assemby.objects.raw("""SELECT * FROM mysite_assemby where "mysite_assemby"."datePublish" > now() - interval '1 day';""")
+    assemby_week_report = Assemby.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_assemby WHERE "mysite_assemby"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_assemby"."datePublish";""")
+    assemby_month_report = Assemby.objects.raw("""SELECT * FROM mysite_assemby WHERE "mysite_assemby"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_assemby"."datePublish";""")
+    return render(request,'reportTable.html',
+    {
+        'get_user_id':get_user_id,
+        'select_all_report':select_all_report,
+        
+        'document_day_report':document_day_report, 'document_week_report':document_week_report, 'document_month_report':document_month_report,
+        # 'maker_day_report':maker_day_report, 'maker_week_report':maker_week_report, 'maker_month_report':maker_month_report,
+        'cutting_day_report':cutting_day_report, 'cutting_week_report':cutting_week_report, 'cutting_month_report':cutting_month_report,
+        'machine_day_report':machine_day_report, 'machine_week_report':machine_week_report, 'machine_month_report':machine_month_report,
+        'qc_day_report':qc_day_report, 'qc_week_report':qc_week_report, 'qc_month_report':qc_month_report,
+        'painting_day_report':painting_day_report, 'painting_week_report':painting_week_report, 'painting_month_report':painting_month_report,
+        'qcpainting_day_report':qcpainting_day_report, 'qcpainting_week_report':qcpainting_week_report, 'qcpainting_month_report':qcpainting_month_report,
+        'assemby_day_report':assemby_day_report, 'assemby_week_report':assemby_week_report, 'assemby_month_report':assemby_month_report
+        
+    
+    })
 
 
 

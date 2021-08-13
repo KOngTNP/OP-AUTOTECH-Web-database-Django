@@ -36,12 +36,12 @@
                     <th scope="col" class="js-sort-string">Drawing No</th>
                     <!-- <th scope="col" class="js-sort-string">Drawing Description</th> -->
                     <th scope="col" class="js-sort-number">Quantity</th>
-                    <th scope="col" style="min-width:130px">Publish date</th>
+                    <th scope="col" style="min-width:130px" class="js-sort-number">Publish date</th>
                     <th scope="col" class="js-sort-string">Create by</th>
 
                     {% if user.is_staff %}
-                    <th scope="col" style="min-width:100px;">Action</th>
-                  {% endif %}
+                      <th scope="col" style="min-width:100px;">Action</th>
+                    {% endif %}
 
                     <th scope="col" style="max-width:100px">Done</th>
                     

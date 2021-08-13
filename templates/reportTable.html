@@ -17,11 +17,20 @@
   {% if user.is_authenticated%}
   <div class="table-wrapper">
   <h2 align="center" style="margin-bottom: 20px;"> REPORT </h2>
-  {% if user.is_staff%}
-  <button onclick="ExportToExcel('xlsx')" class="btn btn-success btn-lg active export" aria-pressed="true" style="background-color: #28a745; border-color: #28a745;"><i class="fa fa-download"></i> Export table to excel</button>
 
+  <select class="browser-default custom-select" id="select_option">
+    <option selected>Open this select menu</option>
+    <option id="select_all">All report</option>
+    <option id="select_day">Daily report</option>
+    <option id="select_week">Weekly report</option>
+    <option id="select_month">Monthly report</option>
+  </select>
+  
+  
+  <div style="overflow-x: auto;" id="all_report" >
+  {% if user.is_staff%}
+    <button onclick="ExportToExcel('xlsx')" class="btn btn-success btn-lg active export" aria-pressed="true" style="background-color: #28a745; border-color: #28a745;"><i class="fa fa-download"></i> Export table to excel</button>
   {% endif %}
-  <div style="overflow-x: auto;" >
   <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
     <thead class="thead-dark" align="center" >
       <tr>
@@ -42,176 +51,837 @@
         <th class="align-middle js-sort-string">Project name</th>
         <th class="align-middle js-sort-string">Number</th>
         <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-string">Name</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
         <th class="align-middle js-sort-number">Machine number</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-string">Company name</th>
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
         <th class="align-middle" style="min-width:130px">Start date</th>
-        <th class="align-middle" style="min-width:130px">End date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">End date</th>
 
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
         
         <th class="align-middle js-sort-number">Quantity</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle" style="min-width:130px">Date</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
 
         <th class="align-middle js-sort-number">Times</th>
         <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:500px">Description</th>
+        <th class="align-middle js-sort-string" style="min-width:500px">Description</th>
 
       </tr>
     </thead>
-    {% for first_person in first_person %}
+    {% for select_all_report in select_all_report %}
 
     <tr align="center" >
       
-      <td class="align-middle">{{first_person.Job_number}}</td>
-      <td class="align-middle">{{first_person.Project_name}}</td>
-      <th class="align-middle">{{first_person.drawingNo}}</th>
-      <td class="align-middle">{{first_person.Drawing_QTY}}</td>
-      <td class="align-middle">{{first_person.Drawing_date}}</td>
+      <td class="align-middle">{{select_all_report.Job_number}}</td>
+      <td class="align-middle">{{select_all_report.Project_name}}</td>
+      <th class="align-middle">{{select_all_report.drawingNo}}</th>
+      <td class="align-middle">{{select_all_report.Drawing_QTY}}</td>
+       <td class="align-middle">{{select_all_report.Drawing_date}}</td>
   
 
-      <td class="align-middle">{{first_person.Document_QTY}}</td>
-      {% if first_person.Document_user == null%}
-        <td class="align-middle">{{first_person.Document_user}}</td>
+      <td class="align-middle">{{select_all_report.Document_QTY}}</td>
+      {% if select_all_report.Document_user == null%}
+        <td class="align-middle">{{select_all_report.Document_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Document_user %}
+          {% if get_user_id.id == select_all_report.Document_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Document_date}}</td>
+      <td class="align-middle">{{select_all_report.Document_date}}</td>
 
 
-      <td class="align-middle">{{first_person.Maker_name}}</td>
+      <td class="align-middle">{{select_all_report.Maker_name}}</td>
       
 
-      <td class="align-middle">{{first_person.Cutting_QTY}}</td>
-      {% if first_person.Cutting_user == null%}
-        <td class="align-middle">{{first_person.Cutting_user}}</td>
+      <td class="align-middle">{{select_all_report.Cutting_QTY}}</td>
+      {% if select_all_report.Cutting_user == null%}
+        <td class="align-middle">{{select_all_report.Cutting_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Cutting_user %}
+          {% if get_user_id.id == select_all_report.Cutting_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Cutting_date}}</td>
+      <td class="align-middle">{{select_all_report.Cutting_date}}</td>
 
 
-      <td class="align-middle">{{first_person.Machine_QTY}}</td>
-      {% if first_person.Machine_user == null%}
-        <td class="align-middle">{{first_person.Machine_user}}</td>
+      <td class="align-middle">{{select_all_report.Machine_QTY}}</td>
+      {% if select_all_report.Machine_user == null%}
+        <td class="align-middle">{{select_all_report.Machine_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Machine_user %}
+          {% if get_user_id.id == select_all_report.Machine_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Machine_number}}</td>
-      <td class="align-middle">{{first_person.Machine_date}}</td>
+      <td class="align-middle">{{select_all_report.Machine_number}}</td>
+      <td class="align-middle">{{select_all_report.Machine_date}}</td>
 
 
-      <td class="align-middle">{{first_person.Qc_QTY}}</td>
-      {% if first_person.Qc_user == null%}
-        <td class="align-middle">{{first_person.Qc_user}}</td>
+      <td class="align-middle">{{select_all_report.Qc_QTY}}</td>
+      {% if select_all_report.Qc_user == null%}
+        <td class="align-middle">{{select_all_report.Qc_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Qc_user %}
+          {% if get_user_id.id == select_all_report.Qc_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Qc_date}}</td>
+      <td class="align-middle">{{select_all_report.Qc_date}}</td>
 
 
-      <td class="align-middle">{{first_person.Painting_name}}</td>
-      <td class="align-middle">{{first_person.Painting_QTY}}</td>
-      {% if first_person.Painting_user == null%}
-        <td class="align-middle">{{first_person.Painting_user}}</td>
+      <td class="align-middle">{{select_all_report.Painting_name}}</td>
+      <td class="align-middle">{{select_all_report.Painting_QTY}}</td>
+      {% if select_all_report.Painting_user == null%}
+        <td class="align-middle">{{select_all_report.Painting_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Painting_user %}
+          {% if get_user_id.id == select_all_report.Painting_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Painting_starting_date}}</td>
-      <td class="align-middle">{{first_person.Painting_End_date}}</td>
+      <td class="align-middle">{{select_all_report.Painting_starting_date}}</td>
+      <td class="align-middle">{{select_all_report.Painting_End_date}}</td>
 
 
-      <td class="align-middle">{{first_person.Qc_Painting_QTY}}</td>
-      {% if first_person.Qc_Painting_user == null%}
-        <td class="align-middle">{{first_person.Qc_Painting_user}}</td>
+      <td class="align-middle">{{select_all_report.Qc_Painting_QTY}}</td>
+      {% if select_all_report.Qc_Painting_user == null%}
+        <td class="align-middle">{{select_all_report.Qc_Painting_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Qc_Painting_user %}
+          {% if get_user_id.id == select_all_report.Qc_Painting_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Qc_Painting_date}}</td>
+      <td class="align-middle">{{select_all_report.Qc_Painting_date}}</td>
 
 
-      <td class="align-middle">{{first_person.Assemby_QTY}}</td>
-      {% if first_person.Assemby_user == null%}
-        <td class="align-middle">{{first_person.Assemby_user}}</td>
+      <td class="align-middle">{{select_all_report.Assemby_QTY}}</td>
+      {% if select_all_report.Assemby_user == null%}
+        <td class="align-middle">{{select_all_report.Assemby_user}}</td>
       {% else %}
         {% for get_user_id in get_user_id %}
-          {% if get_user_id.id == first_person.Assemby_user %}
+          {% if get_user_id.id == select_all_report.Assemby_user %}
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
       {% endif %}
-      <td class="align-middle">{{first_person.Assemby_date}}</td>
-  
+      <td class="align-middle">{{select_all_report.Assemby_date}}</td>
+
     
-    <td class="align-middle">{{first_person.Revise_Times}}</td>
-    {% if first_person.Revise_user == null%}
-      <td class="align-middle">{{first_person.Revise_user}}</td>
+    <td class="align-middle">{{select_all_report.Revise_Times}}</td>
+    {% if select_all_report.Revise_user == null%}
+      <td class="align-middle">{{select_all_report.Revise_user}}</td>
     {% else %}
       {% for get_user_id in get_user_id %}
-        {% if get_user_id.id == first_person.Revise_user %}
+        {% if get_user_id.id == select_all_report.Revise_user %}
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
     {% endif %}
-    <td class="align-middle" align="left">{{first_person.Revise_Description}}</td>
-
-    </tr>
+    <td class="align-middle" align="left">{{select_all_report.Revise_Description}}</td>
     {% endfor %}
-    
+    </tr>
+    </table>
+  </div>
 
+<!-----------------------------------------daily-------------------------------------------------->
 
+  <div style="overflow-x: auto;" id="day_report" >
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="bg-primary text-white" align="center" >
+        <tr>
+          <th colspan="5"><h4>DOCUMENT</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for document_day_report in document_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{document_day_report.drawing_id}}</td>
+        <td class="align-middle">{{document_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == document_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{document_day_report.datePublish}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
+        <tr>
+          <th colspan="5"><h4>CUTTING</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for cutting_day_report in cutting_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{cutting_day_report.drawing_id}}</td>
+        <td class="align-middle">{{cutting_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == cutting_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{cutting_day_report.datePublish}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
+        <tr>
+          <th colspan="5"><h4>MACHINE</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for machine_day_report in machine_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{machine_day_report.drawing_id}}</td>
+        <td class="align-middle">{{machine_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == machine_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{machine_day_report.datePublish}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
+        <tr>
+          <th colspan="5"><h4>QC</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for qc_day_report in qc_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{qc_day_report.drawing_id}}</td>
+        <td class="align-middle">{{qc_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == qc_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{qc_day_report.datePublish}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white bg-info mb-3" align="center" >
+        <tr>
+          <th colspan="5"><h4>PAINTING</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for painting_day_report in painting_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{painting_day_report.drawing_id}}</td>
+        <td class="align-middle">{{painting_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == painting_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{painting_day_report.dateEnd}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white bg-secondary mb-3" align="center" >
+        <tr>
+          <th colspan="5"><h4>PAINTING QC</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for qcpainting_day_report in qcpainting_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{qcpainting_day_report.drawing_id}}</td>
+        <td class="align-middle">{{qcpainting_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == qcpainting_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{qcpainting_day_report.datePublish}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="thead-dark" align="center" >
+        <tr>
+          <th colspan="5"><h4>ASSEMBY</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        </tr>
+      </thead>
+      {% for assemby_day_report in assemby_day_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{assemby_day_report.drawing_id}}</td>
+        <td class="align-middle">{{assemby_day_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == assemby_day_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{assemby_day_report.datePublish}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+  </div>
+
+<!-----------------------------------------Weekly-------------------------------------------------->
+
+  <div style="overflow-x: auto;" id="week_report" >
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="bg-primary text-white" align="center" >
+        <tr>
+          <th colspan="6"><h4>DOCUMENT</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for document_week_report in document_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{document_week_report.drawing_id}}</td>
+        <td class="align-middle">{{document_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == document_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{document_week_report.datePublish}}</td>
+        <td class="align-middle">{{document_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
+        <tr>
+          <th colspan="6"><h4>CUTTING</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for cutting_week_report in cutting_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{cutting_week_report.drawing_id}}</td>
+        <td class="align-middle">{{cutting_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == cutting_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{cutting_week_report.datePublish}}</td>
+        <td class="align-middle">{{cutting_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
+        <tr>
+          <th colspan="6"><h4>MACHINE</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for machine_week_report in machine_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{machine_week_report.drawing_id}}</td>
+        <td class="align-middle">{{machine_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == machine_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{machine_week_report.datePublish}}</td>
+        <td class="align-middle">{{machine_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
+        <tr>
+          <th colspan="6"><h4>QC</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for qc_week_report in qc_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{qc_week_report.drawing_id}}</td>
+        <td class="align-middle">{{qc_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == qc_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{qc_week_report.datePublish}}</td>
+        <td class="align-middle">{{qc_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white bg-info mb-3" align="center" >
+        <tr>
+          <th colspan="6"><h4>PAINTING</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for painting_week_report in painting_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{painting_week_report.drawing_id}}</td>
+        <td class="align-middle">{{painting_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == painting_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{painting_week_report.dateEnd}}</td>
+        <td class="align-middle">{{painting_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="text-white bg-secondary mb-3" align="center" >
+        <tr>
+          <th colspan="6"><h4>PAINTING QC</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for qcpainting_week_report in qcpainting_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{qcpainting_week_report.drawing_id}}</td>
+        <td class="align-middle">{{qcpainting_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == qcpainting_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{qcpainting_week_report.datePublish}}</td>
+        <td class="align-middle">{{qcpainting_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+
+    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+      <thead class="thead-dark" align="center" >
+        <tr>
+          <th colspan="6"><h4>ASSEMBY</h4></th>
+        </tr>
+        <tr>
+          <th class="align-middle js-sort-string">No.</th>
+          <th class="align-middle js-sort-string">Drawing number</th>
+          <th class="align-middle js-sort-number">Quantity</th>
+          <th class="align-middle js-sort-string">Username</th>
+          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle" style="min-width:130px">Days of the week</th>
+        </tr>
+      </thead>
+      {% for assemby_week_report in assemby_week_report %}
+      <tr align="center" >
+        <td class="align-middle">{{ forloop.counter }}</td>
+        <td class="align-middle">{{assemby_week_report.drawing_id}}</td>
+        <td class="align-middle">{{assemby_week_report.Quantity}}</td>
+        {% for get_user_id in get_user_id %}
+          {% if get_user_id.id == assemby_week_report.user_id %}
+            <td class="align-middle">{{get_user_id.username}}</td>
+          {% endif %}
+        {% endfor %}
+        <td class="align-middle">{{assemby_week_report.datePublish}}</td>
+        <td class="align-middle">{{assemby_week_report.day}}</td>
+      {% endfor %}
+      </tr>
+    </table>
+  </div>
+
+<!-----------------------------------------monthly-------------------------------------------------->
+
+<div style="overflow-x: auto;" id="month_report" >
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="bg-primary text-white" align="center" >
+      <tr>
+        <th colspan="5"><h4>DOCUMENT</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for document_month_report in document_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{document_month_report.drawing_id}}</td>
+      <td class="align-middle">{{document_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == document_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{document_month_report.datePublish}}</td>
+    {% endfor %}
+    </tr>
   </table>
-  <br/>
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
+      <tr>
+        <th colspan="5"><h4>CUTTING</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for cutting_month_report in cutting_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{cutting_month_report.drawing_id}}</td>
+      <td class="align-middle">{{cutting_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == cutting_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{cutting_month_report.datePublish}}</td>
+    {% endfor %}
+    </tr>
+  </table>
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
+      <tr>
+        <th colspan="5"><h4>MACHINE</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for machine_month_report in machine_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{machine_month_report.drawing_id}}</td>
+      <td class="align-middle">{{machine_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == machine_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{machine_month_report.datePublish}}</td>
+    {% endfor %}
+    </tr>
+  </table>
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
+      <tr>
+        <th colspan="5"><h4>QC</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for qc_month_report in qc_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{qc_month_report.drawing_id}}</td>
+      <td class="align-middle">{{qc_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == qc_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{qc_month_report.datePublish}}</td>
+    {% endfor %}
+    </tr>
+  </table>
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="text-white bg-info mb-3" align="center" >
+      <tr>
+        <th colspan="5"><h4>PAINTING</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for painting_month_report in painting_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{painting_month_report.drawing_id}}</td>
+      <td class="align-middle">{{painting_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == painting_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{painting_month_report.dateEnd}}</td>
+    {% endfor %}
+    </tr>
+  </table>
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="text-white bg-secondary mb-3" align="center" >
+      <tr>
+        <th colspan="5"><h4>PAINTING QC</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for qcpainting_month_report in qcpainting_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{qcpainting_month_report.drawing_id}}</td>
+      <td class="align-middle">{{qcpainting_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == qcpainting_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{qcpainting_month_report.datePublish}}</td>
+    {% endfor %}
+    </tr>
+  </table>
+
+  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <thead class="thead-dark" align="center" >
+      <tr>
+        <th colspan="5"><h4>ASSEMBY</h4></th>
+      </tr>
+      <tr>
+        <th class="align-middle js-sort-string">No.</th>
+        <th class="align-middle js-sort-string">Drawing number</th>
+        <th class="align-middle js-sort-number">Quantity</th>
+        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+      </tr>
+    </thead>
+    {% for assemby_month_report in assemby_month_report %}
+    <tr align="center" >
+      <td class="align-middle">{{ forloop.counter }}</td>
+      <td class="align-middle">{{assemby_month_report.drawing_id}}</td>
+      <td class="align-middle">{{assemby_month_report.Quantity}}</td>
+      {% for get_user_id in get_user_id %}
+        {% if get_user_id.id == assemby_month_report.user_id %}
+          <td class="align-middle">{{get_user_id.username}}</td>
+        {% endif %}
+      {% endfor %}
+      <td class="align-middle">{{assemby_month_report.datePublish}}</td>
+    {% endfor %}
+    </tr>
+  </table>
 </div>
+
+
+
+
+
+
+
+
 </div>
+
+<script>
+  $(function() {
+    $("#select_option").change(function() {
+      if ($("#select_all").is(":selected")) {
+        $("#all_report").show();
+        $("#day_report").hide();
+        $("#week_report").hide();
+        $("#month_report").hide();
+        
+      }
+      else if ($("#select_day").is(":selected")) {
+        $("#all_report").hide();
+        $("#day_report").show();
+        $("#week_report").hide();
+        $("#month_report").hide();
+        
+      }
+      else if ($("#select_week").is(":selected")) {
+        $("#all_report").hide();
+        $("#day_report").hide();
+        $("#week_report").show();
+        $("#month_report").hide();
+        
+      }
+      else if ($("#select_month").is(":selected")) {
+        $("#all_report").hide();
+        $("#day_report").hide();
+        $("#week_report").hide();
+        $("#month_report").show();
+        
+      }
+      else {
+        $("#all_report").hide();
+        $("#day_report").hide();
+        $("#week_report").hide();
+        $("#month_report").hide();
+      }
+    }).trigger('change');
+  });
+</script>
 
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
