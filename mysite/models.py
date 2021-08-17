@@ -166,3 +166,15 @@ class Revise(models.Model):
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
         return self.drawing.drawingNo
+
+
+class File(models.Model):
+    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='filedrawing')
+
+    file = models.FileField(upload_to='file/drawing/')
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null = True)
+
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return self.drawing.drawingNo

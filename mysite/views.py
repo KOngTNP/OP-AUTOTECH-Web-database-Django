@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm, CreateReviseForm ,UpdateReviseForm
-from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm
+from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -610,3 +610,23 @@ def updateRevise(request,drawing_id,revise_id):
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editRevise',{'get_drawing_id':get_drawing_id, 'get_revise_id':get_revise_id})
+
+
+
+def uploadFile(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    else:
+        form = UploadFileForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'uploadfile.html', {'form':form, 'get_drawing_id':get_drawing_id})
+
+def deleteFile(requset,drawing_id,file_id):
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    get_file_id = File.objects.get(id=file_id)
+    get_file_id.delete()
+    return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))

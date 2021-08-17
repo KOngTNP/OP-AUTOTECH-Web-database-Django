@@ -3,7 +3,7 @@ from django.db.models import fields
 from django.db.models.base import Model
 from django.forms import ModelForm
 
-from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc ,Painting, QcPainting, Assemby, Revise
+from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc ,Painting, QcPainting, Assemby, Revise, File
 
 class CreateJobForm(ModelForm):
     class Meta:
@@ -143,25 +143,8 @@ class UpdateReviseForm(ModelForm):
         model = Revise
         fields = ['numTimes', 'reviseDesc']
 
-#     def __init__(self, *args, **kwargs):
-#         super(MyCustomForm, self).__init__(*args, **kwargs)        
-#         self.fields['country'] = forms.ChoiceField(choices=[('1','india'),('2','US')])
-#         self.fields['state'].queryset = State.objects.filter(pk=2)
 
-
-
-# display123 = Job.objects.get(jobNo=job_id)
-    
-
-# class MyCustomForm(forms.ModelForm):
-#     class Meta:
-#         model = MyCustomModal
-#         fields = [
-#             'country',
-#             'state',           
-#         ]        
-
-#     def __init__(self, *args, **kwargs):
-#         super(MyCustomForm, self).__init__(*args, **kwargs)        
-#         self.fields['country'] = forms.ChoiceField(choices=[('1','india'),('2','US')])
-#         self.fields['state'].queryset = State.objects.filter(pk=2)
+class UploadFileForm(ModelForm):
+    class Meta:
+        model = File
+        fields = "__all__"

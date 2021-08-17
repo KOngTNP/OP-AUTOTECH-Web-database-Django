@@ -82,4 +82,7 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/edit/revise/<int:revise_id>',views.editRevise),
     path('workflow/<str:drawing_id>/update/revise/<int:revise_id>',views.updateRevise),
     path('workflow/<str:drawing_id>/delete/revise/<int:revise_id>',views.deleteRevise),
+
+    path('uploadFile/<str:drawing_id>',views.uploadFile, name='uploadFile'),
+    path('workflow/<str:drawing_id>/delete/file/<int:file_id>',views.deleteFile)
 ]
