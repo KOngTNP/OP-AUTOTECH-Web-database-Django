@@ -85,14 +85,15 @@ WSGI_APPLICATION = 'OPAutotech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES={
    'default':{
-      'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'OPdatabase',
+      'ENGINE':'django.db.backends.postgresql',
+      'NAME':'postgres',
       'USER':'postgres',
-      'PASSWORD':'Isyl8nvvtwi@',
-      'HOST':'localhost',
-      'PORT':'5432',
+      'PASSWORD':'postgres',
+      'HOST':'pgdb',
+      'PORT':'5432'
    }
 }
 
