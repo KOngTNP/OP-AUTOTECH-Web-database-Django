@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  django:
+    build: .
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on: 
+      - pgdb
+    restart: always
+    
+  pgdb:
+    image: postgres
+    container_name: pgdb
+    environment: 
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - pgdb
+    ports:
+      - "80:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tanapollll23@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    restart: always
