@@ -18,7 +18,7 @@ class Job(models.Model):
     jobNo = models.CharField(max_length=20, primary_key=True)
     projectName = models.CharField(max_length=80)
     projectDesc = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
 
     datePublish = models.DateTimeField(auto_now_add=True)
@@ -36,7 +36,7 @@ class Drawing(models.Model):
     drawingNo = models.CharField(max_length=40, primary_key = True)
     drawingDesc = models.TextField()
     Quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
@@ -50,7 +50,7 @@ class Drawing(models.Model):
 class Document(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='documentdrawing')
     Quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
@@ -62,7 +62,7 @@ class Maker(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='makerdrawing')
 
     name = models.CharField(max_length=20)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
@@ -75,7 +75,7 @@ class Cutting(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='cuttingdrawing')
 
     Quantity = models.IntegerField(null=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
@@ -88,7 +88,7 @@ class Machine(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='machinedrawing')
 
     Quantity = models.IntegerField(null=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     machineNum = models.IntegerField(null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
@@ -102,7 +102,7 @@ class Qc(models.Model):
     # drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='qcdrawing')
 
     Quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
@@ -116,7 +116,7 @@ class Painting(models.Model):
 
     name = models.CharField(max_length=20)
     Quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateEnd = models.DateTimeField(auto_now_add=True, null=True)
@@ -133,7 +133,7 @@ class QcPainting(models.Model):
     
 
     Quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
@@ -146,7 +146,7 @@ class Assemby(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='assembydrawing')
     
     Quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
@@ -160,7 +160,7 @@ class Revise(models.Model):
 
     numTimes = models.IntegerField()
     reviseDesc = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
@@ -172,9 +172,13 @@ class File(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='filedrawing')
 
     file = models.FileField(upload_to='file/drawing/')
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null = True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
         return self.drawing.drawingNo
+
+    def delete(self, *args, **kwaegs):
+        self.file.delete()
+        super().delete(*args, **kwaegs)
