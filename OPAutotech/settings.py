@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-(7oazmn5hwp+^fyay5prsxy++u(x!r^ctm0k5qweuhgk!a89+-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://opautotech-db.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://opautotech-db.herokuapp.com', 'localhost', '192.168.1.12','127.0.0.1']
 
 CRISPY_TEMPLATE_PACK="bootstrap4"
 
