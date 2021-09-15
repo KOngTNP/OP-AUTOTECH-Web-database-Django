@@ -120,9 +120,14 @@
         <h5 class="mb-0">
           <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             <h5>
-              {% if get_drawing_id.documentdrawing.all %}
+
+              {% for document in get_drawing_id.documentdrawing.all %}
+                {% if get_drawing_id.documentdrawing.all and document.Quantity == get_drawing_id.Quantity  %}
                 <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-              {% endif %}  
+                {% else %}
+                  <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+                {% endif %}
+              {% endfor %}
             
               Document
             </h5>
@@ -205,10 +210,15 @@
         <h5 class="mb-0">
           <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
             <h5>
-              {% if get_drawing_id.cuttingdrawing.all %}
+
+              {% for cutting in get_drawing_id.cuttingdrawing.all %}
+                {% if get_drawing_id.cuttingdrawing.all and cutting.Quantity == get_drawing_id.Quantity  %}
                 <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-              {% endif %}  
-              
+                {% else %}
+                  <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+                {% endif %}
+              {% endfor %}
+            
               Cutting
             </h5>
           </button>
@@ -247,9 +257,14 @@
           <h5 class="mb-0">
             <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
               <h5>
-                {% if get_drawing_id.machinedrawing.all %}
+
+                {% for machine in get_drawing_id.machinedrawing.all %}
+                  {% if get_drawing_id.machinedrawing.all and machine.Quantity == get_drawing_id.Quantity  %}
                   <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-                {% endif %}
+                  {% else %}
+                    <i class="fa fa-times-circle" style="color: black;" aria-hidden="true"></i>
+                  {% endif %}
+                {% endfor %}
 
                 Machine
               </h5>
@@ -293,9 +308,15 @@
         <h5 class="mb-0">
           <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
             <h5>
-              {% if get_machine_id.qcmachine.all %}
-                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-              {% endif %}  
+
+              {% for qc in get_machine_id.qcmachine.all %}
+                {% if get_machine_id.qcmachine.all and qc.Quantity == get_drawing_id.Quantity %}
+                  <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+                {% else %}
+                  <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+                {% endif %}
+              {% endfor %}
+
               QC
             </h5>
           </button>
@@ -335,9 +356,12 @@
       <h5 class="mb-0">
         <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
           <h5>
+
             {% for painting in get_drawing_id.paintingdrawing.all %}
-              {% if painting.dateEnd %}
+              {% if get_drawing_id.paintingdrawing.all and painting.Quantity == get_drawing_id.Quantity and painting.dateEnd%}
                 <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+              {% else %}
+                <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
               {% endif %}
             {% endfor %}
 
@@ -389,9 +413,14 @@
         <h5 class="mb-0">
           <button class="btn btn-link text-dark" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
             <h5>
-              {% if get_painting_id.qcpaintingpainting.all %}
-                <i class="fa fa-check-circle" style="color: black;" aria-hidden="true"></i>
-              {% endif %}  
+              
+              {% for qcpainting in get_painting_id.qcpaintingpainting.all %}
+                {% if get_painting_id.qcpaintingpainting.all and qcpainting.Quantity == get_drawing_id.Quantity  %}
+                  <i class="fa fa-check-circle" style="color: black;" aria-hidden="true"></i>
+                {% else %}
+                  <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+                {% endif %}
+              {% endfor %}
               
               Painting QC
             </h5>
@@ -432,10 +461,15 @@
       <h5 class="mb-0">
         <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
           <h5>
-            {% if get_drawing_id.assembydrawing.all %}
+
+            {% for assemby in get_drawing_id.assembydrawing.all %}
+              {% if get_drawing_id.assembydrawing.all and assemby.Quantity == get_drawing_id.Quantity  %}
               <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-            {% endif %}
-            
+              {% else %}
+                <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+              {% endif %}
+            {% endfor %}
+
             Assemby
           </h5>
         </button>
