@@ -7,13 +7,13 @@
 <head>
     <mate charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Assemby | OP AUTOTECH</title>
+    <title>Create Assembly | OP AUTOTECH</title>
 
 </head>
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-<h2 align="center" style="margin-bottom: 20px;">Create assemby of {{get_drawing_id.drawingNo}}</h2>
+<h2 align="center" style="margin-bottom: 20px;">Create assembly of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
@@ -22,7 +22,7 @@
         {% render_field form.drawing class="form-control" %}</p> 
     </div>
 
-    <lable style="margin-left: 25px;">Assemby quantity</lable>
+    <lable style="margin-left: 25px;">Assembly quantity</lable>
     <div class="wrap-input100 validate-input">
         <input class="input100 form-control" type="number" name="Quantity" max='{{get_drawing_id.Quantity}}' min='0' placeholder="Drawing quantity = {{get_drawing_id.Quantity}}" required>
         <span class="focus-input100"></span>

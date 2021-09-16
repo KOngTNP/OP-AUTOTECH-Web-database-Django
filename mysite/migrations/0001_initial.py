@@ -150,13 +150,13 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL),
         ),
         migrations.CreateModel(
-            name='Assemby',
+            name='Assembly',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Quantity', models.IntegerField()),
                 ('datePublish', models.DateTimeField(auto_now_add=True, null=True)),
                 ('dateUpdate', models.DateTimeField(auto_now=True, null=True)),
-                ('drawing', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='assembydrawing', to='mysite.drawing')),
+                ('drawing', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='assemblydrawing', to='mysite.drawing')),
                 ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
             ],
         ),

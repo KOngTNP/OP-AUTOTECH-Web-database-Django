@@ -73,10 +73,10 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/delete/qcpainting/<int:qcpainting_id>',views.deleteQcPainting),
 
 
-    path('createAssemby/<str:drawing_id>',views.createAssemby, name='createAssemby'),
-    path('workflow/<str:drawing_id>/edit/assemby/<int:assemby_id>',views.editAssemby),
-    path('workflow/<str:drawing_id>/update/assemby/<int:assemby_id>',views.updateAssemby),
-    path('workflow/<str:drawing_id>/delete/assemby/<int:assemby_id>',views.deleteAssemby),
+    path('createAssembly/<str:drawing_id>',views.createAssembly, name='createAssembly'),
+    path('workflow/<str:drawing_id>/edit/assembly/<int:assembly_id>',views.editAssembly),
+    path('workflow/<str:drawing_id>/update/assembly/<int:assembly_id>',views.updateAssembly),
+    path('workflow/<str:drawing_id>/delete/assembly/<int:assembly_id>',views.deleteAssembly),
 
     path('createRevise/<str:drawing_id>',views.createRevise, name='createRevise'),
     path('workflow/<str:drawing_id>/edit/revise/<int:revise_id>',views.editRevise),

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssembyForm ,UpdateAssembyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm
-from .models import Assemby, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm
+from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -27,7 +27,7 @@ def reportTable(request):
         "mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date",\
         "mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date",\
         "mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date",\
-        "mysite_assemby"."Quantity" as "Assemby_QTY", "mysite_assemby"."user_id" as "Assemby_user", "mysite_assemby"."datePublish" as "Assemby_date",\
+        "mysite_assembly"."Quantity" as "Assembly_QTY", "mysite_assembly"."user_id" as "Assembly_user", "mysite_assembly"."datePublish" as "Assembly_date",\
         "mysite_revise"."numTimes" as "Revise_Times", "mysite_revise"."user_id" as "Revise_user", "mysite_revise"."reviseDesc" as "Revise_Description"\
         FROM mysite_job, mysite_drawing\
         LEFT JOIN mysite_document on  "drawingNo" = "mysite_document"."drawing_id"\
@@ -35,7 +35,7 @@ def reportTable(request):
         LEFT JOIN mysite_cutting on  "drawingNo" ="mysite_cutting"."drawing_id"\
         LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id"\
         LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
-        LEFT JOIN mysite_assemby on  "drawingNo" ="mysite_assemby"."drawing_id"\
+        LEFT JOIN mysite_assembly on  "drawingNo" ="mysite_assembly"."drawing_id"\
         LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"\
         WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
 
@@ -67,9 +67,9 @@ def reportTable(request):
     qcpainting_week_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id", to_char("mysite_qcpainting"."datePublish", 'day') as "day" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
     qcpainting_month_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
 
-    assemby_day_report = Assemby.objects.raw("""SELECT * FROM mysite_assemby WHERE "mysite_assemby"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_assemby"."datePublish";""")
-    assemby_week_report = Assemby.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_assemby WHERE "mysite_assemby"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_assemby"."datePublish";""")
-    assemby_month_report = Assemby.objects.raw("""SELECT * FROM mysite_assemby WHERE "mysite_assemby"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_assemby"."datePublish";""")
+    assembly_day_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
+    assembly_week_report = Assembly.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
+    assembly_month_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
     return render(request,'reportTable.html',
     {
         'get_user_id':get_user_id,
@@ -82,7 +82,7 @@ def reportTable(request):
         'qc_day_report':qc_day_report, 'qc_week_report':qc_week_report, 'qc_month_report':qc_month_report,
         'painting_day_report':painting_day_report, 'painting_week_report':painting_week_report, 'painting_month_report':painting_month_report,
         'qcpainting_day_report':qcpainting_day_report, 'qcpainting_week_report':qcpainting_week_report, 'qcpainting_month_report':qcpainting_month_report,
-        'assemby_day_report':assemby_day_report, 'assemby_week_report':assemby_week_report, 'assemby_month_report':assemby_month_report
+        'assembly_day_report':assembly_day_report, 'assembly_week_report':assembly_week_report, 'assembly_month_report':assembly_month_report
         
     
     })
@@ -103,7 +103,7 @@ def jobTable(request):
     else:
         data = Job.objects.all()
     all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo", sum("mysite_drawing"."Quantity") as "QTY" FROM mysite_drawing , mysite_job WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
-    done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assemby"."Quantity") as "Assemby_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assemby on "drawingNo" ="mysite_assemby"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
+    done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assembly"."Quantity") as "Assembly_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
 
 
         
@@ -150,7 +150,7 @@ def updateJob(request,job_id):
 
 def drawingTable(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
-    done_qty = Drawing.objects.raw('SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_assemby"."Quantity" as "Assemby_QTY" FROM mysite_drawing LEFT JOIN mysite_assemby on "drawingNo" ="mysite_assemby"."drawing_id"')
+    done_qty = Drawing.objects.raw('SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_assembly"."Quantity" as "Assembly_QTY" FROM mysite_drawing LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id"')
     return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id, "done_qty":done_qty})
 
 def createDrawing(request,job_id):
@@ -538,38 +538,38 @@ def updateQcPainting(request,drawing_id,qcpainting_id):
 
 
 
-def createAssemby(request,drawing_id):
+def createAssembly(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     if request.method == "POST":
-        form  = CreateAssembyForm(request.POST)
+        form  = CreateAssemblyForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     else:
-        form = CreateAssembyForm(initial={'drawing':get_drawing_id, 'user':user})
-    return render(request, 'assemby/createassemby.html', {'form':form, 'get_drawing_id':get_drawing_id})
+        form = CreateAssemblyForm(initial={'drawing':get_drawing_id, 'user':user})
+    return render(request, 'assembly/createassembly.html', {'form':form, 'get_drawing_id':get_drawing_id})
 
-def deleteAssemby(request,drawing_id,assemby_id):
+def deleteAssembly(request,drawing_id,assembly_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_assemby_id = Assemby.objects.get(id=assemby_id)
-    get_assemby_id.delete()
+    get_assembly_id = Assembly.objects.get(id=assembly_id)
+    get_assembly_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
-def editAssemby(request,drawing_id,assemby_id):
+def editAssembly(request,drawing_id,assembly_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_assemby_id = Assemby.objects.get(id=assemby_id)
-    return render(request, 'assemby/editassemby.html',{'get_drawing_id':get_drawing_id, 'get_assemby_id':get_assemby_id})
+    get_assembly_id = Assembly.objects.get(id=assembly_id)
+    return render(request, 'assembly/editassembly.html',{'get_drawing_id':get_drawing_id, 'get_assembly_id':get_assembly_id})
 
 
-def updateAssemby(request,drawing_id,assemby_id):
+def updateAssembly(request,drawing_id,assembly_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_assemby_id = get_object_or_404(Assemby, pk=assemby_id)
-    form = UpdateAssembyForm(request.POST, instance=get_assemby_id)
+    get_assembly_id = get_object_or_404(Assembly, pk=assembly_id)
+    form = UpdateAssemblyForm(request.POST, instance=get_assembly_id)
     if form.is_valid:
         form.save()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
-    return redirect('/editAssemby',{'get_drawing_id':get_drawing_id, 'get_assemby_id':get_assemby_id})
+    return redirect('/editAssembly',{'get_drawing_id':get_drawing_id, 'get_assembly_id':get_assembly_id})
 
 
 

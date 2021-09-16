@@ -142,8 +142,8 @@ class QcPainting(models.Model):
         return self.painting.drawing_id
 
 # 8
-class Assemby(models.Model):
-    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='assembydrawing')
+class Assembly(models.Model):
+    drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='assemblydrawing')
     
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

@@ -19,14 +19,10 @@
     {% csrf_token %}
 
 
-    <lable style="margin-left: 25px;">Job No. (You cannot edit this)</lable>
-    <div class="wrap-input100 validate-input">
-        <input class="input100 form-control" type="text" name="projectName" value='{{jobs.jobNo}}' readonly>
-        <span class="focus-input100"></span>
-        <span class="symbol-input100">
-            <i class="fa fa-lock" aria-hidden="true"></i>
-        </span>
-    </div>
+    <p hidden><lable style="margin-left: 25px;">Job No. (You cannot edit this)</lable></p>
+        <p hidden><div class="wrap-input100 validate-input">
+            <p hidden><input class="input100 form-control" type="text" name="projectName" value='{{jobs.jobNo}}' readonly></p>
+    </div></p>
 
 
     <lable style="margin-left: 25px;">Project Name</lable>
