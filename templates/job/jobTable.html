@@ -25,22 +25,22 @@
             </ol>
           </nav>
           
-          <form class="form-inline my-2 my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right;">
+          <form class="form-inline my-lg-0" action="{% url 'mysite:jobTable' %}" style="float: right; ">
             <div class="wrap-input100 validate-input" style="width: auto; margin-bottom: 15px;">
-                <input class="input100 form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" style="width: 230px; height: 45px;">
+                <input class="input100 form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" style="width: 200px; height: 45px;">
                 <span class="focus-input100" style="width: 200px;"></span>
                 <span class="symbol-input100">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </span>
             </div>
-            <button class="btn btn-outline-success add-new" type="submit" style="border-radius: 80px;">Search</button>
+            <button class="btn btn-outline-success" type="submit" style="border-radius: 80px; width: auto; height: 45px; font-weight: bold; font-size: 15px; text-shadow: none; border-radius: 80px; line-height: 32px;margin-bottom: 15px;">Search</button>
           </form>
           {% if request.user.groups.all.0.name == 'Design' or user.is_staff %}
           <a href="/createJob" class="btn btn-success add-new" role="button" aria-pressed="true"><i class="fa fa-plus"></i>  Create new job</a>
           {% else %}
           <div class="add-new"></div>
           {% endif %}
-            <div style="overflow-x: auto; margin-top: 20px;">
+            <div style="overflow-x: auto;">
             <table class="table table-bordered js-sort-table">
               <thead class="table-striped table-dark">
                 <tr align="center">
