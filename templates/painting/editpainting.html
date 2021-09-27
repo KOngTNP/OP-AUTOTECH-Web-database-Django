@@ -13,6 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
+{% if request.user.groups.all.0.name == 'Painting' or user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Edit painting of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/painting/{{get_painting_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
@@ -42,7 +43,7 @@
     <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
-
+{% endif %}
 
 
 

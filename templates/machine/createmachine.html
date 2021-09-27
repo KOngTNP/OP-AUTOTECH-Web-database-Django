@@ -13,6 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
+{% if request.user.groups.all.0.name == 'Machine' or user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Create machine of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
@@ -32,14 +33,21 @@
        
     </div>
 
-    <lable style="margin-left: 25px;">Machine number</lable>
+    <lable style="margin-left: 25px;">Machine</lable>
     <div class="wrap-input100 validate-input">
-        <input class="input100 form-control" type="text" name="machineNum" required>
+        <select class="input100 form-control" style="border-radius: 25px; padding: 0 30px 0 68px;" type="text" name="machine" required>
+            <option selected>Select machine</option>
+            <option value="MILLING">MILLING</option>
+            <option value="LATHE">LATHE</option>
+            <option value="CNC 1">CNC 1</option>
+            <option value="CNC 2">CNC 2</option>
+            <option value="CNC 3">CNC 3</option>
+            <option value="CNC 4">CNC 4</option>
+          </select>
         <span class="focus-input100"></span>
         <span class="symbol-input100">
             <i class="fa fa-lock" aria-hidden="true"></i>
         </span>
-       
     </div>
 
 
@@ -48,6 +56,7 @@
     <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
+{% endif %}
 
 
 
