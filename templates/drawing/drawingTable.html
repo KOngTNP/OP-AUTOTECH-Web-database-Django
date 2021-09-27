@@ -26,15 +26,15 @@
                 <li class="breadcrumb-item active" aria-current="page">Drawings</li>
               </ol>
             </nav>
+            {% if request.user.groups.all.0.name == 'Design' or user.is_staff %}
             <a style="display:inline-block;" href="{% url 'mysite:createDrawing' job_id=get_job_id.jobNo %}" class="btn btn-success add-new" role="button" aria-pressed="true" text-align="left" ><i class="fa fa-plus"></i>  Create drawing</a>
-          
+            {% endif %}
             <div style="overflow-x: auto;">
               <table class="table table-bordered js-sort-table">
                 <thead class="table-striped table-dark" >
                   <tr align="center">
                     <!-- <th scope="col">Job name</th> -->
                     <th scope="col" class="js-sort-string">Drawing No</th>
-                    <!-- <th scope="col" class="js-sort-string">Drawing Description</th> -->
                     <th scope="col" class="js-sort-number">Quantity</th>
                     <th scope="col" style="min-width:130px" class="js-sort-number">Publish date</th>
                     <th scope="col" class="js-sort-string">Create by</th>
@@ -52,7 +52,6 @@
                 <tr href="/workflow/{{drawing.drawingNo}}">
                     
                     <th scope="row" style="text-align: center;"><a href="/workflow/{{drawing.drawingNo}}">{{drawing.drawingNo}}</a></th>
-                    <!-- <td class="align-middle">{{drawing.drawingDesc}}</td> -->
                     <td style="text-align:center">{{drawing.Quantity}}</td>
                     <td>{{drawing.datePublish.date}}</td>
                     <td >{{drawing.user}}</td>
@@ -66,7 +65,7 @@
 
                     {% for done in done_qty %}
                       {% if drawing.drawingNo == done.drawingNo %}
-                      {% if drawing.Quantity == done.Assembly_QTY %}
+                      {% if drawing.Quantity == done.Document_QTY and drawing.Quantity == done.Cutting_QTY and drawing.Quantity == done.Machine_QTY and drawing.Quantity == done.QC_QTY and drawing.Quantity == done.Painting_QTY and drawing.Quantity == done.QCPainting_QTY and drawing.Quantity == done.Assembly_QTY and done.Painting_END != None%}
                         <td style="text-align: center;"><i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i></td>
                       {% else %}
                       <td style="text-align: center;"><i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i></td>

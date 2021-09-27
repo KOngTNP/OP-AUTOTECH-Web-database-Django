@@ -35,8 +35,11 @@
             </div>
             <button class="btn btn-outline-success add-new" type="submit" style="border-radius: 80px;">Search</button>
           </form>
-
+          {% if request.user.groups.all.0.name == 'Design' or user.is_staff %}
           <a href="/createJob" class="btn btn-success add-new" role="button" aria-pressed="true"><i class="fa fa-plus"></i>  Create new job</a>
+          {% else %}
+          <div class="add-new"></div>
+          {% endif %}
             <div style="overflow-x: auto; margin-top: 20px;">
             <table class="table table-bordered js-sort-table">
               <thead class="table-striped table-dark">
@@ -44,7 +47,6 @@
                   
                   <th scope="col" class="js-sort-string">Job No</th>
                   <th scope="col" class="js-sort-string" style="min-width:150px">Project Name</th>
-                  <!-- <th scope="col">Project Description</th> -->
                   <th scope="col" style="min-width:130px" class="js-sort-number">Publish date</th>
                   <th scope="col" class="js-sort-string">Create by</th>
                   
@@ -62,7 +64,6 @@
               <tr >
                   <th scope="row" style="text-align: center;"><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.jobNo}}</a></th>
                   <th ><a href="{% url 'mysite:drawingTable' job_id=job.jobNo %}">{{job.projectName}}</a></th>
-                  <!-- <td>{{job.projectDesc}}</td> -->
                   <td >{{job.datePublish.date}}</td>
                   <td>{{job.user}}</td>
                   
