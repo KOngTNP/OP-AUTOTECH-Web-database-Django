@@ -11,8 +11,7 @@
 </head>
 <body>
 <div class="table-wrapper">
-{% if user.is_authenticated%}
-
+{% if user.is_authenticated and user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Revise of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
