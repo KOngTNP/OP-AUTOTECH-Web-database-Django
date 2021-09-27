@@ -69,7 +69,7 @@
         <span>
           <i class="fa fa-qrcode" style="color: white;"></i>
         </span>
-          Qr code
+          QR Code
         </button>
       </div>
         <div style="text-align: right; margin-top: -38px;">
@@ -137,8 +137,8 @@
       <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
           {% for document in get_drawing_id.documentdrawing.all %}
-            <h5 class="card-title">Quantity : </h5>
-            <p class="card-text" style="margin-bottom: 10px; margin-top: -5x;">{{document.Quantity}}
+            <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}}) </h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5x;">Done = {{document.Quantity}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{document.user}}</p>
             <hr>
@@ -153,12 +153,13 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.documentdrawing.all%}
-            <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
+            {% if request.user.groups.all.0.name == 'Document' or user.is_staff%}
+              <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
+            {% endif %}
           {% endif %}
         </div>
       </div>
     </div>
-
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 2 -->
   {% if get_drawing_id.documentdrawing.all %}
@@ -170,7 +171,6 @@
               {% if get_drawing_id.makerdrawing.all %}
                 <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
               {% endif %}  
-
               Maker
             </h5>
           </button>
@@ -195,7 +195,9 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.makerdrawing.all%}
-            <a href="{% url 'mysite:createMaker' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Maker</a>
+            {% if request.user.groups.all.0.name == 'Document' or user.is_staff%}
+              <a href="{% url 'mysite:createMaker' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Maker</a>
+            {% endif %}
           {% endif %}
         </div>
       </div>
@@ -227,8 +229,8 @@
       <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
         <div class="card-body">
           {% for cutting in get_drawing_id.cuttingdrawing.all %}
-            <h5 class="card-title">Quantity : </h5>
-            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{cutting.Quantity}}
+            <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">Done = {{cutting.Quantity}}
             <h5 class="card-title">Cutting by : </h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{cutting.user}}</p>
             <hr>
@@ -243,7 +245,9 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.cuttingdrawing.all%}
-            <a href="{% url 'mysite:createCutting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Cutting</a>
+            {% if request.user.groups.all.0.name == 'Cutting' or user.is_staff%}
+              <a href="{% url 'mysite:createCutting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Cutting</a>
+            {% endif %}
           {% endif %}
         </div>
       </div>
@@ -265,7 +269,6 @@
                     <i class="fa fa-times-circle" style="color: black;" aria-hidden="true"></i>
                   {% endif %}
                 {% endfor %}
-
                 Machine
               </h5>
             </button>
@@ -274,12 +277,12 @@
         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
           <div class="card-body">
             {% for machine in get_drawing_id.machinedrawing.all %}
-              <h5 class="card-title">Quantity : </h5>
-              <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{machine.Quantity}}
+              <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
+              <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">Done = {{machine.Quantity}}
               <h5 class="card-title">Doing by : </h5>
               <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{machine.user}}
               <h5 class="card-title">Machine number : </h5>
-              <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{machine.machineNum}}</p>
+              <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{machine.machine}}</p>
               <hr>
               <p><u class="card-title">Doing date</u> 
               <a class="card-text"> : {{machine.datePublish}}</a></p>
@@ -292,13 +295,15 @@
               {% endif %}
             {% endfor %}
             {% if not get_drawing_id.machinedrawing.all%}
-              <a href="{% url 'mysite:createMachine' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Machine</a>
+              {% if request.user.groups.all.0.name == 'Machine' or user.is_staff %}
+                <a href="{% url 'mysite:createMachine' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Machine</a>
+              {% endif %}
             {% endif %}
           </div>
         </div>
       </div>
+      {% endif %}
     {% endif %}
-  {% endif %}
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 5 -->
@@ -325,8 +330,8 @@
       <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
         <div class="card-body">
           {% for qc in get_machine_id.qcmachine.all %}
-            <h5 class="card-title">Quantity : </h5>
-            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{qc.Quantity}}
+            <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">Done = {{qc.Quantity}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{qc.user}}</p>
             <hr>
@@ -341,68 +346,72 @@
             {% endif %}
           {% endfor %}
           {% if not get_machine_id.qcmachine.all%}
-            <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
+            {% if request.user.groups.all.0.name == 'QC' or user.is_staff %}
+              <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
+            {% endif %}
           {% endif %}
         </div>
       </div>
     </div>
-  {% endif %}
+    {% endif %}
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 6 -->
   {% if get_machine_id.qcmachine.all %}
-  <div class="card text-white bg-info mb-3">
-    <div class="card-header" id="headingSix">
-      <h5 class="mb-0">
-        <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-          <h5>
+    <div class="card text-white bg-info mb-3">
+      <div class="card-header" id="headingSix">
+        <h5 class="mb-0">
+          <button class="btn btn-link text-white" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+            <h5>
 
-            {% for painting in get_drawing_id.paintingdrawing.all %}
-              {% if get_drawing_id.paintingdrawing.all and painting.Quantity == get_drawing_id.Quantity and painting.dateEnd%}
-                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-              {% else %}
-                <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+              {% for painting in get_drawing_id.paintingdrawing.all %}
+                {% if get_drawing_id.paintingdrawing.all and painting.Quantity == get_drawing_id.Quantity and painting.dateEnd%}
+                  <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+                {% else %}
+                  <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+                {% endif %}
+              {% endfor %}
+
+              Painting
+            </h5>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+        <div class="card-body">
+          {% for painting in get_drawing_id.paintingdrawing.all %}
+            <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">Done = {{painting.Quantity}}
+            <h5 class="card-title">Painted by : </h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{painting.user}}</p>
+            <hr>
+            <p><u class="card-title">Starting date</u> 
+            <a class="card-text"> : {{painting.datePublish}}</a></p>
+            <p><u class="card-title">End date</u> 
+              <a class="card-text"> : {{painting.dateEnd}}</a></p>
+            <p><u class="card-title">Last edit date</u> 
+            <a class="card-text"> : {{painting.dateUpdate}}</a></p>
+            <h1></h1>
+            {% if not painting.dateEnd%}
+              <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure that painting is completed?');">Add end date</a>
+            {% else %}
+              {% if user.is_staff %}
+                <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure you want to update end date?');">Update end date</a>
               {% endif %}
-            {% endfor %}
-
-            Painting
-          </h5>
-        </button>
-      </h5>
-    </div>
-    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
-      <div class="card-body">
-        {% for painting in get_drawing_id.paintingdrawing.all %}
-          <h5 class="card-title">Quantity : </h5>
-          <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{painting.Quantity}}
-          <h5 class="card-title">Painted by : </h5>
-          <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{painting.user}}</p>
-          <hr>
-          <p><u class="card-title">Starting date</u> 
-          <a class="card-text"> : {{painting.datePublish}}</a></p>
-          <p><u class="card-title">End date</u> 
-            <a class="card-text"> : {{painting.dateEnd}}</a></p>
-          <p><u class="card-title">Last edit date</u> 
-          <a class="card-text"> : {{painting.dateUpdate}}</a></p>
-          <h1></h1>
-          {% if not painting.dateEnd%}
-            <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure that painting is completed?');">Add end date</a>
-          {% else %}
+            {% endif %}
             {% if user.is_staff %}
-              <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure you want to update end date?');">Update end date</a>
+              <a href="/workflow/{{painting.drawing}}/edit/painting/{{painting.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{painting.drawing}}/delete/painting/{{painting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.paintingdrawing.all%}
+            {% if request.user.groups.all.0.name == 'Painting' or user.is_staff %}
+              <a href="{% url 'mysite:createPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Painting</a>
             {% endif %}
           {% endif %}
-          {% if user.is_staff %}
-            <a href="/workflow/{{painting.drawing}}/edit/painting/{{painting.id}}"><span class='btn btn-success'>Edit</span></a>
-            <a href='/workflow/{{painting.drawing}}/delete/painting/{{painting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-          {% endif %}
-        {% endfor %}
-        {% if not get_drawing_id.paintingdrawing.all%}
-          <a href="{% url 'mysite:createPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Painting</a>
-        {% endif %}
+        </div>
       </div>
     </div>
-  </div>
   {% endif %}
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
@@ -430,8 +439,8 @@
       <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
         <div class="card-body">
           {% for qcpainting in get_painting_id.qcpaintingpainting.all %}
-            <h5 class="card-title">Quantity : </h5>
-            <p class="card-text" style="color: black; margin-bottom: 10px; margin-top: -5px;">{{qcpainting.Quantity}}
+            <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
+            <p class="card-text" style="color: black; margin-bottom: 10px; margin-top: -5px;">Done = {{qcpainting.Quantity}}
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text" style="color: black; margin-bottom: 10px; margin-top: -5px;">{{qcpainting.user}}</p>
             <hr>
@@ -446,7 +455,9 @@
             {% endif %}
           {% endfor %}
           {% if not get_painting_id.qcpaintingpainting.all%}
-            <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked</a>
+            {% if request.user.groups.all.0.name == 'QC' or user.is_staff %}
+              <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked</a>
+            {% endif %}
           {% endif %}
         </div>
       </div>
@@ -456,49 +467,51 @@
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 8 -->
   {% if get_painting_id.qcpaintingpainting.all %}
-  <div class="card text-white bg-dark mb-3">
-    <div class="card-header" id="headingEight">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-          <h5>
+    <div class="card text-white bg-dark mb-3">
+      <div class="card-header" id="headingEight">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed text-white" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+            <h5>
 
-            {% for assembly in get_drawing_id.assemblydrawing.all %}
-              {% if get_drawing_id.assemblydrawing.all and assembly.Quantity == get_drawing_id.Quantity  %}
-              <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
-              {% else %}
-                <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
-              {% endif %}
-            {% endfor %}
+              {% for assembly in get_drawing_id.assemblydrawing.all %}
+                {% if get_drawing_id.assemblydrawing.all and assembly.Quantity == get_drawing_id.Quantity  %}
+                <i class="fa fa-check-circle" style="color: white;" aria-hidden="true"></i>
+                {% else %}
+                  <i class="fa fa-times-circle" style="color: rgba(235, 0, 0, 0.904);" aria-hidden="true"></i>
+                {% endif %}
+              {% endfor %}
 
-            Assembly
-          </h5>
-        </button>
-      </h5>
-    </div>
-    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
-      <div class="card-body">
-        {% for assembly in get_drawing_id.assemblydrawing.all %}
-          <h5 class="card-title">Quantity : </h5>
-          <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{assembly.Quantity}}
-          <h5 class="card-title">Assembly by : </h5>
-          <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{assembly.user}}</p>
-          <hr>
-          <p><u class="card-title">Assembly date</u> 
-          <a class="card-text"> : {{assembly.datePublish}}</a></p>
-          <p><u class="card-title">Last edit date</u> 
-          <a class="card-text"> : {{assembly.dateUpdate}}</a></p>
+              Assembly
+            </h5>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+        <div class="card-body">
+          {% for assembly in get_drawing_id.assemblydrawing.all %}
+            <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">Done = {{assembly.Quantity}}
+            <h5 class="card-title">Assembly by : </h5>
+            <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{assembly.user}}</p>
+            <hr>
+            <p><u class="card-title">Assembly date</u> 
+            <a class="card-text"> : {{assembly.datePublish}}</a></p>
+            <p><u class="card-title">Last edit date</u> 
+            <a class="card-text"> : {{assembly.dateUpdate}}</a></p>
 
-          {% if user.is_staff %}
-            <a href="/workflow/{{assembly.drawing}}/edit/assembly/{{assembly.id}}"><span class='btn btn-success'>Edit</span></a>
-            <a href='/workflow/{{assembly.drawing}}/delete/assembly/{{assembly.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% if user.is_staff %}
+              <a href="/workflow/{{assembly.drawing}}/edit/assembly/{{assembly.id}}"><span class='btn btn-success'>Edit</span></a>
+              <a href='/workflow/{{assembly.drawing}}/delete/assembly/{{assembly.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            {% endif %}
+          {% endfor %}
+          {% if not get_drawing_id.assemblydrawing.all%}
+            {% if request.user.groups.all.0.name == 'Assembly' or user.is_staff %}
+              <a href="{% url 'mysite:createAssembly' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Assembly</a>
+            {% endif %}
           {% endif %}
-        {% endfor %}
-        {% if not get_drawing_id.assemblydrawing.all%}
-          <a href="{% url 'mysite:createAssembly' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Assembly</a>
-        {% endif %}
+        </div>
       </div>
     </div>
-  </div>
   {% endif %}
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
