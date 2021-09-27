@@ -17,7 +17,6 @@ from django.contrib.auth.models import User
 class Job(models.Model):
     jobNo = models.CharField(max_length=20, primary_key=True)
     projectName = models.CharField(max_length=80)
-    projectDesc = models.TextField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
 
@@ -34,7 +33,6 @@ class Job(models.Model):
 class Drawing(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='drawingjob')
     drawingNo = models.CharField(max_length=40, primary_key = True)
-    drawingDesc = models.TextField()
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -89,7 +87,7 @@ class Machine(models.Model):
 
     Quantity = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    machineNum = models.IntegerField(null=True)
+    machine = models.CharField(max_length=20)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)

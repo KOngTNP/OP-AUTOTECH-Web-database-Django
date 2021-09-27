@@ -13,7 +13,7 @@ class CreateJobForm(ModelForm):
 class UpdateJobForm(ModelForm):
     class Meta:
         model = Job
-        fields = ['projectName', 'projectDesc']
+        fields = ['projectName']
 
 
 
@@ -26,7 +26,7 @@ class CreateDrawingForm(ModelForm):
 class UpdateDrawingForm(ModelForm):
     class Meta:
         model = Drawing
-        fields = ['drawingNo', 'drawingDesc', 'Quantity']
+        fields = ['drawingNo', 'Quantity']
 
 
 
@@ -79,7 +79,7 @@ class CreateMachineForm(ModelForm):
 class UpdateMachineForm(ModelForm):
     class Meta:
         model = Machine
-        fields = ['Quantity', 'machineNum']
+        fields = ['Quantity', 'machine']
 
 
 
