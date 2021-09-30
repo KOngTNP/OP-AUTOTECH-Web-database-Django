@@ -195,7 +195,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.makerdrawing.all%}
-            {% if request.user.groups.all.0.name == 'Document' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'Maker' or user.is_staff%}
               <a href="{% url 'mysite:createMaker' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Maker</a>
             {% endif %}
           {% endif %}
