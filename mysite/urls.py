@@ -29,6 +29,7 @@ urlpatterns = [
     path('workflow/<str:drawing_id>',views.workflow, name= 'workflow'),
 
     path('createDocument/<str:drawing_id>',views.createDocument, name= 'createDocument'),
+    path('createDocumentandAssembly/<str:drawing_id>',views.createDocumentandAssembly, name= 'createDocumentandAssembly'),
     path('workflow/<str:drawing_id>/edit/document/<int:document_id>',views.editDocument),
     path('workflow/<str:drawing_id>/update/document/<int:document_id>',views.updateDocument),
     path('workflow/<str:drawing_id>/delete/document/<int:document_id>',views.deleteDocument),
@@ -84,5 +85,7 @@ urlpatterns = [
     path('workflow/<str:drawing_id>/delete/revise/<int:revise_id>',views.deleteRevise),
 
     path('uploadFile/<str:drawing_id>',views.uploadFile, name='uploadFile'),
-    path('workflow/<str:drawing_id>/delete/file/<int:file_id>',views.deleteFile)
+    path('workflow/<str:drawing_id>/delete/file/<int:file_id>',views.deleteFile),
+
+    path('workflow',views.flowSearch, name='flowSearch')
 ]

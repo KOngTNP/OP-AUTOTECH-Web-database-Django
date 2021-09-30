@@ -154,13 +154,15 @@ def drawingTable(request,job_id):
     'SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_document"."Quantity" as "Document_QTY", \
     "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_machine"."Quantity" as "Machine_QTY", "mysite_qc"."Quantity" as "QC_QTY",\
     "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."dateEnd" as "Painting_END", \
-    "mysite_qcpainting"."Quantity" as "QCPainting_QTY", "mysite_assembly"."Quantity" as "Assembly_QTY"\
+    "mysite_qcpainting"."Quantity" as "QCPainting_QTY", "mysite_assembly"."Quantity" as "Assembly_QTY",\
+    "mysite_maker"."name" as "MakerName"\
     FROM mysite_drawing \
     LEFT JOIN mysite_document on "drawingNo" ="mysite_document"."drawing_id" \
     LEFT JOIN mysite_cutting on "drawingNo" ="mysite_cutting"."drawing_id" \
     LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id" \
     LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
-    LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id"')
+    LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
+    LEFT JOIN mysite_maker on "drawingNo"="mysite_maker"."drawing_id"')
     return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id, "done_qty":done_qty})
 
 def createDrawing(request,job_id):
@@ -199,7 +201,9 @@ def updateDrawing(request,job_id,drawing_id):
     return render(request, 'drawing/editdrawing.html',{'get_drawing_id':get_drawing_id, 'get_job_id':get_job_id})
 
 
-
+def flowSearch(request):
+    data = Drawing.objects.all()
+    return render(request, 'flowSearch.html',{'drawing':data})
 
 
 
@@ -232,6 +236,7 @@ def workflow(request,drawing_id):
 def createDocument(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    text = ""
     try:
         get_document_id = Document.objects.get(drawing_id=drawing_id)
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
@@ -243,7 +248,28 @@ def createDocument(request,drawing_id):
                 return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
         else:
             form = CreateDocumentForm(initial={'drawing':get_drawing_id, 'user':user})
-        return render(request, 'document/createDocument.html', { 'form':form, 'get_drawing_id':get_drawing_id })
+        return render(request, 'document/createDocument.html', { 'form':form, 'get_drawing_id':get_drawing_id ,'text':text})
+
+def createDocumentandAssembly(request,drawing_id):
+    user = request.user
+    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+    text = "(Skip Assembly)"
+    try:
+        get_document_id = Document.objects.get(drawing_id=drawing_id)
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    except:
+        if request.method == "POST":
+            form = CreateDocumentForm(request.POST)
+            assemblyForm  = CreateAssemblyForm(request.POST)
+            if form.is_valid():
+                form.save()
+                assemblyForm.save()
+                return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+        else:
+            form = CreateDocumentForm(initial={'drawing':get_drawing_id, 'user':user})
+            assemblyForm = CreateAssemblyForm(initial={'drawing':get_drawing_id, 'user':user})
+
+        return render(request, 'document/createDocument.html', { 'form':form, 'assemblyForm':assemblyForm, 'get_drawing_id':get_drawing_id, 'text':text })
 
 def deleteDocument(request,drawing_id,document_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
