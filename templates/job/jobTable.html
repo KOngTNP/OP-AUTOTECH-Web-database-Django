@@ -51,7 +51,7 @@
                   <th scope="col" class="js-sort-string">Create by</th>
                   
                   {% if user.is_staff %}
-                    <th scope="col" style="min-width:100px;">Action</th>
+                    <th scope="col" style="min-width:140px;">Action</th>
                   {% endif %}
                   
                   <th scope="col" style="max-width:100px;">Quantity</th>
@@ -68,9 +68,10 @@
                   <td>{{job.user}}</td>
                   
                   {% if user.is_staff %}
-                  <td style="width: 100px; text-align: center;">
+                  <td style="width: 140px; text-align: center;">
                     <a class="edit" title="Edit" data-toggle="tooltip" href='/jobTable/edit/{{job.jobNo}}'><i class="material-icons">&#xE254;</i> </a>
                     <a class="delete" title="Delete" data-toggle="tooltip" href='/jobTable/delete/{{job.jobNo}}'  onclick="return confirm('Are you sure you want to delete this item?');"><i class="material-icons">&#xE872;</i></a>
+                    <a class="file" title="Report" data-toggle="tooltip" href='/jobReport/{{job.jobNo}}'><i class="material-icons">&#xe85c;</i> </a>
                   </td>
                   {% endif %}
 

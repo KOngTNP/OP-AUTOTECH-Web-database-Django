@@ -1,0 +1,102 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<DOCTYPE html>
+  <html lang="en">
+    <head>
+      <mate charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Jobs | OP AUTOTECH</title>
+  </head>
+<body>
+{% if user.is_authenticated%}
+<div class="container-lg">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div align="center" class="work-flow"><h1>Job <b>{{get_job_id}}</b></h1></div>
+      </div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'mysite:jobTable' %}">Jobs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Job Report</li>
+          </ol>
+        </nav>
+          <div style="overflow-x: auto;">
+          <table class="table table-bordered js-sort-table">
+            <thead class="table-striped table-dark">
+              <tr align="center">       
+                <th  scope="col" style="max-width:20px">Section</th>
+                <th scope="col" class="js-sort-number" style="max-width:100px">Total quantity</th>
+                <th scope="col" class="js-sort-number" style="max-width:100px">Complete</th>
+                <th scope="col" class="js-sort-number" style=" min-width: 150px;">%</th>      
+              </tr>
+            </thead>
+            <tbody>
+            {% for all in all_qty %}
+            {% if get_job_id.jobNo == all.jobNo %}
+            <tr >
+              <th scope="row">DOCUMENT</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.Document_QTY}}</td>
+              <td>{{perDocument}}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">CUTTING</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.Cutting_QTY}}</td>
+              <td>{{perCutting}}</td>
+            </tr>
+
+            <tr >
+              <th scope="row">MACHINE</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.Machine_QTY}}</td>
+              <td>{{perMachine}}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">QC</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.Qc_QTY}}</td>
+              <td>{{perQc}}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">PAINTING</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.Painting_QTY}}</td>
+              <td>{{perPainting}}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">PAINTING QC</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.PaintingQc_QTY}}</td>
+              <td>{{perPaintingQc}}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">ASSEMBLY</th>
+              <td >{{all.QTY}}</td>
+              <td>{{all.Assembly_QTY}}</td>
+              <td>{{perAssembly}}</td>
+            </tr>
+              {% endif %}
+            {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+  </div>
+</div>
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+</body>
+</html>
+{% endblock %}
