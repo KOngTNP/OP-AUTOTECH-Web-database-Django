@@ -93,7 +93,6 @@
                             <td style="width: 120px;">Machine</td>
                           {% elif done.QC_QTY != drawing.Quantity %}
                             <td style="width: 120px;">QC</td>
-                            <td>{{done.QC_QTY}}</td>
                           {% elif done.Painting_QTY != drawing.Quantity or done.Painting_END == None%}
                             <td style="width: 120px;">Painting</td>
                           {% elif done.QCPainting_QTY != drawing.Quantity %}
