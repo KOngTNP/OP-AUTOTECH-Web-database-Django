@@ -11,6 +11,7 @@ urlpatterns = [
 
     
     path('jobTable',views.jobTable, name= 'jobTable'),
+    path('jobReport/<str:job_id>', views.jobReport, name='jobReport'),
     path('createJob',views.createJob),
     path('jobTable/edit/<str:job_id>',views.editJob),
     path('jobTable/update/<str:job_id>',views.updateJob),

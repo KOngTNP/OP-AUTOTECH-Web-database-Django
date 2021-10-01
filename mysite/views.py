@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm
 from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, request
 from django.urls import reverse
 from django.db.models import Q
 import datetime
@@ -104,12 +104,62 @@ def jobTable(request):
         data = Job.objects.all()
     all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo", sum("mysite_drawing"."Quantity") as "QTY" FROM mysite_drawing , mysite_job WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
     done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assembly"."Quantity") as "Assembly_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
-
-
-        
-    
-
     return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty})
+
+def jobReport(request,job_id):
+    get_job_id = Job.objects.get(jobNo=job_id)
+    all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_drawing"."Quantity") as "QTY",\
+        sum("mysite_document"."Quantity") as "Document_QTY",\
+        sum("mysite_cutting"."Quantity") as "Cutting_QTY" ,\
+        sum("mysite_machine"."Quantity") as "Machine_QTY" ,\
+        sum("mysite_qc"."Quantity") as "Qc_QTY" ,\
+        sum("mysite_painting"."Quantity") as "Painting_QTY" ,\
+        sum("mysite_qcpainting"."Quantity") as "PaintingQc_QTY" ,\
+        sum("mysite_assembly"."Quantity") as "Assembly_QTY"\
+        FROM mysite_job, mysite_drawing\
+        LEFT JOIN mysite_document on "drawingNo" ="mysite_document"."drawing_id" \
+        LEFT JOIN mysite_cutting on "drawingNo" ="mysite_cutting"."drawing_id" \
+        LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id"\
+        LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id"\
+        LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
+        WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" \
+        GROUP BY "mysite_job"."jobNo"')
+    for all in all_qty:
+        if get_job_id.jobNo == all.jobNo:
+            if all.QTY != None:
+                percent = (100/all.QTY)
+            else:
+                percent = 0
+            if all.Document_QTY != None:
+                perDocument = percent*all.Document_QTY
+            else:
+                perDocument = 0
+            if all.Cutting_QTY != None:
+                perCutting = percent*all.Cutting_QTY
+            else:
+                perCutting = 0
+            if all.Machine_QTY != None:
+                perMachine = percent*all.Machine_QTY
+            else:
+                perMachine = 0
+            if all.Qc_QTY != None:
+                perQc = percent*all.Qc_QTY
+            else: 
+                perQc = 0
+            if all.Painting_QTY != None:
+                perPainting = percent*all.Painting_QTY
+            else:
+                perPainting = 0
+            if all.PaintingQc_QTY != None:
+                perPaintingQc = percent*all.PaintingQc_QTY
+            else:
+                perPaintingQc = 0
+            if all.Assembly_QTY != None:
+                perAssembly = percent*all.Assembly_QTY
+            else:
+                perAssembly = 0
+
+    return render(request, 'job/jobreport.html',{'get_job_id':get_job_id, 'all_qty':all_qty, 'perDocument':perDocument, 'perCutting':perCutting, 'perMachine':perMachine, 'perQc':perQc, 'perPainting':perPainting, 'perPaintingQc':perPaintingQc, 'perAssembly':perAssembly})
 
 def createJob(request):
     user = request.user
@@ -315,8 +365,8 @@ def createMaker(request,drawing_id):
                     Machine.objects.filter(drawing_id=get_drawing_id).delete()
                     Cutting.objects.create(drawing_id=get_drawing_id)
                     Machine.objects.create(drawing_id=get_drawing_id)
-                    Cutting.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, datePublish = None, dateUpdate = None)
-                    Machine.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, machine = None, datePublish = None, dateUpdate = None)
+                    Cutting.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
+                    Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity, machine = 'othercompany')
                 
                 else:
                     try:
@@ -358,8 +408,8 @@ def updateMaker(request,drawing_id,maker_id):
                 Machine.objects.filter(drawing_id=get_drawing_id).delete()
                 Cutting.objects.create(drawing_id=drawing_id)
                 Machine.objects.create(drawing_id=get_drawing_id)
-                Cutting.objects.filter(drawing_id=drawing_id).update(user = None, Quantity = None, datePublish = None, dateUpdate = None)
-                Machine.objects.filter(drawing_id=get_drawing_id).update(user = None, Quantity = None, machine = None, datePublish = None, dateUpdate = None)
+                Cutting.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
+                Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity, machine = 'othercompany')
             else:
                 Cutting.objects.filter(drawing_id=get_drawing_id).delete()
                 Machine.objects.filter(drawing_id=get_drawing_id).delete()
