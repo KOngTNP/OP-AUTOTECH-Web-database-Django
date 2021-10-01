@@ -40,6 +40,8 @@
 
             {% if request.user.groups.all.0.name == 'Design' or user.is_staff %}
             <a style="display:inline-block;" href="{% url 'mysite:createDrawing' job_id=get_job_id.jobNo %}" class="btn btn-success add-new" role="button" aria-pressed="true" text-align="left" ><i class="fa fa-plus"></i>  Create drawing</a>
+            {% else %}
+            <div class="add-new"></div>
             {% endif %}
             <div style="overflow-x: auto;">
               <table class="table table-bordered js-sort-table" id="myTable">
