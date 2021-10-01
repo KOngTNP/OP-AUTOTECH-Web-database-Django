@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<DOCTYPE html>
+  <html lang="en">
+    <head>
+      <mate charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Jobs | OP AUTOTECH</title>
+  </head>
+<body>
+{% if user.is_authenticated%}
+
+  <div class="container-lg">
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div align="center" class="work-flow"><h1>WorkFlow <b>Search</b></h1></div>
+        
+
+    <lable style="margin-left: 25px;">Search and select drawing number</lable>
+    <div class="wrap-input100 validate-input">
+        <input class="input100 form-control" list="brow" id="Search" placeholder="Search" required>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+        <datalist id="brow">
+          {% for drawing in drawing %}
+          <option value="{{drawing}}">
+          {% endfor %}
+        </datalist> 
+    </div>
+
+
+    <input onclick="myFunction()" type="button" role="button" class="btn btn-success" name="myButton" href='/workflow/' value="Search">
+
+
+        </div>
+    </div>
+</div>     
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+
+<script>
+  function myFunction() {
+    var x = document.getElementById("Search").value;
+    location.href = "/workflow/"+x;
+    
+      }
+  
+  </script>
+
+</body>
+</html>
+{% endblock %}
