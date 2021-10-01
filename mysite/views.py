@@ -129,23 +129,23 @@ def jobReport(request,job_id):
             if all.QTY != None:
                 percent = (100/all.QTY)
             else:
-                percent = 0
+                percent = f'{0:.2f}'
             if all.Document_QTY != None:
                 perDocument = f'{percent*all.Document_QTY:.2f}'
             else:
-                perDocument = 0
+                perDocument = f'{0:.2f}'
             if all.Cutting_QTY != None:
                 perCutting = f'{percent*all.Cutting_QTY:.2f}'
             else:
-                perCutting = 0
+                perCutting = f'{0:.2f}'
             if all.Machine_QTY != None:
                 perMachine = f'{percent*all.Machine_QTY:.2f}'
             else:
-                perMachine = 0
+                perMachine = f'{0:.2f}'
             if all.Qc_QTY != None:
                 perQc = f'{percent*all.Qc_QTY:.2f}'
             else: 
-                perQc = 0
+                perQc = f'{0:.2f}'
             if all.Painting_QTY != None:
                 perPainting = f'{percent*all.Painting_QTY:.2f}'
             else:
