@@ -26,11 +26,23 @@
                 <li class="breadcrumb-item active" aria-current="page">Drawings</li>
               </ol>
             </nav>
+            
+            <div class="form-inline my-lg-0" style="float: right; ">
+              <div class="wrap-input100 validate-input" style="width: auto; margin-bottom: 15px;">
+                <input class="input100 form-control mr-sm-2" type="text" id="myInput"  placeholder="Search" aria-label="Search" name="search" style="width: 200px; height: 45px;">
+                  <span class="focus-input100" style="width: 200px;"></span>
+                  <span class="symbol-input100">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+              </div>
+            <button class="btn btn-outline-success" onclick="myFunction()" type="submit" style="border-radius: 80px; width: auto; height: 45px; font-weight: bold; font-size: 15px; text-shadow: none; border-radius: 80px; line-height: 32px;margin-bottom: 15px;">Search</button>
+            </div>
+
             {% if request.user.groups.all.0.name == 'Design' or user.is_staff %}
             <a style="display:inline-block;" href="{% url 'mysite:createDrawing' job_id=get_job_id.jobNo %}" class="btn btn-success add-new" role="button" aria-pressed="true" text-align="left" ><i class="fa fa-plus"></i>  Create drawing</a>
             {% endif %}
             <div style="overflow-x: auto;">
-              <table class="table table-bordered js-sort-table">
+              <table class="table table-bordered js-sort-table" id="myTable">
                 <thead class="table-striped table-dark" >
                   <tr align="center">
                     <!-- <th scope="col">Job name</th> -->
@@ -43,7 +55,8 @@
                       <th scope="col" style="min-width:100px;">Action</th>
                     {% endif %}
 
-                    <th scope="col" style="max-width:100px">Done</th>
+                    <th scope="col" style="width:100px">Done</th>
+                    <th scope="col" style="width:120px">Process</th>
                     
                   </tr>
                 </thead>
@@ -65,14 +78,32 @@
 
                     {% for done in done_qty %}
                       {% if drawing.drawingNo == done.drawingNo %}
-                      {% if drawing.Quantity == done.Document_QTY and drawing.Quantity == done.Cutting_QTY and drawing.Quantity == done.Machine_QTY and drawing.Quantity == done.QC_QTY and drawing.Quantity == done.Painting_QTY and drawing.Quantity == done.QCPainting_QTY and drawing.Quantity == done.Assembly_QTY and done.Painting_END != None%}
-                        <td style="text-align: center;"><i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i></td>
-                      {% else %}
-                      <td style="text-align: center;"><i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i></td>
+                        {% if drawing.Quantity == done.Document_QTY and drawing.Quantity == done.Cutting_QTY and drawing.Quantity == done.Machine_QTY and drawing.Quantity == done.QC_QTY and drawing.Quantity == done.Painting_QTY and drawing.Quantity == done.QCPainting_QTY and drawing.Quantity == done.Assembly_QTY and done.Painting_END != None %}
+                          <td style="text-align: center;"><i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i></td>
+                          <td style="color: green;">All done</td>
+                        {% else %}
+                          <td style="text-align: center;"><i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i></td>
+                          {% if done.Document_QTY != drawing.Quantity %}
+                            <td style="width: 120px;">Document</td>
+                          {% elif done.MakerName == none %}
+                            <td style="width: 120px;">Maker</td>
+                          {% elif done.Cutting_QTY != drawing.Quantity %}
+                            <td style="width: 120px;">Cutting</td>
+                          {% elif done.Machine_QTY != drawing.Quantity %}
+                            <td style="width: 120px;">Machine</td>
+                          {% elif done.QC_QTY != drawing.Quantity %}
+                            <td style="width: 120px;">QC</td>
+                            <td>{{done.QC_QTY}}</td>
+                          {% elif done.Painting_QTY != drawing.Quantity or done.Painting_END == None%}
+                            <td style="width: 120px;">Painting</td>
+                          {% elif done.QCPainting_QTY != drawing.Quantity %}
+                            <td style="width: 120px;">Painting QC</td>
+                          {% elif done.Assembly_QTY != drawing.Quantity %}
+                            <td style="width: 120px;">Assembly</td>
+                          {% endif %}
                         {% endif %}
-                        {% endif %}
+                      {% endif %}
                     {% endfor %}
-                  
                 </tr>
                 {% endfor %} 
                 </tbody>
@@ -81,13 +112,32 @@
         </div>
     </div>
 </div>     
-
-
-
 {% else %}
     <h1 align="center"><a href="/login" >You need to login first</a></h1>
 {% endif %}
-
+<script>
+  function myFunction() {
+    // Declare variables 
+    var input, filter, table, tr, td, i, txtValue, th;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      } 
+    }
+  }
+  </script>
 </body>
 </html>
 {% endblock %}
