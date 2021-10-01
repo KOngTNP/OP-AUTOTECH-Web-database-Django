@@ -131,33 +131,33 @@ def jobReport(request,job_id):
             else:
                 percent = 0
             if all.Document_QTY != None:
-                perDocument = percent*all.Document_QTY
+                perDocument = f'{percent*all.Document_QTY:.2f}'
             else:
                 perDocument = 0
             if all.Cutting_QTY != None:
-                perCutting = percent*all.Cutting_QTY
+                perCutting = f'{percent*all.Cutting_QTY:.2f}'
             else:
                 perCutting = 0
             if all.Machine_QTY != None:
-                perMachine = percent*all.Machine_QTY
+                perMachine = f'{percent*all.Machine_QTY:.2f}'
             else:
                 perMachine = 0
             if all.Qc_QTY != None:
-                perQc = percent*all.Qc_QTY
+                perQc = f'{percent*all.Qc_QTY:.2f}'
             else: 
                 perQc = 0
             if all.Painting_QTY != None:
-                perPainting = percent*all.Painting_QTY
+                perPainting = f'{percent*all.Painting_QTY:.2f}'
             else:
-                perPainting = 0
+                perPainting = f'{0:.2f}'
             if all.PaintingQc_QTY != None:
-                perPaintingQc = percent*all.PaintingQc_QTY
+                perPaintingQc = f'{percent*all.PaintingQc_QTY:.2f}'
             else:
-                perPaintingQc = 0
+                perPaintingQc = f'{0:.2f}'
             if all.Assembly_QTY != None:
-                perAssembly = percent*all.Assembly_QTY
+                perAssembly = f'{percent*all.Assembly_QTY:.2f}'
             else:
-                perAssembly = 0
+                perAssembly = f'{0:.2f}'
 
     return render(request, 'job/jobreport.html',{'get_job_id':get_job_id, 'all_qty':all_qty, 'perDocument':perDocument, 'perCutting':perCutting, 'perMachine':perMachine, 'perQc':perQc, 'perPainting':perPainting, 'perPaintingQc':perPaintingQc, 'perAssembly':perAssembly})
 
