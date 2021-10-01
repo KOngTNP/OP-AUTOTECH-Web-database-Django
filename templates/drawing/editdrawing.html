@@ -13,7 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if request.user.groups.all.0.name == 'Design' or user.is_staff %}
+{% if user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
 
 <form method="POST" action="/drawingTable/{{get_job_id.jobNo}}/update/{{get_drawing_id.drawingNo}}" onsubmit="return checkForm(this);">

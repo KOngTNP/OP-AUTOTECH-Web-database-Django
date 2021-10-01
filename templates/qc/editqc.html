@@ -13,7 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if request.user.groups.all.0.name == 'QC' or user.is_staff %}
+{% if user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Edit QC of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/qc/{{get_qc_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}

@@ -12,7 +12,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if request.user.groups.all.0.name == 'Maker' or user.is_staff %}
+{% if request.user.groups.all.0.name == 'Maker' or request.user.groups.all.1.name == 'Maker' or user.is_staff%}
 <h2 align="center" style="margin-bottom: 20px;">Create maker of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
