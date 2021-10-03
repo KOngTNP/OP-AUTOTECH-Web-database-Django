@@ -79,7 +79,7 @@ class CreateMachineForm(ModelForm):
 class UpdateMachineForm(ModelForm):
     class Meta:
         model = Machine
-        fields = ['Quantity', 'machine']
+        fields = ['Quantity']
 
 
 

@@ -87,7 +87,6 @@ class Machine(models.Model):
 
     Quantity = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    machine = models.CharField(max_length=20, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)

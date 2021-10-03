@@ -23,7 +23,7 @@ def reportTable(request):
         "mysite_document"."Quantity" as "Document_QTY", "mysite_document"."user_id" as "Document_user", "mysite_document"."datePublish" as "Document_date",\
         "mysite_maker"."name" as "Maker_name",\
         "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_cutting"."user_id" as "Cutting_user", "mysite_cutting"."datePublish" as "Cutting_date",\
-        "mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."machine" as "Machine_number", "mysite_machine"."datePublish" as "Machine_date",\
+        "mysite_machine"."Quantity" as "Machine_QTY", "mysite_machine"."user_id" as "Machine_user", "mysite_machine"."datePublish" as "Machine_date",\
         "mysite_qc"."Quantity" as "Qc_QTY", "mysite_qc"."user_id" as "Qc_user", "mysite_qc"."datePublish" as "Qc_date",\
         "mysite_painting"."name" as "Painting_name", "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."user_id" as "Painting_user", "mysite_painting"."datePublish" as "Painting_starting_date", "mysite_painting"."dateEnd" as "Painting_End_date",\
         "mysite_qcpainting"."Quantity" as "Qc_Painting_QTY", "mysite_qcpainting"."user_id" as "Qc_Painting_user", "mysite_qcpainting"."datePublish" as "Qc_Painting_date",\
@@ -253,7 +253,7 @@ def updateDrawing(request,job_id,drawing_id):
 
 def flowSearch(request):
     data = Drawing.objects.all()
-    return render(request, 'flowSearch.html',{'drawing':data})
+    return render(request, 'flowsearch.html',{'drawing':data})
 
 
 
@@ -366,7 +366,7 @@ def createMaker(request,drawing_id):
                     Cutting.objects.create(drawing_id=get_drawing_id)
                     Machine.objects.create(drawing_id=get_drawing_id)
                     Cutting.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
-                    Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity, machine = 'othercompany')
+                    Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
                 
                 else:
                     try:
@@ -409,7 +409,7 @@ def updateMaker(request,drawing_id,maker_id):
                 Cutting.objects.create(drawing_id=drawing_id)
                 Machine.objects.create(drawing_id=get_drawing_id)
                 Cutting.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
-                Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity, machine = 'othercompany')
+                Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
             else:
                 Cutting.objects.filter(drawing_id=get_drawing_id).delete()
                 Machine.objects.filter(drawing_id=get_drawing_id).delete()
