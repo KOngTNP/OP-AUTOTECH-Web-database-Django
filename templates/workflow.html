@@ -142,6 +142,8 @@
             <h5 class="card-title">Checked by : </h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{document.user}}</p>
             <hr>
+            <p class="card-title">Skip assembly
+              <a class="card-text"> : {{document.skipAssembly}}</a></p>
             <p><u class="card-title">Checked date</u> 
             <a class="card-text"> : {{document.datePublish}}</a></p>
             <p><u class="card-title">Last edit date</u> 
@@ -155,7 +157,6 @@
           {% if not get_drawing_id.documentdrawing.all%}
             {% if request.user.groups.all.0.name == 'Document' or user.is_staff%}
               <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
-              <a href="{% url 'mysite:createDocumentandAssembly' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked (Skip Assembly)</a>
             {% endif %}
           {% endif %}
         </div>
@@ -465,6 +466,7 @@
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 8 -->
+  {% if get_document_id.skipAssembly != True %}
   {% if get_painting_id.qcpaintingpainting.all %}
     <div class="card text-white bg-dark mb-3">
       <div class="card-header" id="headingEight">
@@ -511,6 +513,7 @@
         </div>
       </div>
     </div>
+  {% endif %}
   {% endif %}
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
