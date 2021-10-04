@@ -10,7 +10,7 @@
       <title>Jobs | OP AUTOTECH</title>
   </head>
 <body>
-{% if user.is_authenticated%}
+{% if user.is_authenticated and user.is_staff %}
 <div class="container-lg">
   <div class="table-responsive">
     <div class="table-wrapper">
