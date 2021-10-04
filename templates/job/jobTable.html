@@ -35,7 +35,7 @@
             </div>
             <button class="btn btn-outline-success" type="submit" style="border-radius: 80px; width: auto; height: 45px; font-weight: bold; font-size: 15px; text-shadow: none; border-radius: 80px; line-height: 32px;margin-bottom: 15px;">Search</button>
           </form>
-          {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or user.is_staff%}
+          {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff%}
           <a href="/createJob" class="btn btn-success add-new" role="button" aria-pressed="true"><i class="fa fa-plus"></i>  Create new job</a>
           {% else %}
           <div class="add-new"></div>

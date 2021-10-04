@@ -12,7 +12,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or user.is_staff%}
+{% if request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document' or user.is_staff%}
 <h2 align="center" style="margin-bottom: 20px;">Create document of <b>{{get_drawing_id.drawingNo}}</b></h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}

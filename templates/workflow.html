@@ -85,7 +85,7 @@
         {% endfor %}
 
         {% if not get_drawing_id.filedrawing.all%}
-          {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or user.is_staff%}
+          {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff%}
           <a href="{% url 'mysite:uploadFile' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-danger">
             <span>
               <i class="fa fa-upload" style="color: white;"></i>
@@ -158,7 +158,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.documentdrawing.all%}
-          {% if request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or user.is_staff%}
+          {% if request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document' or user.is_staff%}
               <a href="{% url 'mysite:createDocument' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
             {% endif %}
           {% endif %}
@@ -200,7 +200,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.makerdrawing.all%}
-            {% if request.user.groups.all.0.name == 'Maker' or request.user.groups.all.1.name == 'Maker' or request.user.groups.all.2.name == 'Maker' or request.user.groups.all.3.name == 'Maker' or request.user.groups.all.4.name == 'Maker' or request.user.groups.all.5.name == 'Maker' or request.user.groups.all.6.name == 'Maker' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'Maker' or request.user.groups.all.1.name == 'Maker' or request.user.groups.all.2.name == 'Maker' or request.user.groups.all.3.name == 'Maker' or request.user.groups.all.4.name == 'Maker' or request.user.groups.all.5.name == 'Maker' or request.user.groups.all.6.name == 'Maker' or request.user.groups.all.7.name == 'Maker' or user.is_staff%}
               <a href="{% url 'mysite:createMaker' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Maker</a>
             {% endif %}
           {% endif %}
@@ -250,7 +250,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.cuttingdrawing.all%}
-            {% if request.user.groups.all.0.name == 'Cutting' or request.user.groups.all.1.name == 'Cutting' or request.user.groups.all.2.name == 'Cutting' or request.user.groups.all.3.name == 'Cutting' or request.user.groups.all.4.name == 'Cutting' or request.user.groups.all.5.name == 'Cutting' or request.user.groups.all.6.name == 'Cutting' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'Cutting' or request.user.groups.all.1.name == 'Cutting' or request.user.groups.all.2.name == 'Cutting' or request.user.groups.all.3.name == 'Cutting' or request.user.groups.all.4.name == 'Cutting' or request.user.groups.all.5.name == 'Cutting' or request.user.groups.all.6.name == 'Cutting' or request.user.groups.all.7.name == 'Cutting' or user.is_staff%}
               <a href="{% url 'mysite:createCutting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Cutting</a>
             {% endif %}
           {% endif %}
@@ -298,7 +298,7 @@
               {% endif %}
             {% endfor %}
             {% if not get_drawing_id.machinedrawing.all%}
-              {% if request.user.groups.all.0.name == 'Machine' or request.user.groups.all.1.name == 'Machine' or request.user.groups.all.2.name == 'Machine' or request.user.groups.all.3.name == 'Machine' or request.user.groups.all.4.name == 'Machine' or request.user.groups.all.5.name == 'Machine' or request.user.groups.all.6.name == 'Machine' or user.is_staff%}
+              {% if request.user.groups.all.0.name == 'Machine' or request.user.groups.all.1.name == 'Machine' or request.user.groups.all.2.name == 'Machine' or request.user.groups.all.3.name == 'Machine' or request.user.groups.all.4.name == 'Machine' or request.user.groups.all.5.name == 'Machine' or request.user.groups.all.6.name == 'Machine' or request.user.groups.all.7.name == 'Machine' or user.is_staff%}
                 <a href="{% url 'mysite:createMachine' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Machine</a>
               {% endif %}
             {% endif %}
@@ -349,7 +349,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_machine_id.qcmachine.all%}
-            {% if request.user.groups.all.0.name == 'QC' or request.user.groups.all.1.name == 'QC' or request.user.groups.all.2.name == 'QC' or request.user.groups.all.3.name == 'QC' or request.user.groups.all.4.name == 'QC' or request.user.groups.all.5.name == 'QC' or request.user.groups.all.6.name == 'QC' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'QC' or request.user.groups.all.1.name == 'QC' or request.user.groups.all.2.name == 'QC' or request.user.groups.all.3.name == 'QC' or request.user.groups.all.4.name == 'QC' or request.user.groups.all.5.name == 'QC' or request.user.groups.all.6.name == 'QC' or request.user.groups.all.7.name == 'QC' or user.is_staff%}
               <a href="{% url 'mysite:createQc' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Checked</a>
             {% endif %}
           {% endif %}
@@ -408,7 +408,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.paintingdrawing.all%}
-            {% if request.user.groups.all.0.name == 'Painting' or request.user.groups.all.1.name == 'Painting' or request.user.groups.all.2.name == 'Painting' or request.user.groups.all.3.name == 'Painting' or request.user.groups.all.4.name == 'Painting' or request.user.groups.all.5.name == 'Painting' or request.user.groups.all.6.name == 'Painting' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'Painting' or request.user.groups.all.1.name == 'Painting' or request.user.groups.all.2.name == 'Painting' or request.user.groups.all.3.name == 'Painting' or request.user.groups.all.4.name == 'Painting' or request.user.groups.all.5.name == 'Painting' or request.user.groups.all.6.name == 'Painting' or request.user.groups.all.7.name == 'Painting' or user.is_staff%}
               <a href="{% url 'mysite:createPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Painting</a>
             {% endif %}
           {% endif %}
@@ -458,7 +458,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_painting_id.qcpaintingpainting.all%}
-          {% if request.user.groups.all.0.name == 'QC' or request.user.groups.all.1.name == 'QC' or request.user.groups.all.2.name == 'QC' or request.user.groups.all.3.name == 'QC' or request.user.groups.all.4.name == 'QC' or request.user.groups.all.5.name == 'QC' or request.user.groups.all.6.name == 'QC' or user.is_staff%}
+          {% if request.user.groups.all.0.name == 'QC' or request.user.groups.all.1.name == 'QC' or request.user.groups.all.2.name == 'QC' or request.user.groups.all.3.name == 'QC' or request.user.groups.all.4.name == 'QC' or request.user.groups.all.5.name == 'QC' or request.user.groups.all.6.name == 'QC' or request.user.groups.all.7.name == 'QC' or user.is_staff%}
               <a href="{% url 'mysite:createQcPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-dark">Checked</a>
             {% endif %}
           {% endif %}
@@ -509,7 +509,7 @@
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.assemblydrawing.all%}
-            {% if request.user.groups.all.0.name == 'Assembly' or request.user.groups.all.1.name == 'Assembly' or request.user.groups.all.2.name == 'Assembly' or request.user.groups.all.3.name == 'Assembly' or request.user.groups.all.4.name == 'Assembly' or request.user.groups.all.5.name == 'Assembly' or request.user.groups.all.6.name == 'Assembly' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'Assembly' or request.user.groups.all.1.name == 'Assembly' or request.user.groups.all.2.name == 'Assembly' or request.user.groups.all.3.name == 'Assembly' or request.user.groups.all.4.name == 'Assembly' or request.user.groups.all.5.name == 'Assembly' or request.user.groups.all.6.name == 'Assembly' or request.user.groups.all.7.name == 'Assembly' or user.is_staff%}
               <a href="{% url 'mysite:createAssembly' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Assembly</a>
             {% endif %}
           {% endif %}
