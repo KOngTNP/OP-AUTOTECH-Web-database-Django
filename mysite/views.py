@@ -749,3 +749,16 @@ def deleteFile(requset,drawing_id,file_id):
     get_file_id = File.objects.get(id=file_id)
     get_file_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+
+
+def custom_page_not_found_view(request, exception):
+    return render(request, "errors/404.html", {})
+
+def custom_error_view(request, exception=None):
+    return render(request, "errors/500.html", {})
+
+def custom_permission_denied_view(request, exception=None):
+    return render(request, "errors/403.html", {})
+
+def custom_bad_request_view(request, exception=None):
+    return render(request, "errors/400.html", {})
