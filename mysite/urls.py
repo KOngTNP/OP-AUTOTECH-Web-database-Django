@@ -30,7 +30,6 @@ urlpatterns = [
     path('workflow/<str:drawing_id>',views.workflow, name= 'workflow'),
 
     path('createDocument/<str:drawing_id>',views.createDocument, name= 'createDocument'),
-    path('createDocumentandAssembly/<str:drawing_id>',views.createDocumentandAssembly, name= 'createDocumentandAssembly'),
     path('workflow/<str:drawing_id>/edit/document/<int:document_id>',views.editDocument),
     path('workflow/<str:drawing_id>/update/document/<int:document_id>',views.updateDocument),
     path('workflow/<str:drawing_id>/delete/document/<int:document_id>',views.deleteDocument),

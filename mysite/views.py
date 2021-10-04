@@ -259,6 +259,12 @@ def flowSearch(request):
 
 def workflow(request,drawing_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
+
+    try:
+        get_document_id = Document.objects.get(drawing=get_drawing_id)
+    except Document.DoesNotExist:
+        get_document_id = None
+
     try:
         get_maker_id = Maker.objects.get(drawing=get_drawing_id)
     except Maker.DoesNotExist:
@@ -274,7 +280,7 @@ def workflow(request,drawing_id):
     except Painting.DoesNotExist:
         get_painting_id = None
     
-    return render(request,'workflow.html',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id, 'get_machine_id':get_machine_id, 'get_painting_id':get_painting_id})
+    return render(request,'workflow.html',{'get_document_id':get_document_id,'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id, 'get_machine_id':get_machine_id, 'get_painting_id':get_painting_id})
  
 
 
@@ -286,7 +292,6 @@ def workflow(request,drawing_id):
 def createDocument(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    text = ""
     try:
         get_document_id = Document.objects.get(drawing_id=drawing_id)
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
@@ -294,32 +299,21 @@ def createDocument(request,drawing_id):
         if request.method == "POST":
             form = CreateDocumentForm(request.POST)
             if form.is_valid():
-                form.save()
+                get_document = form.save()
+                if get_document.skipAssembly == True:
+                    Assembly.objects.filter(drawing_id=get_drawing_id).delete()
+                    Assembly.objects.create(drawing_id=get_drawing_id)
+                    Assembly.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
+                else:
+                    try:
+                        get_assembly = Assembly.objects.filter(drawing_id=get_drawing_id)
+                        get_assembly.delete()
+                    except:
+                        pass
                 return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
         else:
             form = CreateDocumentForm(initial={'drawing':get_drawing_id, 'user':user})
-        return render(request, 'document/createDocument.html', { 'form':form, 'get_drawing_id':get_drawing_id ,'text':text})
-
-def createDocumentandAssembly(request,drawing_id):
-    user = request.user
-    get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    text = "(Skip Assembly)"
-    try:
-        get_document_id = Document.objects.get(drawing_id=drawing_id)
-        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
-    except:
-        if request.method == "POST":
-            form = CreateDocumentForm(request.POST)
-            assemblyForm  = CreateAssemblyForm(request.POST)
-            if form.is_valid():
-                form.save()
-                assemblyForm.save()
-                return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
-        else:
-            form = CreateDocumentForm(initial={'drawing':get_drawing_id, 'user':user})
-            assemblyForm = CreateAssemblyForm(initial={'drawing':get_drawing_id, 'user':user})
-
-        return render(request, 'document/createDocument.html', { 'form':form, 'assemblyForm':assemblyForm, 'get_drawing_id':get_drawing_id, 'text':text })
+        return render(request, 'document/createDocument.html', { 'form':form, 'get_drawing_id':get_drawing_id})
 
 def deleteDocument(request,drawing_id,document_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
@@ -337,7 +331,17 @@ def updateDocument(request,drawing_id,document_id):
     get_document_id = get_object_or_404(Document, pk=document_id)
     form = UpdateDocumentForm(request.POST, instance=get_document_id)
     if form.is_valid:
-        form.save()
+        get_document = form.save()
+        if get_document.skipAssembly == True:
+            Assembly.objects.filter(drawing_id=get_drawing_id).delete()
+            Assembly.objects.create(drawing_id=get_drawing_id)
+            Assembly.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
+        else:
+            try:
+                get_assembly = Assembly.objects.filter(drawing_id=get_drawing_id)
+                get_assembly.delete()
+            except:
+                pass
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editDocument',{'get_drawing_id':get_drawing_id, 'get_document_id':get_document_id})
 
@@ -400,19 +404,17 @@ def updateMaker(request,drawing_id,maker_id):
     get_maker_id = get_object_or_404(Maker, pk=maker_id)
     form = UpdateMakerForm(request.POST, instance=get_maker_id)
     if form.is_valid:
-        form.save()
-        if form.is_valid():
-            get_maker = form.save()
-            if get_maker.name != 'OPAutotech':
-                Cutting.objects.filter(drawing_id=get_drawing_id).delete()
-                Machine.objects.filter(drawing_id=get_drawing_id).delete()
-                Cutting.objects.create(drawing_id=drawing_id)
-                Machine.objects.create(drawing_id=get_drawing_id)
-                Cutting.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
-                Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
-            else:
-                Cutting.objects.filter(drawing_id=get_drawing_id).delete()
-                Machine.objects.filter(drawing_id=get_drawing_id).delete()
+        get_maker = form.save()
+        if get_maker.name != 'OPAutotech':
+            Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+            Machine.objects.filter(drawing_id=get_drawing_id).delete()
+            Cutting.objects.create(drawing_id=get_drawing_id)
+            Machine.objects.create(drawing_id=get_drawing_id)
+            Cutting.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
+            Machine.objects.filter(drawing_id=get_drawing_id).update(user = User.objects.get(username='othercompany'), Quantity = get_drawing_id.Quantity)
+        else:
+            Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+            Machine.objects.filter(drawing_id=get_drawing_id).delete()
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     return redirect('/editMaker',{'get_drawing_id':get_drawing_id, 'get_maker_id':get_maker_id})
 

@@ -39,7 +39,7 @@ class CreateDocumentForm(ModelForm):
 class UpdateDocumentForm(ModelForm):
     class Meta:
         model = Document
-        fields = ['Quantity']
+        fields = ['Quantity','skipAssembly']
 
 
 

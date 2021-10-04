@@ -49,7 +49,8 @@ class Document(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='documentdrawing')
     Quantity = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
+    skipAssembly = models.BooleanField(default=True)
+    
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
 
@@ -142,7 +143,7 @@ class QcPainting(models.Model):
 class Assembly(models.Model):
     drawing = models.ForeignKey(Drawing, on_delete=models.CASCADE, related_name='assemblydrawing')
     
-    Quantity = models.IntegerField()
+    Quantity = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
