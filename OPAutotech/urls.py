@@ -38,3 +38,9 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = 'mysite.views.custom_page_not_found_view'
+handler500 = 'mysite.views.custom_error_view'
+handler403 = 'mysite.views.custom_permission_denied_view'
+handler400 = 'mysite.views.custom_bad_request_view'
