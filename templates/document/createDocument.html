@@ -13,7 +13,7 @@
 <div class="table-wrapper">
 {% if user.is_authenticated%}
 {% if request.user.groups.all.0.name == 'Document' or user.is_staff %}
-<h2 align="center" style="margin-bottom: 20px;">Create document of {{get_drawing_id.drawingNo}} <b>{{text}}</b></h2>
+<h2 align="center" style="margin-bottom: 20px;">Create document of <b>{{get_drawing_id.drawingNo}}</b></h2>
 <form method="POST" onsubmit="return checkForm(this);">
     {% csrf_token %}
     <p hidden>{% render_field form.user class="form-control"%}</p>
@@ -33,11 +33,11 @@
        
     </div>
 
-
     <p><input type="checkbox" required name="terms"> I have checked <u>this Drawing</u> already.</p>
     
-    <input type="submit" class="btn btn-success" name="myButton" value="Submit">
+    <div><input type="submit" class="btn btn-success" name="myButton" value="Submit">
     <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+    <input type="checkbox" name="skipAssembly"> Skip <u>Assembly</u></div>
     <a style="color: #c80000;">{{ form.errors }}</a>
 </form>
 {% endif %}
