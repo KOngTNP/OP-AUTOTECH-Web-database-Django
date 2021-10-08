@@ -175,8 +175,15 @@ def createJob(request):
 
 def deleteJob(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
-    get_job_id.delete()
-    data = Job.objects.all()
+    try:
+        get_drawing_id = Drawing.objects.get(job_id=get_job_id)
+        get_file_id = File.objects.get(drawing_id = get_drawing_id)
+        get_file_id.delete()
+        get_job_id.delete()
+        data = Job.objects.all()
+    except:
+        get_job_id.delete()
+        data = Job.objects.all()
     return redirect("/jobTable",{'jobs':data})
 
 def editJob(request,job_id):
@@ -231,7 +238,13 @@ def createDrawing(request,job_id):
 def deleteDrawing(request,job_id,drawing_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_drawing_id.delete()
+    try:
+        get_file_id = File.objects.get(drawing_id = get_drawing_id)
+        get_file_id.delete()
+        get_drawing_id.delete()
+    except:
+        get_drawing_id.delete()
+    
     return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
 
 def editDrawing(request,job_id,drawing_id):
@@ -735,13 +748,17 @@ def updateRevise(request,drawing_id,revise_id):
 def uploadFile(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    if request.method == "POST":
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
-    else:
-        form = UploadFileForm(initial={'drawing':get_drawing_id, 'user':user})
+    try:
+        get_file_id = File.objects.get(drawing_id=get_drawing_id)
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+    except:
+        if request.method == "POST":
+            form = UploadFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
+        else:
+            form = UploadFileForm(initial={'drawing':get_drawing_id, 'user':user})
     return render(request, 'uploadfile.html', {'form':form, 'get_drawing_id':get_drawing_id})
 
 def deleteFile(requset,drawing_id,file_id):
