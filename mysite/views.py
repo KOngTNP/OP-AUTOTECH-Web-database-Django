@@ -17,6 +17,8 @@ def homepage(request):
 
 def reportTable(request):
     get_user_id = User.objects.all
+    get_painting_id = Painting.objects.all
+    get_cutting_id = Cutting.objects.all
     select_all_report = Drawing.objects.raw(
         'SELECT "job_id" as "Job_number", "projectName" as "Project_name",\
         "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date",\
@@ -70,6 +72,51 @@ def reportTable(request):
     assembly_day_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
     assembly_week_report = Assembly.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
     assembly_month_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
+
+    search_date = request.GET.get('search')
+
+    document_search = Document.objects.filter(datePublish__date=search_date)
+    count_document_qty = 0
+    count_document = len(document_search)
+    for document in document_search:
+        count_document_qty += document.Quantity
+
+    cutting_search = Cutting.objects.filter(datePublish__date=search_date)
+    count_cutting_qty = 0
+    count_cutting = len(cutting_search)
+    for cutting in cutting_search:
+        count_cutting_qty += cutting.Quantity
+
+    machine_search = Machine.objects.filter(datePublish__date=search_date)
+    count_machine_qty = 0
+    count_machine = len(machine_search)
+    for machine in machine_search:
+        count_machine_qty += machine.Quantity
+
+    qc_search = Qc.objects.filter(datePublish__date=search_date)
+    count_qc_qty = 0
+    count_qc = len(qc_search)
+    for qc in qc_search:
+        count_qc_qty += qc.Quantity
+
+    painting_search = Painting.objects.filter(dateEnd__date=search_date)
+    count_painting_qty = 0
+    count_painting = len(painting_search)
+    for painting in painting_search:
+        count_painting_qty += painting.Quantity
+
+    qcpainting_search = QcPainting.objects.filter(datePublish__date=search_date)
+    count_qcpainting_qty = 0
+    count_qcpainting = len(qcpainting_search)
+    for qcpainting in qcpainting_search:
+        count_qcpainting_qty += qcpainting.Quantity
+
+    assembly_search = Assembly.objects.filter(datePublish__date=search_date)
+    count_assembly_qty = 0
+    count_assembly = len(assembly_search)
+    for assembly in assembly_search:
+        count_assembly_qty += assembly.Quantity
+
     return render(request,'reportTable.html',
     {
         'get_user_id':get_user_id,
@@ -82,8 +129,11 @@ def reportTable(request):
         'qc_day_report':qc_day_report, 'qc_week_report':qc_week_report, 'qc_month_report':qc_month_report,
         'painting_day_report':painting_day_report, 'painting_week_report':painting_week_report, 'painting_month_report':painting_month_report,
         'qcpainting_day_report':qcpainting_day_report, 'qcpainting_week_report':qcpainting_week_report, 'qcpainting_month_report':qcpainting_month_report,
-        'assembly_day_report':assembly_day_report, 'assembly_week_report':assembly_week_report, 'assembly_month_report':assembly_month_report
-        
+        'assembly_day_report':assembly_day_report, 'assembly_week_report':assembly_week_report, 'assembly_month_report':assembly_month_report,
+        'document_search':document_search, 'cutting_search':cutting_search, 'machine_search':machine_search, 'qc_search':qc_search, 'painting_search':painting_search, 'qcpainting_search':qcpainting_search, 'assembly_search':assembly_search,
+        'get_painting_id':get_painting_id, 'get_cutting_id':get_cutting_id,
+        'count_document_qty':count_document_qty, 'count_cutting_qty':count_cutting_qty, 'count_machine_qty':count_machine_qty, 'count_qc_qty':count_qc_qty, 'count_painting_qty':count_painting_qty, 'count_qcpainting_qty':count_qcpainting_qty, 'count_assembly_qty':count_assembly_qty,
+        'count_document':count_document, 'count_cutting':count_cutting, 'count_machine':count_machine, 'count_qc':count_qc, 'count_painting':count_painting, 'count_qcpainting':count_qcpainting, 'count_assembly':count_assembly,
     
     })
 
