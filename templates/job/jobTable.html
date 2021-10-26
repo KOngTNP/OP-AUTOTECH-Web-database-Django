@@ -80,7 +80,7 @@
                       <td style="text-align: center; color: green; width: 100px;">{{all.QTY}}</td>
                       {% for done in done_qty %}
                         {% if job.jobNo == done.jobNo%}
-                          {% if all.QTY == done.Assembly_QTY %}
+                        {% if all.QTY == done.Document_QTY and all.QTY == done.Cutting_QTY and all.QTY == done.Machine_QTY and all.QTY == done.Qc_QTY and all.QTY == done.Painting_QTY and all.QTY == done.PaintingQc_QTY and all.QTY == done.Assembly_QTY %}
                             <td style="text-align: center;"><i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i></td>
                           {% else %}
                             {%if done.Assembly_QTY == null %}
