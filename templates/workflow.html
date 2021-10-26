@@ -85,7 +85,7 @@
         {% endfor %}
 
         {% if not get_drawing_id.filedrawing.all%}
-          {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff%}
+        {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff or request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document'%}
           <a href="{% url 'mysite:uploadFile' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-danger">
             <span>
               <i class="fa fa-upload" style="color: white;"></i>
