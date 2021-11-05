@@ -419,7 +419,7 @@
 
   <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
   <!-- 7 -->
-  {% if get_drawing_id.paintingdrawing.all %}
+  {% if get_drawing_id.paintingdrawing.all and get_drawing_id.paintingdrawing.all.0.dateEnd != None %}
     <div class="card text-dark bg-light mb-3">
       <div class="card-header" id="headingSeven">
         <h5 class="mb-0">
