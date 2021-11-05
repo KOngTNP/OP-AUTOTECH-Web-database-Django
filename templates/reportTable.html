@@ -41,7 +41,7 @@
   {% if user.is_staff%}
     <button onclick="ExportToExcel('xlsx')" class="btn btn-success btn-lg active export" aria-pressed="true" style="background-color: #28a745; border-color: #28a745;"><i class="fa fa-download"></i> Export table to excel</button>
   {% endif %}
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="thead-dark" align="center" >
       <tr>
         <th colspan="5"><h4>DRAWING</h4></th>
@@ -57,47 +57,47 @@
       </tr>
 
       <tr>
-        <th class="align-middle js-sort-string">Job number</th>
-        <th class="align-middle js-sort-string">Project name</th>
-        <th class="align-middle js-sort-string">Number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Job number</th>
+        <th class="align-middle">Project name</th>
+        <th class="align-middle">Number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
-        <th class="align-middle js-sort-string">Name</th>
+        <th class="align-middle">Name</th>
 
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
-        <th class="align-middle js-sort-string">Company name</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
+        <th class="align-middle">Company name</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
         <th class="align-middle" style="min-width:130px">Start date</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">End date</th>
+        <th class="align-middle" style="min-width:130px">End date</th>
 
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
         
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date</th>
 
-        <th class="align-middle js-sort-number">Times</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-string" style="min-width:500px">Description</th>
+        <th class="align-middle">Times</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:500px">Description</th>
 
       </tr>
     </thead>
@@ -227,17 +227,17 @@
 
 <!-----------------------------------------search-------------------------------------------------->
 <div style="overflow-x: auto;" id="search_report" >
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="bg-primary text-white" align="center" >
       <tr>
         <th colspan="5"><h4>DOCUMENT</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_document}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_document_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middle ">No.</th>
+        <th class="align-middle ">Drawing number [ {{count_document}} ]</th>
+        <th class="align-middle">Quantity [ {{count_document_qty}} ]</th>
+        <th class="align-middle ">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     <tbody>
@@ -258,17 +258,17 @@
   </div>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
       <tr>
         <th colspan="5"><h4>CUTTING</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_cutting}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_cutting_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number [ {{count_cutting}} ]</th>
+        <th class="align-middle">Quantity [ {{count_cutting_qty}} ]</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     <tbody>
@@ -288,17 +288,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
       <tr>
         <th colspan="5"><h4>MACHINE</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_machine}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_machine_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number [ {{count_machine}} ]</th>
+        <th class="align-middle">Quantity [ {{count_machine_qty}} ]</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     <tbody>
@@ -318,17 +318,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
       <tr>
         <th colspan="5"><h4>QC</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_qc}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_qc_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middl">No.</th>
+        <th class="align-middle">Drawing number [ {{count_qc}} ]</th>
+        <th class="align-middle">Quantity [ {{count_qc_qty}} ]</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     <tbody>
@@ -352,17 +352,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white bg-info mb-3" align="center" >
       <tr>
         <th colspan="5"><h4>PAINTING</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_painting}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_painting_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number [ {{count_painting}} ]</th>
+        <th class="align-middle">Quantity [ {{count_painting_qty}} ]</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     <tbody>
@@ -382,17 +382,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white bg-secondary mb-3" align="center" >
       <tr>
         <th colspan="5"><h4>PAINTING QC</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_qcpainting}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_qcpainting_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number [ {{count_qcpainting}} ]</th>
+        <th class="align-middle">Quantity [ {{count_qcpainting_qty}} ]</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     {% for qcpainting_search in qcpainting_search %}
@@ -414,17 +414,17 @@
     </tr>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="thead-dark" align="center" >
       <tr>
         <th colspan="5"><h4>ASSEMBlY</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number [ {{count_assembly}} ]</th>
-        <th class="align-middle js-sort-number">Quantity [ {{count_assembly_qty}} ]</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number [ {{count_assembly}} ]</th>
+        <th class="align-middle">Quantity [ {{count_assembly_qty}} ]</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Time</th>
       </tr>
     </thead>
     <tbody>
@@ -449,17 +449,17 @@
 
   <div style="overflow-x: auto;" id="day_report" >
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="bg-primary text-white" align="center" >
         <tr>
           <th colspan="5"><h4>DOCUMENT</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -479,17 +479,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
         <tr>
           <th colspan="5"><h4>CUTTING</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -509,17 +509,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
         <tr>
           <th colspan="5"><h4>MACHINE</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -539,17 +539,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
         <tr>
           <th colspan="5"><h4>QC</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -569,17 +569,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white bg-info mb-3" align="center" >
         <tr>
           <th colspan="5"><h4>PAINTING</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -599,17 +599,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white bg-secondary mb-3" align="center" >
         <tr>
           <th colspan="5"><h4>PAINTING QC</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -629,17 +629,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="thead-dark" align="center" >
         <tr>
           <th colspan="5"><h4>ASSEMBlY</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
         </tr>
       </thead>
       <tbody>
@@ -664,17 +664,17 @@
 
   <div style="overflow-x: auto;" id="week_report" >
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="bg-primary text-white" align="center" >
         <tr>
           <th colspan="6"><h4>DOCUMENT</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -696,17 +696,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
         <tr>
           <th colspan="6"><h4>CUTTING</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -728,17 +728,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
         <tr>
           <th colspan="6"><h4>MACHINE</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -760,17 +760,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
         <tr>
           <th colspan="6"><h4>QC</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -792,17 +792,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white bg-info mb-3" align="center" >
         <tr>
           <th colspan="6"><h4>PAINTING</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -824,17 +824,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="text-white bg-secondary mb-3" align="center" >
         <tr>
           <th colspan="6"><h4>PAINTING QC</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -856,17 +856,17 @@
       </tbody>
     </table>
 
-    <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+    <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
       <thead class="thead-dark" align="center" >
         <tr>
           <th colspan="6"><h4>ASSEMBlY</h4></th>
         </tr>
         <tr>
-          <th class="align-middle js-sort-string">No.</th>
-          <th class="align-middle js-sort-string">Drawing number</th>
-          <th class="align-middle js-sort-number">Quantity</th>
-          <th class="align-middle js-sort-string">Username</th>
-          <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+          <th class="align-middle">No.</th>
+          <th class="align-middle">Drawing number</th>
+          <th class="align-middle">Quantity</th>
+          <th class="align-middle">Username</th>
+          <th class="align-middle" style="min-width:130px">Date-Time</th>
           <th class="align-middle" style="min-width:130px">Days of the week</th>
         </tr>
       </thead>
@@ -893,17 +893,17 @@
 
 <div style="overflow-x: auto;" id="month_report" >
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="bg-primary text-white" align="center" >
       <tr>
         <th colspan="5"><h4>DOCUMENT</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
@@ -923,17 +923,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white mb-3" style="background-color:MediumSeaGreen;" align="center" >
       <tr>
         <th colspan="5"><h4>CUTTING</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
@@ -953,17 +953,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white mb-3" style="background-color:rgba(235, 0, 0, 0.904);" align="center" >
       <tr>
         <th colspan="5"><h4>MACHINE</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
@@ -983,17 +983,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white mb-3" style="background-color: #e79907;" align="center" >
       <tr>
         <th colspan="5"><h4>QC</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
@@ -1013,17 +1013,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white bg-info mb-3" align="center" >
       <tr>
         <th colspan="5"><h4>PAINTING</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
@@ -1043,17 +1043,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="text-white bg-secondary mb-3" align="center" >
       <tr>
         <th colspan="5"><h4>PAINTING QC</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
@@ -1073,17 +1073,17 @@
     </tbody>
   </table>
 
-  <table  class="table table-striped table-bordered js-sort-table" id="tbl_exporttable_to_xls"  >
+  <table  class="table table-striped table-bordered" id="tbl_exporttable_to_xls"  >
     <thead class="thead-dark" align="center" >
       <tr>
         <th colspan="5"><h4>ASSEMBlY</h4></th>
       </tr>
       <tr>
-        <th class="align-middle js-sort-string">No.</th>
-        <th class="align-middle js-sort-string">Drawing number</th>
-        <th class="align-middle js-sort-number">Quantity</th>
-        <th class="align-middle js-sort-string">Username</th>
-        <th class="align-middle js-sort-number" style="min-width:130px">Date-Time</th>
+        <th class="align-middle">No.</th>
+        <th class="align-middle">Drawing number</th>
+        <th class="align-middle">Quantity</th>
+        <th class="align-middle">Username</th>
+        <th class="align-middle" style="min-width:130px">Date-Time</th>
       </tr>
     </thead>
     <tbody>
