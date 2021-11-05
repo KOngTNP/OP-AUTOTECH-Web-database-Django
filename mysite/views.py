@@ -140,12 +140,20 @@ def reportTable(request):
 
 
 def realtimeReport(request):
+    this_year = datetime.datetime.now().year
+
     qty_document = 0
     count_document = 0
     document = Document.objects.filter(datePublish__date=datetime.date.today())
     for document in document:
         qty_document += document.Quantity
         count_document += 1
+    qty_document_year = 0
+    count_document_year = 0
+    document_year = Drawing.objects.filter(datePublish__year=this_year)
+    for document_year in document_year:
+        qty_document_year += document_year.Quantity
+        count_document_year += 1
     
 
     qty_cutting = 0
@@ -161,16 +169,19 @@ def realtimeReport(request):
     for machine in machine:
         qty_machine += machine.Quantity
         count_machine += 1
+    qty_machine_year = 0
+    count_machine_year = 0
+    machine_year = Machine.objects.filter(datePublish__year=this_year)
+    for machine_year in machine_year:
+        qty_machine_year += machine_year.Quantity
+        count_machine_year += 1
     
+
     qty_qc = 0
     count_qc = 0
     qc = Qc.objects.filter(datePublish__date=datetime.date.today())
-    qc_painting = QcPainting.objects.filter(datePublish__date=datetime.date.today())
     for qc in qc:
         qty_qc += qc.Quantity
-        count_qc += 1
-    for qc_painting in qc_painting:
-        qty_qc += qc_painting.Quantity
         count_qc += 1
 
     qty_painting = 0
@@ -187,15 +198,21 @@ def realtimeReport(request):
     for assembly in assembly:
         qty_assembly += assembly.Quantity
         count_assembly += 1
+    qty_assembly_year = 0
+    count_assembly_year = 0
+    assembly_year = Assembly.objects.filter(datePublish__year=this_year)
+    for assembly_year in assembly_year:
+        qty_assembly_year += assembly_year.Quantity
+        count_assembly_year += 1
 
     return render(request,'realtimeReport.html',
     {
-        'count_document':count_document,'qty_document': qty_document,
+        'count_document':count_document,'qty_document': qty_document, 'qty_document_year':qty_document_year, 'count_document_year':count_document_year,
         'count_cutting':count_cutting,'qty_cutting': qty_cutting,
-        'count_machine':count_machine,'qty_machine': qty_machine,
+        'count_machine':count_machine,'qty_machine': qty_machine, 'qty_machine_year':qty_machine_year, 'count_machine_year':count_machine_year,
         'count_qc':count_qc,'qty_qc': qty_qc,
         'count_painting':count_painting,'qty_painting': qty_painting,
-        'count_assembly':count_assembly,'qty_assembly': qty_assembly,
+        'count_assembly':count_assembly,'qty_assembly': qty_assembly, 'qty_assembly_year':qty_assembly_year, 'count_assembly_year':count_assembly_year,
     })
 
 
