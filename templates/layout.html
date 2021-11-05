@@ -44,8 +44,6 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'mysite:reportTable' %}" style="text-align: left;">REPORT</a>
             </li>
-            
-            
             </li>
           </ul>
           
@@ -57,8 +55,8 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width: 135px;">
                 {% if user.is_superuser%}
                 <a class="dropdown-item" href="/admin">Admin Page</a>
-                <a class="dropdown-item" href="/realtimeReport">Real-time</a>
                 {% endif %}
+                <a class="dropdown-item" href="/realtimeReport">Real-time</a>
                 <a class="dropdown-item" href="/logout">Logout</a>
               </div>
             {% else %}
