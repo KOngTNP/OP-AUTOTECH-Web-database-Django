@@ -1,3 +1,4 @@
+from functools import total_ordering
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm
 from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File
@@ -138,7 +139,64 @@ def reportTable(request):
     })
 
 
+def realtimeReport(request):
+    qty_document = 0
+    count_document = 0
+    document = Document.objects.filter(datePublish__date=datetime.date.today())
+    for document in document:
+        qty_document += document.Quantity
+        count_document += 1
+    
 
+    qty_cutting = 0
+    count_cutting = 0
+    cutting = Cutting.objects.filter(datePublish__date=datetime.date.today())
+    for cutting in cutting:
+        qty_cutting += cutting.Quantity
+        count_cutting += 1
+
+    qty_machine = 0
+    count_machine = 0
+    machine = Machine.objects.filter(datePublish__date=datetime.date.today())
+    for machine in machine:
+        qty_machine += machine.Quantity
+        count_machine += 1
+    
+    qty_qc = 0
+    count_qc = 0
+    qc = Qc.objects.filter(datePublish__date=datetime.date.today())
+    qc_painting = QcPainting.objects.filter(datePublish__date=datetime.date.today())
+    for qc in qc:
+        qty_qc += qc.Quantity
+        count_qc += 1
+    for qc_painting in qc_painting:
+        qty_qc += qc_painting.Quantity
+        count_qc += 1
+
+    qty_painting = 0
+    count_painting = 0
+    painting = Painting.objects.filter(datePublish__date=datetime.date.today())
+    painting = painting.exclude(dateEnd=None)
+    for painting in painting:
+        qty_painting += painting.Quantity
+        count_painting += 1
+
+    qty_assembly = 0
+    count_assembly = 0
+    assembly = Assembly.objects.filter(datePublish__date=datetime.date.today())
+    for assembly in assembly:
+        qty_assembly += assembly.Quantity
+        count_assembly += 1
+
+    return render(request,'realtimeReport.html',
+    {
+        'count_document':count_document,'qty_document': qty_document,
+        'count_cutting':count_cutting,'qty_cutting': qty_cutting,
+        'count_machine':count_machine,'qty_machine': qty_machine,
+        'count_qc':count_qc,'qty_qc': qty_qc,
+        'count_painting':count_painting,'qty_painting': qty_painting,
+        'count_assembly':count_assembly,'qty_assembly': qty_assembly,
+    })
 
 
 
