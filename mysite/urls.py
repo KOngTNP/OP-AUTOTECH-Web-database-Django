@@ -7,8 +7,8 @@ app_name = 'mysite'
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
-    path('reportTable',views.reportTable, name= 'reportTable'),
-
+    path('reportTable/',views.reportTable, name= 'reportTable'),
+    path('realtimeReport/',views.realtimeReport, name='realtimeReport'),
     
     path('jobTable',views.jobTable, name= 'jobTable'),
     path('jobReport/<str:job_id>', views.jobReport, name='jobReport'),
