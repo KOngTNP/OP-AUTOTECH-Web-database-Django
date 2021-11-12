@@ -221,6 +221,7 @@ def realtimeReport(request):
 def jobTable(request):
     #Query Data from model
     search_job = request.GET.get('search')
+    sum_job = len(Job.objects.all())
     if search_job:
         data = Job.objects.filter(Q(jobNo__icontains=search_job) & Q(jobNo__icontains=search_job))
         if str(data) == '<QuerySet []>':
@@ -229,7 +230,8 @@ def jobTable(request):
         data = Job.objects.all()
     all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo", sum("mysite_drawing"."Quantity") as "QTY" FROM mysite_drawing , mysite_job WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
     done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assembly"."Quantity") as "Assembly_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
-    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty})
+    sum_drawing = len(Drawing.objects.all())
+    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty, "sum_drawing":sum_drawing, "sum_job":sum_job})
 
 def jobReport(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
@@ -332,6 +334,8 @@ def updateJob(request,job_id):
 
 def drawingTable(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
+    count_drawing = len(Drawing.objects.filter(job=get_job_id))
+    print(count_drawing)
     done_qty = Drawing.objects.raw(
     'SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_document"."Quantity" as "Document_QTY", \
     "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_machine"."Quantity" as "Machine_QTY", "mysite_qc"."Quantity" as "QC_QTY",\
@@ -345,7 +349,7 @@ def drawingTable(request,job_id):
     LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
     LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
     LEFT JOIN mysite_maker on "drawingNo"="mysite_maker"."drawing_id"')
-    return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id, "done_qty":done_qty})
+    return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id, "done_qty":done_qty, 'count_drawing':count_drawing})
 
 def createDrawing(request,job_id):
     user = request.user
