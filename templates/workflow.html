@@ -226,7 +226,7 @@
                 {% endif %}
               {% endfor %}
             
-              Cutting
+              Raw-Material
             </h5>
           </button>
         </h5>
@@ -236,10 +236,10 @@
           {% for cutting in get_drawing_id.cuttingdrawing.all %}
             <h5 class="card-title">Quantity : ({{get_drawing_id.Quantity}})</h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">Done = {{cutting.Quantity}}
-            <h5 class="card-title">Cutting by : </h5>
+            <h5 class="card-title">Raw-Material by : </h5>
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{cutting.user}}</p>
             <hr>
-            <p><u class="card-title">Cutting date</u> 
+            <p><u class="card-title">Raw-Material date</u> 
             <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.datePublish}}</a></p>
             <p><u class="card-title">Last edit date</u> 
             <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.dateUpdate}}</a></p>
@@ -251,7 +251,7 @@
           {% endfor %}
           {% if not get_drawing_id.cuttingdrawing.all%}
             {% if request.user.groups.all.0.name == 'Cutting' or request.user.groups.all.1.name == 'Cutting' or request.user.groups.all.2.name == 'Cutting' or request.user.groups.all.3.name == 'Cutting' or request.user.groups.all.4.name == 'Cutting' or request.user.groups.all.5.name == 'Cutting' or request.user.groups.all.6.name == 'Cutting' or request.user.groups.all.7.name == 'Cutting' or user.is_staff%}
-              <a href="{% url 'mysite:createCutting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Cutting</a>
+              <a href="{% url 'mysite:createCutting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Raw-Material</a>
             {% endif %}
           {% endif %}
         </div>

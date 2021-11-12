@@ -52,6 +52,7 @@
               <a class="text-white bg-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Hello, {{user.username}}
               </a>
+              
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="min-width: 135px;">
                 {% if user.is_superuser%}
                 <a class="dropdown-item" href="/admin">Admin Page</a>
