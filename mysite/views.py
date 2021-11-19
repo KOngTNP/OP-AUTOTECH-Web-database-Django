@@ -158,14 +158,14 @@ def realtimeReport(request):
 
     qty_cutting = 0
     count_cutting = 0
-    cutting = Cutting.objects.filter(datePublish__date=datetime.date.today())
+    cutting = Cutting.objects.filter(datePublish__date=datetime.date.today()).exclude(user__username = 'othercompany')
     for cutting in cutting:
         qty_cutting += cutting.Quantity
         count_cutting += 1
 
     qty_machine = 0
     count_machine = 0
-    machine = Machine.objects.filter(datePublish__date=datetime.date.today())
+    machine = Machine.objects.filter(datePublish__date=datetime.date.today()).exclude(user__username = 'othercompany')
     for machine in machine:
         qty_machine += machine.Quantity
         count_machine += 1
