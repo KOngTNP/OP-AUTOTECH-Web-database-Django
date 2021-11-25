@@ -104,7 +104,7 @@ class CreatePaintingForm(ModelForm):
 class UpdatePaintingForm(ModelForm):
     class Meta:
         model = Painting
-        fields = ['Quantity']
+        fields = ['Quantity','name']
 
 
 
