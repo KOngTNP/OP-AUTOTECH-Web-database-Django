@@ -13,7 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if user.is_staff%}
+{% if request.user.groups.all.0.name == 'Purchase' or request.user.groups.all.1.name == 'Purchase' or request.user.groups.all.2.name == 'Purchase' or request.user.groups.all.3.name == 'Purchase' or request.user.groups.all.4.name == 'Purchase' or request.user.groups.all.5.name == 'Purchase' or request.user.groups.all.6.name == 'Purchase' or request.user.groups.all.7.name == 'Purchase' or user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Edit maker of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/maker/{{get_maker_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
