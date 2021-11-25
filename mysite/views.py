@@ -75,14 +75,27 @@ def reportTable(request):
     assembly_month_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
 
     search_date = request.GET.get('search')
+    if search_date:
+        document_search = Document.objects.filter(datePublish__date=search_date)
+        cutting_search = Cutting.objects.filter(datePublish__date=search_date)
+        qc_search = Qc.objects.filter(datePublish__date=search_date)
+        painting_search = Painting.objects.filter(dateEnd__date=search_date)
+        qcpainting_search = QcPainting.objects.filter(datePublish__date=search_date)
+        assembly_search = Assembly.objects.filter(datePublish__date=search_date)
+    else:
+        document_search = Document.objects.filter(datePublish__date=datetime.date.today())
+        cutting_search = Cutting.objects.filter(datePublish__date=datetime.date.today())
+        qc_search = Qc.objects.filter(datePublish__date=datetime.date.today())
+        painting_search = Painting.objects.filter(dateEnd__date=datetime.date.today())
+        qcpainting_search = QcPainting.objects.filter(datePublish__date=datetime.date.today())
+        assembly_search = Assembly.objects.filter(datePublish__date=datetime.date.today())
 
-    document_search = Document.objects.filter(datePublish__date=search_date)
     count_document_qty = 0
     count_document = len(document_search)
     for document in document_search:
         count_document_qty += document.Quantity
 
-    cutting_search = Cutting.objects.filter(datePublish__date=search_date)
+    
     count_cutting_qty = 0
     count_cutting = len(cutting_search)
     for cutting in cutting_search:
@@ -94,25 +107,25 @@ def reportTable(request):
     for machine in machine_search:
         count_machine_qty += machine.Quantity
 
-    qc_search = Qc.objects.filter(datePublish__date=search_date)
+    
     count_qc_qty = 0
     count_qc = len(qc_search)
     for qc in qc_search:
         count_qc_qty += qc.Quantity
 
-    painting_search = Painting.objects.filter(dateEnd__date=search_date)
+    
     count_painting_qty = 0
     count_painting = len(painting_search)
     for painting in painting_search:
         count_painting_qty += painting.Quantity
 
-    qcpainting_search = QcPainting.objects.filter(datePublish__date=search_date)
+    
     count_qcpainting_qty = 0
     count_qcpainting = len(qcpainting_search)
     for qcpainting in qcpainting_search:
         count_qcpainting_qty += qcpainting.Quantity
 
-    assembly_search = Assembly.objects.filter(datePublish__date=search_date)
+    
     count_assembly_qty = 0
     count_assembly = len(assembly_search)
     for assembly in assembly_search:
