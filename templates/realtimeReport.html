@@ -13,6 +13,41 @@
     <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
     <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
     <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+    
+    <style>
+      @media (max-width: 1050px) {
+        .logo-mobile {
+          height: 60px;
+        }
+        .height-mobile {
+          height: 40px;
+        }
+        .time-font{
+          font-size: 20px;
+        }
+        .head-font, .body-font{
+          font-size: 20px;
+        }
+        .total-font{
+          font-size: 10px;
+        }
+        .total-body-font{
+          font-size: 15px;
+        }
+      }
+
+      @media (min-width: 1050px) {
+        .time-font{
+          font-size: 25px;
+        }
+        .head-font, .body-font{
+          font-size: 35px;
+        }
+        .total-font, .total-body-font{
+          font-size: 20px;
+        }
+      }
+    </style>
 
 </head>
 <body>
@@ -20,7 +55,7 @@
         <section id="minimal-statistics">
           <div class="row mb-3 mt-3">
             <div class="col-12" align="center">
-                <img class="hidden-mobile" src="{% static 'images/logo.png' %}" height="80px">
+                <img class='logo-mobile' src="{% static 'images/logo.png' %}" height="80px">
               
             </div>
           </div>
@@ -31,14 +66,14 @@
                   <div class="card-body cleartfix">
                     <div class="media align-items-stretch">
                       <div class="align-self-center pr-4">
-                        <img class="hidden-mobile" src="{% static 'images/icons/clock.png' %}" height="45px">
+                        <img class="height-mobile" src="{% static 'images/icons/clock.png' %}" height="45px">
                         <!-- <i class="fa fa-clock-o primary font-large-2 mr-2"></i> -->
                       </div>
                       <div class="media-body align-self-center">
                         <h1 class="fs-30">Date-Time</h1>
                       </div>
                       <div class="align-self-center pr-4">
-                          <p class="fs-25" id='ct5'></p>
+                          <p class="time-font" id='ct5'></p>
                       </div>
                     </div>
                   </div>
@@ -47,57 +82,57 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xl-4 col-sm-6 col-12"> 
+            <div class="col-xl-4 col-sm-4 col-12"> 
               <div class="card">
                 <div class="card-content">
                   <div class="card-body">
                     <div class="media d-flex">
                       <div class="align-self-center">
-                        <img class="hidden-mobile" src="{% static 'images/icons/file.png' %}" height="80px">
+                        <img class="height-mobile" src="{% static 'images/icons/file.png' %}" height="80px">
                         <!-- <i class="fa fa-file-text-o primary font-large-3 float-left"></i> -->
                       </div>
                       <div class="media-body text-right">
-                        <span class="fs-35">Document</span>
-                        <h1 class="fs-35" style="color: #4fb2b6;"><a>Darwing :</a> {{count_document}}</h1>
-                        <h1 class="fs-35" style="color: #4fb2b6;"><a>Quantity :</a> {{qty_document}}</h1>
+                        <span class="head-font">Document</span>
+                        <h1 class="body-font" style="color: #4fb2b6;"><a>Darwing :</a> {{count_document}}</h1>
+                        <h1 class="body-font" style="color: #4fb2b6;"><a>Quantity :</a> {{qty_document}}</h1>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xl-4 col-sm-6 col-12">
+            <div class="col-xl-4 col-sm-4 col-12">
               <div class="card">
                 <div class="card-content">
                   <div class="card-body">
                     <div class="media d-flex">
                       <div class="align-self-center">
-                        <img class="hidden-mobile" src="{% static 'images/icons/cube.png' %}" height="80px">
+                        <img class="height-mobile" src="{% static 'images/icons/cube.png' %}" height="80px">
                         <!-- <i class="fa fa-cube success font-large-3 float-left"></i> -->
                       </div>
                       <div class="media-body text-right">
-                        <span class="fs-35">Raw-Material</span>
-                        <h1 class="fs-35" style="color: #61cf9e;"><a>Darwing :</a> {{count_cutting}}</h1>
-                        <h1 class="fs-35" style="color: #61cf9e;"><a>Quantity :</a> {{qty_cutting}}</h1>
+                        <span class="head-font">Raw-Material</span>
+                        <h1 class="body-font" style="color: #61cf9e;"><a>Darwing :</a> {{count_cutting}}</h1>
+                        <h1 class="body-font" style="color: #61cf9e;"><a>Quantity :</a> {{qty_cutting}}</h1>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xl-4 col-sm-6 col-12">
+            <div class="col-xl-4 col-sm-4 col-12">
               <div class="card">
                 <div class="card-content">
                   <div class="card-body">
                     <div class="media d-flex">
                       <div class="align-self-center">
-                        <img class="hidden-mobile" src="{% static 'images/icons/cog.png' %}" height="80px">
+                        <img class="height-mobile" src="{% static 'images/icons/cog.png' %}" height="80px">
                         <!-- <i class="fa fa-cog danger font-large-3 float-left"></i> -->
                       </div>
                       <div class="media-body text-right">
-                        <span class="fs-35">Machine</span>
-                        <h1 class="fs-35" style="color: #ef7d8a;"><a>Darwing :</a> {{count_machine}}</h1>
-                        <h1 class="fs-40" style="color: #ef7d8a;"><a>Quantity :</a> {{qty_machine}}</h1>
+                        <span class="head-font">Machine</span>
+                        <h1 class="body-font" style="color: #ef7d8a;"><a>Darwing :</a> {{count_machine}}</h1>
+                        <h1 class="body-font" style="color: #ef7d8a;"><a>Quantity :</a> {{qty_machine}}</h1>
                       </div>
                     </div>
                   </div>
@@ -107,57 +142,57 @@
           </div>
         
           <div class="row">
-            <div class="col-xl-4 col-sm-6 col-12"> 
+            <div class="col-xl-4 col-sm-4 col-12"> 
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
                       <div class="media d-flex">
                         <div class="align-self-center">
-                          <img class="hidden-mobile" src="{% static 'images/icons/check.png' %}" height="80px">
+                          <img class="height-mobile" src="{% static 'images/icons/check.png' %}" height="80px">
                           <!-- <i class="fa fa-check-square-o warning font-large-3 float-left"></i> -->
                         </div>
                         <div class="media-body text-right">
-                            <span class="fs-35">QC</span>
-                            <h1 class="fs-35" style="color: #f4ab84;"><a>Darwing :</a> {{count_qc}}</h1>
-                            <h1 class="fs-35" style="color: #f4ab84;"><a>Quantity :</a> {{qty_qc}}</h1>
+                            <span class="head-font">QC</span>
+                            <h1 class="body-font" style="color: #f4ab84;"><a>Darwing :</a> {{count_qc}}</h1>
+                            <h1 class="body-font" style="color: #f4ab84;"><a>Quantity :</a> {{qty_qc}}</h1>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xl-4 col-sm-6 col-12">
+              <div class="col-xl-4 col-sm-4 col-12">
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
                       <div class="media d-flex">
                         <div class="align-self-center">
-                          <img class="hidden-mobile" src="{% static 'images/icons/paint.png' %}" height="80px">
+                          <img class="height-mobile" src="{% static 'images/icons/paint.png' %}" height="80px">
                           <!-- <i class="fa fa-paint-brush info font-large-3 float-left"></i> -->
                         </div>
                         <div class="media-body text-right">
-                            <span class="fs-35">Painting</span>
-                            <h1 class="fs-35" style="color: #63cbe0;"><a>Darwing :</a> {{count_painting}}</h1>
-                            <h1 class="fs-35" style="color: #63cbe0;"><a>Quantity :</a> {{qty_painting}}</h1>
+                            <span class="head-font">Painting</span>
+                            <h1 class="body-font" style="color: #63cbe0;"><a>Darwing :</a> {{count_painting}}</h1>
+                            <h1 class="body-font" style="color: #63cbe0;"><a>Quantity :</a> {{qty_painting}}</h1>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xl-4 col-sm-6 col-12">
+              <div class="col-xl-4 col-sm-4 col-12">
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
                       <div class="media d-flex">
                         <div class="align-self-center">
-                          <img class="hidden-mobile" src="{% static 'images/icons/cubes.png' %}" height="80px">
+                          <img class="height-mobile" src="{% static 'images/icons/cubes.png' %}" height="80px">
                           <!-- <i class="fa fa-cubes secondary font-large-2 float-left"></i> -->
                         </div>
                         <div class="media-body text-right">
-                            <span class="fs-35">Assembly</span>
-                            <h1 class="fs-35"><a>Darwing :</a> {{count_assembly}}</h1>
-                            <h1 class="fs-35"><a>Quantity :</a> {{qty_assembly}}</h1>
+                            <span class="head-font">Assembly</span>
+                            <h1 class="body-font"><a>Darwing :</a> {{count_assembly}}</h1>
+                            <h1 class="body-font"><a>Quantity :</a> {{qty_assembly}}</h1>
                         </div>
                       </div>
                     </div>
@@ -167,51 +202,51 @@
           </div>
 
           <div class="row">
-            <div class="col-xl-4 col-sm-6 col-12"> 
+            <div class="col-xl-4 col-sm-4 col-12"> 
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
                       <div class="media d-flex">
                         <div class="align-self-center">
-                            <span class="fs-20">Document Total</span>
+                            <span class="total-font">Document Total</span>
                         </div>
                         <div class="media-body text-right">
-                            <h1 class="fs-20"><a>Darwing :</a> {{count_document_year}}</h1>
-                            <h1 class="fs-20"><a>Quantity :</a> {{qty_document_year}}</h1>
+                            <h1 class="total-body-font"><a>Darwing :</a> {{count_document_year}}</h1>
+                            <h1 class="total-body-font"><a>Quantity :</a> {{qty_document_year}}</h1>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xl-4 col-sm-6 col-12"> 
+              <div class="col-xl-4 col-sm-4 col-12"> 
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
                       <div class="media d-flex">
                         <div class="align-self-center">
-                            <span class="fs-20">Machine Total</span>
+                            <span class="total-font">Machine Total</span>
                         </div>
                         <div class="media-body text-right">
-                            <h1 class="fs-20"><a>Darwing :</a> {{count_machine_year}}</h1>
-                            <h1 class="fs-20"><a>Quantity :</a> {{qty_machine_year}}</h1>
+                            <h1 class="total-body-font"><a>Darwing :</a> {{count_machine_year}}</h1>
+                            <h1 class="total-body-font"><a>Quantity :</a> {{qty_machine_year}}</h1>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xl-4 col-sm-6 col-12"> 
+              <div class="col-xl-4 col-sm-4 col-12"> 
                 <div class="card">
                   <div class="card-content">
                     <div class="card-body">
                       <div class="media d-flex">
                         <div class="align-self-center">
-                            <span class="fs-20">Assembly Total</span>
+                            <span class="total-font">Assembly Total</span>
                         </div>
                         <div class="media-body text-right">
-                            <h1 class="fs-20"><a>Darwing :</a> {{count_assembly_year}}</h1>
-                            <h1 class="fs-20"><a>Quantity :</a> {{qty_assembly_year}}</h1>
+                            <h1 class="total-body-font"><a>Darwing :</a> {{count_assembly_year}}</h1>
+                            <h1 class="total-body-font"><a>Quantity :</a> {{qty_assembly_year}}</h1>
                         </div>
                       </div>
                     </div>
