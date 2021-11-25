@@ -150,10 +150,12 @@
             <p><u class="card-title">Checked date</u> 
             <a class="card-text"> : {{document.datePublish}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{document.dateUpdate}}</a></p>
+            <a class="card-text"> : {{document.dateUpdate }}{{request.user.username}} {{document.user}}</a></p>
             <h1></h1>
-            {% if user.is_staff %}
+            {% if get_drawing_id.Quantity != document.Quantity and request.user.id == document.user.id or user.is_staff %}
               <a href="/workflow/{{document.drawing}}/edit/document/{{document.id}}"><span class='btn btn-success'>Edit</span></a>
+            {% endif %}
+            {% if user.is_staff %}
               <a href='/workflow/{{document.drawing}}/delete/document/{{document.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
@@ -194,13 +196,15 @@
             <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{maker.dateUpdate}}</a></p>
             <h1></h1>
-            {% if user.is_staff %}
+            {% if request.user.groups.all.0.name == 'Purchase' or request.user.groups.all.1.name == 'Purchase' or request.user.groups.all.2.name == 'Purchase' or request.user.groups.all.3.name == 'Purchase' or request.user.groups.all.4.name == 'Purchase' or request.user.groups.all.5.name == 'Purchase' or request.user.groups.all.6.name == 'Purchase' or request.user.groups.all.7.name == 'Purchase' or user.is_staff %}
               <a href="/workflow/{{maker.drawing}}/edit/maker/{{maker.id}}"><span class='btn btn-success'>Edit</span></a>
-              <a href='/workflow/{{maker.drawing}}/delete/maker/{{maker.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+              {% if user.is_staff %}
+                <a href='/workflow/{{maker.drawing}}/delete/maker/{{maker.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+              {% endif %}
             {% endif %}
           {% endfor %}
           {% if not get_drawing_id.makerdrawing.all%}
-            {% if request.user.groups.all.0.name == 'Maker' or request.user.groups.all.1.name == 'Maker' or request.user.groups.all.2.name == 'Maker' or request.user.groups.all.3.name == 'Maker' or request.user.groups.all.4.name == 'Maker' or request.user.groups.all.5.name == 'Maker' or request.user.groups.all.6.name == 'Maker' or request.user.groups.all.7.name == 'Maker' or user.is_staff%}
+            {% if request.user.groups.all.0.name == 'Maker' or request.user.groups.all.1.name == 'Maker' or request.user.groups.all.2.name == 'Maker' or request.user.groups.all.3.name == 'Maker' or request.user.groups.all.4.name == 'Maker' or request.user.groups.all.5.name == 'Maker' or request.user.groups.all.6.name == 'Maker' or request.user.groups.all.7.name == 'Maker' or request.user.groups.all.0.name == 'Purchase' or request.user.groups.all.1.name == 'Purchase' or request.user.groups.all.2.name == 'Purchase' or request.user.groups.all.3.name == 'Purchase' or request.user.groups.all.4.name == 'Purchase' or request.user.groups.all.5.name == 'Purchase' or request.user.groups.all.6.name == 'Purchase' or request.user.groups.all.7.name == 'Purchase' or user.is_staff%}
               <a href="{% url 'mysite:createMaker' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Maker</a>
             {% endif %}
           {% endif %}
@@ -244,8 +248,10 @@
             <p><u class="card-title">Last edit date</u> 
             <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.dateUpdate}}</a></p>
 
+            {% if get_drawing_id.Quantity != cutting.Quantity and request.user.id == cutting.user.id or user.is_staff  %}
+              <a href="/workflow/{{cutting.drawing}}/edit/cutting/{{cutting.id}}"><span class='btn btn-success'>Edit</span></a>
+            {% endif %}
             {% if user.is_staff %}
-              <a href="/workflow/{{cutting.drawing}}/edit/cutting/{{cutting.id}}"><span class='btn btn-success' ">Edit</span></a>
               <a href='/workflow/{{cutting.drawing}}/delete/cutting/{{cutting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
@@ -292,8 +298,10 @@
               <p><u class="card-title">Last edit date</u> 
               <a class="card-text"> : {{machine.dateUpdate}}</a></p>
 
-              {% if user.is_staff %}
+              {% if get_drawing_id.Quantity != machine.Quantity and request.user.id == machine.user.id or user.is_staff  %}
                 <a href="/workflow/{{machine.drawing}}/edit/machine/{{machine.id}}"><span class='btn btn-success'>Edit</span></a>
+              {% endif %}
+              {% if user.is_staff %}
                 <a href='/workflow/{{machine.drawing}}/delete/machine/{{machine.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
               {% endif %}
             {% endfor %}
@@ -343,8 +351,10 @@
             <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{qc.dateUpdate}}</a></p>
             <h1></h1>
-            {% if user.is_staff %}
+            {% if get_drawing_id.Quantity != qc.Quantity and request.user.id == qc.user.id or user.is_staff %}
               <a href="/workflow/{{get_drawing_id}}/edit/qc/{{qc.id}}"><span class='btn btn-success'>Edit</span></a>
+            {% endif %}
+            {% if user.is_staff %}
               <a href='/workflow/{{get_drawing_id}}/delete/qc/{{qc.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
@@ -402,8 +412,10 @@
                 <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure you want to update end date?');">Update end date</a>
               {% endif %}
             {% endif %}
-            {% if user.is_staff %}
+            {% if get_drawing_id.Quantity != painting.Quantity and request.user.id == painting.user.id or user.is_staff %}
               <a href="/workflow/{{painting.drawing}}/edit/painting/{{painting.id}}"><span class='btn btn-success'>Edit</span></a>
+            {% endif %}
+            {% if user.is_staff %}
               <a href='/workflow/{{painting.drawing}}/delete/painting/{{painting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
@@ -452,8 +464,10 @@
             <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{qcpainting.dateUpdate}}</a></p>
             <h1></h1>
-            {% if user.is_staff %}
+            {% if get_drawing_id.Quantity != qcpainting.Quantity and request.user.id == qcpainting.user.id or user.is_staff %}
               <a href="/workflow/{{get_drawing_id}}/edit/qcpainting/{{qcpainting.id}}"><span class='btn btn-success'>Edit</span></a>
+            {% endif %}
+            {% if user.is_staff %}
               <a href='/workflow/{{get_drawing_id}}/delete/qcpainting/{{qcpainting.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}
@@ -503,8 +517,10 @@
             <p><u class="card-title">Last edit date</u> 
             <a class="card-text"> : {{assembly.dateUpdate}}</a></p>
 
-            {% if user.is_staff %}
+            {% if get_drawing_id.Quantity != assembly.Quantity and request.user.id == assembly.user.id or user.is_staff %}
               <a href="/workflow/{{assembly.drawing}}/edit/assembly/{{assembly.id}}"><span class='btn btn-success'>Edit</span></a>
+            {% endif %}
+            {% if user.is_staff %}
               <a href='/workflow/{{assembly.drawing}}/delete/assembly/{{assembly.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
             {% endif %}
           {% endfor %}

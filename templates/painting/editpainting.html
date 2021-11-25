@@ -13,7 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if user.is_staff %}
+{% if get_drawing_id.Quantity != get_painting_id.Quantity and request.user.id == get_painting_id.user.id or user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Edit painting of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/painting/{{get_painting_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
@@ -22,9 +22,13 @@
     <lable style="margin-left: 25px;">Painting company</lable>
     <div class="wrap-input100 validate-input">
         <select class="input100 form-control" style="-webkit-appearance: none;" type="text" name="name" required>
-            <option selected value="">Select company</option>
-            <option value="MILLING">OPAutotech</option>
-            <option value="LATHE">Maker</option>
+            {% if get_painting_id.name == "OPAutotech" %}
+                <option selected value="OPAutotech">OPAutotech</option>
+                <option value="Maker">Maker</option>
+            {% else %}
+                <option value="OPAutotech">OPAutotech</option>
+                <option selected value="Maker">Maker</option>  
+            {% endif %}
           </select>
         <span class="focus-input100"></span>
         <span class="symbol-input100">

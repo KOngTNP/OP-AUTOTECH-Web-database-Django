@@ -13,7 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if user.is_staff %}
+{% if get_drawing_id.Quantity != get_document_id.Quantity and request.user.id == get_document_id.user.id or user.is_staff %}
 <h2 align="center" style="margin-bottom: 20px;">Edit document of {{get_drawing_id.drawingNo}}</h2>
 <form method="POST" action="/workflow/{{get_drawing_id.drawingNo}}/update/document/{{get_document_id.id}}" onsubmit="return checkForm(this);">
     {% csrf_token %}
