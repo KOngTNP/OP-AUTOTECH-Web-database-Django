@@ -19,7 +19,11 @@
   <h2 align="center" style="margin-bottom: 20px;"> REPORT </h2>
   <form class="form-inline my-lg-0" action="{% url 'mysite:reportTable' %}" style="float: right; ">
     <div class="wrap-input100 validate-input" style="width: auto; margin-bottom: 15px;">
-        <input align="center" class="input100 form-control mr-sm-2" id="date" type="date" placeholder="Search" aria-label="Search" name="search" style="width: 230px; max-width: 100%; height: 45px; padding-top: 6px;">
+        {% if search_date %}
+          <input align="center" class="input100 form-control mr-sm-2" type="date" placeholder="Search" aria-label="Search" name="search" style="width: 230px; max-width: 100%; height: 45px; padding-top: 6px;" value={{search_date}}>
+        {% else %}
+          <input align="center" class="input100 form-control mr-sm-2" id="date" type="date" placeholder="Search" aria-label="Search" name="search" style="width: 230px; max-width: 100%; height: 45px; padding-top: 6px;">
+        {% endif %}
         <span class="focus-input100" style="width: 230px; max-width: 100%;"></span>
         <span class="symbol-input100">
             <i class="fa fa-search" aria-hidden="true"></i>
@@ -58,8 +62,8 @@
 
       <tr>
         <th class="align-middle">Job number</th>
-        <th class="align-middle">Project name</th>
-        <th class="align-middle">Number</th>
+        <th class="align-middle" style="min-width:130px">Project name</th>
+        <th class="align-middle" style="min-width:130px">Number</th>
         <th class="align-middle">Quantity</th>
         <th class="align-middle" style="min-width:130px">Date</th>
 
@@ -593,7 +597,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{painting_day_report.dateEnd}}</td>
+        <td class="align-middle">{{painting_day_report.dateEnd | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -817,7 +821,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{painting_week_report.dateEnd}}</td>
+        <td class="align-middle">{{painting_week_report.dateEnd| date:"d M Y"}}</td>
         <td class="align-middle">{{painting_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -1037,7 +1041,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{painting_month_report.dateEnd}}</td>
+      <td class="align-middle">{{painting_month_report.dateEnd | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
