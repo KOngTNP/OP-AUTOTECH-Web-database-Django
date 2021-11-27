@@ -244,7 +244,11 @@ def jobTable(request):
     all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo", sum("mysite_drawing"."Quantity") as "QTY" FROM mysite_drawing , mysite_job WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
     done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assembly"."Quantity") as "Assembly_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
     sum_drawing = len(Drawing.objects.all())
-    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty, "sum_drawing":sum_drawing, "sum_job":sum_job})
+    sum_done = 0
+    for done in done_qty:
+        if done.Assembly_QTY != None:
+            sum_done += done.Assembly_QTY
+    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty, "sum_drawing":sum_drawing, "sum_job":sum_job, "sum_done":sum_done})
 
 def jobReport(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
@@ -348,7 +352,6 @@ def updateJob(request,job_id):
 def drawingTable(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     count_drawing = len(Drawing.objects.filter(job=get_job_id))
-    print(count_drawing)
     done_qty = Drawing.objects.raw(
     'SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_document"."Quantity" as "Document_QTY", \
     "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_machine"."Quantity" as "Machine_QTY", "mysite_qc"."Quantity" as "QC_QTY",\
