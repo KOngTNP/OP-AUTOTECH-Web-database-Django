@@ -146,11 +146,11 @@
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{document.user}}</p>
             <hr>
             <p class="card-title">Skip assembly
-              <a class="card-text"> : {{document.skipAssembly}}</a></p>
+              <a class="card-text"> : {{document.skipAssembly | date:"d M Y"}}</a></p>
             <p><u class="card-title">Checked date</u> 
-            <a class="card-text"> : {{document.datePublish}}</a></p>
+            <a class="card-text"> : {{document.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{document.dateUpdate }}{{request.user.username}} {{document.user}}</a></p>
+            <a class="card-text"> : {{document.dateUpdate | date:"d M Y"}}</a></p>
             <h1></h1>
             {% if get_drawing_id.Quantity != document.Quantity and request.user.id == document.user.id or user.is_staff %}
               <a href="/workflow/{{document.drawing}}/edit/document/{{document.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -192,9 +192,9 @@
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{maker.user}}</p>
             <hr>
             <p><u class="card-title">Checked date</u> 
-            <a class="card-text"> : {{maker.datePublish}}</a></p>
+            <a class="card-text"> : {{maker.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{maker.dateUpdate}}</a></p>
+            <a class="card-text"> : {{maker.dateUpdate | date:"d M Y"}}</a></p>
             <h1></h1>
             {% if request.user.groups.all.0.name == 'Purchase' or request.user.groups.all.1.name == 'Purchase' or request.user.groups.all.2.name == 'Purchase' or request.user.groups.all.3.name == 'Purchase' or request.user.groups.all.4.name == 'Purchase' or request.user.groups.all.5.name == 'Purchase' or request.user.groups.all.6.name == 'Purchase' or request.user.groups.all.7.name == 'Purchase' or user.is_staff %}
               <a href="/workflow/{{maker.drawing}}/edit/maker/{{maker.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -244,9 +244,9 @@
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{cutting.user}}</p>
             <hr>
             <p><u class="card-title">Raw-Material date</u> 
-            <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.datePublish}}</a></p>
+            <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.dateUpdate}}</a></p>
+            <a class="card-text" style="margin-bottom: 10px; margin-top: -5px;"> : {{cutting.dateUpdate | date:"d M Y"}}</a></p>
 
             {% if get_drawing_id.Quantity != cutting.Quantity and request.user.id == cutting.user.id or user.is_staff  %}
               <a href="/workflow/{{cutting.drawing}}/edit/cutting/{{cutting.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -294,9 +294,9 @@
               <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{machine.user}}
               <hr>
               <p><u class="card-title">Doing date</u> 
-              <a class="card-text"> : {{machine.datePublish}}</a></p>
+              <a class="card-text"> : {{machine.datePublish | date:"d M Y"}}</a></p>
               <p><u class="card-title">Last edit date</u> 
-              <a class="card-text"> : {{machine.dateUpdate}}</a></p>
+              <a class="card-text"> : {{machine.dateUpdate | date:"d M Y"}}</a></p>
 
               {% if get_drawing_id.Quantity != machine.Quantity and request.user.id == machine.user.id or user.is_staff  %}
                 <a href="/workflow/{{machine.drawing}}/edit/machine/{{machine.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -347,9 +347,9 @@
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{qc.user}}</p>
             <hr>
             <p><u class="card-title">Checked date</u> 
-            <a class="card-text"> : {{qc.datePublish}}</a></p>
+            <a class="card-text"> : {{qc.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{qc.dateUpdate}}</a></p>
+            <a class="card-text"> : {{qc.dateUpdate | date:"d M Y"}}</a></p>
             <h1></h1>
             {% if get_drawing_id.Quantity != qc.Quantity and request.user.id == qc.user.id or user.is_staff %}
               <a href="/workflow/{{get_drawing_id}}/edit/qc/{{qc.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -399,11 +399,11 @@
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{painting.user}}</p>
             <hr>
             <p><u class="card-title">Starting date</u> 
-            <a class="card-text"> : {{painting.datePublish}}</a></p>
+            <a class="card-text"> : {{painting.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">End date</u> 
-              <a class="card-text"> : {{painting.dateEnd}}</a></p>
+              <a class="card-text"> : {{painting.dateEnd | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{painting.dateUpdate}}</a></p>
+            <a class="card-text"> : {{painting.dateUpdate | date:"d M Y"}}</a></p>
             <h1></h1>
             {% if not painting.dateEnd%}
               <a href="/workflow/{{painting.drawing}}/end/painting/{{painting.id}}" class='btn btn-success' onclick="return confirm('Are you sure that painting is completed?');">Add end date</a>
@@ -460,9 +460,9 @@
             <p class="card-text" style="color: black; margin-bottom: 10px; margin-top: -5px;">{{qcpainting.user}}</p>
             <hr>
             <p><u class="card-title">Checked date</u> 
-            <a class="card-text"> : {{qcpainting.datePublish}}</a></p>
+            <a class="card-text"> : {{qcpainting.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{qcpainting.dateUpdate}}</a></p>
+            <a class="card-text"> : {{qcpainting.dateUpdate | date:"d M Y"}}</a></p>
             <h1></h1>
             {% if get_drawing_id.Quantity != qcpainting.Quantity and request.user.id == qcpainting.user.id or user.is_staff %}
               <a href="/workflow/{{get_drawing_id}}/edit/qcpainting/{{qcpainting.id}}"><span class='btn btn-success'>Edit</span></a>
@@ -513,9 +513,9 @@
             <p class="card-text" style="margin-bottom: 10px; margin-top: -5px;">{{assembly.user}}</p>
             <hr>
             <p><u class="card-title">Assembly date</u> 
-            <a class="card-text"> : {{assembly.datePublish}}</a></p>
+            <a class="card-text"> : {{assembly.datePublish | date:"d M Y"}}</a></p>
             <p><u class="card-title">Last edit date</u> 
-            <a class="card-text"> : {{assembly.dateUpdate}}</a></p>
+            <a class="card-text"> : {{assembly.dateUpdate | date:"d M Y"}}</a></p>
 
             {% if get_drawing_id.Quantity != assembly.Quantity and request.user.id == assembly.user.id or user.is_staff %}
               <a href="/workflow/{{assembly.drawing}}/edit/assembly/{{assembly.id}}"><span class='btn btn-success'>Edit</span></a>
