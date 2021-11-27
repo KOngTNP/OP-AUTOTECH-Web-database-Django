@@ -28,7 +28,7 @@ from django.contrib import admin
 
 admin.site.site_header = 'OPAUTOTECH'                    # default: "Django Administration"
 admin.site.index_title = 'Features area'                 # default: "Site administration"
-admin.site.site_title = 'HTML title from adminsitration' # default: "Django site admin"
+admin.site.site_title = 'Adminsitration' # default: "Django site admin"
 urlpatterns = [
     path('', include('mysite.urls', namespace='mysite')),
     path('admin/', admin.site.urls),
