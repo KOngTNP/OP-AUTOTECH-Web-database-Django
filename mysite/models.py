@@ -23,6 +23,8 @@ class Job(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-datePublish']
 
     def __str__(self):
         return self.jobNo
@@ -38,9 +40,9 @@ class Drawing(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
-        ordering=('drawingNo','datePublish')
+        ordering = ['datePublish']
     def __str__(self):
         return self.drawingNo
 
