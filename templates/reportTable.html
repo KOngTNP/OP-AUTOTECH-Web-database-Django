@@ -473,7 +473,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{document_day_report.datePublish}}</td>
+        <td class="align-middle">{{document_day_report.datePublish | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -503,7 +503,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{cutting_day_report.datePublish}}</td>
+        <td class="align-middle">{{cutting_day_report.datePublish | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -533,7 +533,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{machine_day_report.datePublish}}</td>
+        <td class="align-middle">{{machine_day_report.datePublish | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -563,7 +563,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{qc_day_report.datePublish}}</td>
+        <td class="align-middle">{{qc_day_report.datePublish | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -623,7 +623,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{qcpainting_day_report.datePublish}}</td>
+        <td class="align-middle">{{qcpainting_day_report.datePublish | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -653,7 +653,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{assembly_day_report.datePublish}}</td>
+        <td class="align-middle">{{assembly_day_report.datePublish | date:"d M Y"}}</td>
       </tr>
       {% endfor %}
       </tbody>
@@ -689,7 +689,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{document_week_report.datePublish}}</td>
+        <td class="align-middle">{{document_week_report.datePublish | date:"d M Y"}}</td>
         <td class="align-middle">{{document_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -721,7 +721,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{cutting_week_report.datePublish}}</td>
+        <td class="align-middle">{{cutting_week_report.datePublish | date:"d M Y"}}</td>
         <td class="align-middle">{{cutting_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -753,7 +753,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{machine_week_report.datePublish}}</td>
+        <td class="align-middle">{{machine_week_report.datePublish | date:"d M Y"}}</td>
         <td class="align-middle">{{machine_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -785,7 +785,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{qc_week_report.datePublish}}</td>
+        <td class="align-middle">{{qc_week_report.datePublish | date:"d M Y"}}</td>
         <td class="align-middle">{{qc_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -849,7 +849,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{qcpainting_week_report.datePublish}}</td>
+        <td class="align-middle">{{qcpainting_week_report.datePublish | date:"d M Y"}}</td>
         <td class="align-middle">{{qcpainting_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -881,7 +881,7 @@
             <td class="align-middle">{{get_user_id.username}}</td>
           {% endif %}
         {% endfor %}
-        <td class="align-middle">{{assembly_week_report.datePublish}}</td>
+        <td class="align-middle">{{assembly_week_report.datePublish | date:"d M Y"}}</td>
         <td class="align-middle">{{assembly_week_report.day}}</td>
       </tr>
       {% endfor %}
@@ -917,7 +917,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{document_month_report.datePublish}}</td>
+      <td class="align-middle">{{document_month_report.datePublish | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -947,7 +947,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{cutting_month_report.datePublish}}</td>
+      <td class="align-middle">{{cutting_month_report.datePublish | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -977,7 +977,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{machine_month_report.datePublish}}</td>
+      <td class="align-middle">{{machine_month_report.datePublish | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -1007,7 +1007,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{qc_month_report.datePublish}}</td>
+      <td class="align-middle">{{qc_month_report.datePublish | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -1067,7 +1067,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{qcpainting_month_report.datePublish}}</td>
+      <td class="align-middle">{{qcpainting_month_report.datePublish | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -1097,7 +1097,7 @@
           <td class="align-middle">{{get_user_id.username}}</td>
         {% endif %}
       {% endfor %}
-      <td class="align-middle">{{assembly_month_report.datePublish}}</td>
+      <td class="align-middle">{{assembly_month_report.datePublish | date:"d M Y"}}</td>
     </tr>
     {% endfor %}
     </tbody>
