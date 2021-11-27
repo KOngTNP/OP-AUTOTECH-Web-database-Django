@@ -44,13 +44,13 @@
             <div class="add-new"></div>
             {% endif %}
             <div style="overflow-x: auto;">
-              <table class="table table-bordered js-sort-table" id="myTable">
+              <table class="table table-bordered" id="myTable">
                 <thead class="table-striped table-dark" >
                   <tr align="center">
                     <!-- <th scope="col">Job name</th> -->
                     <th scope="col" class="js-sort-string">Drawing No</th>
                     <th scope="col" class="js-sort-number">Quantity</th>
-                    <th scope="col" style="min-width:130px" class="js-sort-number">Publish date</th>
+                    <th scope="col" style="min-width:130px">Publish date</th>
                     <th scope="col" class="js-sort-string">Create by</th>
 
                     {% if user.is_staff %}
@@ -68,7 +68,7 @@
                     
                     <td scope="row" style="text-align: center;"><a href="/workflow/{{drawing.drawingNo}}"><B>{{drawing.drawingNo}}</B></a></td>
                     <td style="text-align:center">{{drawing.Quantity}}</td>
-                    <td>{{drawing.datePublish.date}}</td>
+                    <td>{{drawing.datePublish.date  | date:"d M Y"}}</td>
                     <td >{{drawing.user}}</td>
 
                     {% if user.is_staff %}
