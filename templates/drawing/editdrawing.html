@@ -13,7 +13,7 @@
 <body>
 <div class="table-wrapper">
 {% if user.is_authenticated%}
-{% if user.is_staff %}
+{% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff%}
 <h2 align="center" style="margin-bottom: 20px;">Edit Drawing no {{get_drawing_id.drawingNo}}</h2>
 
 <form method="POST" action="/drawingTable/{{get_job_id.jobNo}}/update/{{get_drawing_id.drawingNo}}" onsubmit="return checkForm(this);">
@@ -46,6 +46,8 @@
     <a style="color: #c80000;">{{ form.errors }}</a>
 
 </form>
+{% else %}
+    <h1 align="center"><a href="/drawingTable/{{get_job_id.jobNo}}" >You cannot edit this drawing - Back to Drawing page</a></h1>
 {% endif %}
 
 

@@ -56,6 +56,9 @@ class Document(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.drawing.drawingNo
 # 2
@@ -67,6 +70,10 @@ class Maker(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True)
     dateUpdate = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.drawing.drawingNo
 
@@ -80,6 +87,10 @@ class Cutting(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.drawing.drawingNo
 
@@ -93,6 +104,10 @@ class Machine(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.drawing.drawingNo
 # 5
@@ -106,6 +121,10 @@ class Qc(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.id
 
@@ -121,6 +140,10 @@ class Painting(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateEnd = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.drawing.drawingNo
 
@@ -138,6 +161,9 @@ class QcPainting(models.Model):
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
 
+    class Meta:
+        ordering = ['datePublish']
+
     def __str__(self):
         return self.painting.drawing_id
 
@@ -150,6 +176,9 @@ class Assembly(models.Model):
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        ordering = ['datePublish']
 
     def __str__(self):
         return self.drawing.drawingNo
@@ -178,6 +207,21 @@ class File(models.Model):
     dateUpdate = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
         return self.drawing.drawingNo
+
+    def delete(self, *args, **kwaegs):
+        self.file.delete()
+        super().delete(*args, **kwaegs)
+        
+class AssemblyFile(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='fileassembly')
+
+    file = models.FileField(upload_to='file/assembly/')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
+
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return self.job.jobNo
 
     def delete(self, *args, **kwaegs):
         self.file.delete()

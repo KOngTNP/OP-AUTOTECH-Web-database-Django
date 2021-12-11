@@ -263,7 +263,7 @@
     var x = new Date()
     var ampm = x.getHours( ) >= 12 ? ' PM' : ' AM';
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var month = x.getMonth() + 1
+    var month = x.getMonth()
     var x1=x.getDate() + " "+ months[month] + " " + x.getFullYear(); 
     // var x1=x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
     x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds() + " " + ampm;

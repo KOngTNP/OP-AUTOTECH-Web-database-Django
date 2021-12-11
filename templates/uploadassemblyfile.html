@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <mate charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Upload Assembly File | OP AUTOTECH</title>
+</head>
+<body>
+<div class="table-wrapper">
+{% if user.is_authenticated%}
+{% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff or request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document'%}
+<h2 align="center" style="margin-bottom: 20px;">Upload Assembly File of {{get_job_id}}</h2>
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <p hidden>{% render_field form.user class="form-control"%}</p>
+    <div class='form-group'>
+        <p hidden><lable for="exampleFormControlSelect1">job No.</lable>
+        {% render_field form.job class="form-control" %}</p> 
+    </div>
+
+    
+    <lable style="margin-left: 25px;">Upload Assembly file</lable>
+    <div class="input-group wrap-input100 validate-input" style="margin-left: 25px; margin-top: 15px; margin-bottom: 20px; max-width: 90%">
+        <span class="input-group-btn">
+            <span class="btn btn-light" style=" border-color: black;" onclick="$(this).parent().find('input[type=file]').click();">Choose File...</span>
+            <input name="file" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file" >
+        </span>
+        <span class="form-control"></span>
+    </div>
+
+ 
+
+    
+    <input type="submit" class="btn btn-success" name="myButton" value="Submit">
+    <a href='/drawingTable/{{get_job_id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+    <a style="color: #c80000;">{{ form.errors }}</a>
+</form>
+{% endif %}
+
+
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+</div>
+</body>
+</html>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

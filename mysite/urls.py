@@ -4,7 +4,6 @@ from mysite import views
 # from .views import DrawingDetail
 app_name = 'mysite'
 
-
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('reportTable/',views.reportTable, name= 'reportTable'),
@@ -86,6 +85,9 @@ urlpatterns = [
 
     path('uploadFile/<str:drawing_id>',views.uploadFile, name='uploadFile'),
     path('workflow/<str:drawing_id>/delete/file/<int:file_id>',views.deleteFile),
+
+    path('uploadAssemblyFile/<str:job_id>',views.uploadAssemblyFile, name='uploadAssemblyFile'),
+    path('drawingTable/<str:job_id>/delete/assemblyfile/<int:assemblyfile_id>',views.deleteAssemblyFile),
 
     path('workflow',views.flowSearch, name='flowSearch')
 ]

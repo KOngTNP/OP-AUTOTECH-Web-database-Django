@@ -3,7 +3,7 @@ from django.db.models import fields
 from django.db.models.base import Model
 from django.forms import ModelForm
 
-from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc ,Painting, QcPainting, Assembly, Revise, File
+from .models import  Job, Drawing, Document, Maker, Cutting, Machine, Qc ,Painting, QcPainting, Assembly, Revise, File, AssemblyFile
 
 class CreateJobForm(ModelForm):
     class Meta:
@@ -147,4 +147,9 @@ class UpdateReviseForm(ModelForm):
 class UploadFileForm(ModelForm):
     class Meta:
         model = File
+        fields = "__all__"
+
+class UploadAssemblyFileForm(ModelForm):
+    class Meta:
+        model = AssemblyFile
         fields = "__all__"

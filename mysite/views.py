@@ -1,12 +1,14 @@
 from functools import total_ordering
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm
-from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm, UploadAssemblyFileForm
+from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File ,AssemblyFile
 from django.contrib import messages
 from django.http import HttpResponseRedirect, request
 from django.urls import reverse
 from django.db.models import Q
 import datetime
+from datetime import date
 
 
 def homepage(request):
@@ -17,9 +19,8 @@ def homepage(request):
 
 
 def reportTable(request):
-    get_user_id = User.objects.all
-    get_painting_id = Painting.objects.all
-    get_cutting_id = Cutting.objects.all
+    current_week = date.today().isocalendar()[1] 
+    current_month = datetime.datetime.now().month
     select_all_report = Drawing.objects.raw(
         'SELECT "job_id" as "Job_number", "projectName" as "Project_name",\
         "drawingNo", "mysite_drawing"."Quantity" as "Drawing_QTY", "mysite_drawing"."datePublish" as "Drawing_date",\
@@ -42,53 +43,132 @@ def reportTable(request):
         LEFT JOIN mysite_revise on  "drawingNo" ="mysite_revise"."drawing_id"\
         WHERE "jobNo" = "job_id" ORDER BY "mysite_drawing"."datePublish"')
 
-    document_day_report = Document.objects.raw("""SELECT * FROM mysite_document WHERE "mysite_document"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_document"."datePublish";""")
-    document_week_report = Document.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_document WHERE "mysite_document"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_document"."datePublish";""")
-    document_month_report = Document.objects.raw("""SELECT * FROM mysite_document WHERE "mysite_document"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_document"."datePublish";""")
-    
-    # maker_day_report = Maker.objects.raw('SELECT * FROM mysite_maker where "mysite_maker"."datePublish" > now() - interval "1 day";')
-    # maker_week_report = Maker.objects.raw('SELECT *, to_char("datePublish", "day") FROM mysite_maker WHERE "mysite_maker"."datePublish" >= date_trunc("week", CURRENT_DATE);')
-    # maker_month_report = Maker.objects.raw('SELECT * FROM mysite_maker WHERE "mysite_maker"."datePublish" >= date_trunc("month", CURRENT_DATE);')
+    document_related = Document.objects.select_related('user','drawing')
+    cutting_related = Cutting.objects.select_related('user','drawing')
+    machine_related = Machine.objects.select_related('user','drawing')
+    qc_related = Qc.objects.select_related('user','machine','cutting')
+    painting_related = Painting.objects.select_related('user','drawing')
+    qcpainting_related = QcPainting.objects.select_related('user','painting')
+    assembly_related = Assembly.objects.select_related('user','drawing')
 
-    cutting_day_report = Cutting.objects.raw("""SELECT * FROM mysite_cutting WHERE "mysite_cutting"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_cutting"."datePublish";""")
-    cutting_week_report = Cutting.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_cutting WHERE "mysite_cutting"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_cutting"."datePublish";""")
-    cutting_month_report = Cutting.objects.raw("""SELECT * FROM mysite_cutting WHERE "mysite_cutting"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_cutting"."datePublish";""")
-    
-    machine_day_report = Machine.objects.raw("""SELECT * FROM mysite_machine WHERE "mysite_machine"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_machine"."datePublish";""")
-    machine_week_report = Machine.objects.raw("""SELECT *, to_char("datePublish", 'day') as day FROM mysite_machine WHERE "mysite_machine"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_machine"."datePublish";""")
-    machine_month_report = Machine.objects.raw("""SELECT * FROM mysite_machine WHERE "mysite_machine"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_machine"."datePublish";""")
+    document_week_report = document_related.filter(datePublish__week=current_week)
+    count_document_week_report = 0
+    qty_document_week_report = 0
+    for dwr in document_week_report:
+        count_document_week_report += 1
+        qty_document_week_report += dwr.Quantity
 
-    qc_day_report = Qc.objects.raw("""SELECT "mysite_qc"."id", "mysite_machine"."drawing_id", "mysite_qc"."Quantity", "mysite_qc"."datePublish", "mysite_qc"."dateUpdate", "mysite_qc"."user_id" FROM mysite_qc LEFT JOIN mysite_machine on "mysite_machine"."id" ="mysite_qc"."machine_id" WHERE "mysite_qc"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_qc"."datePublish";""")
-    qc_week_report = Qc.objects.raw("""SELECT "mysite_qc"."id", "mysite_machine"."drawing_id", "mysite_qc"."Quantity", "mysite_qc"."datePublish", "mysite_qc"."dateUpdate", "mysite_qc"."user_id", to_char("mysite_qc"."datePublish", 'day') as "day" FROM mysite_qc LEFT JOIN mysite_machine on "mysite_machine"."id" ="mysite_qc"."machine_id" WHERE "mysite_qc"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_qc"."datePublish";""")
-    qc_month_report = Qc.objects.raw("""SELECT "mysite_qc"."id", "mysite_machine"."drawing_id", "mysite_qc"."Quantity", "mysite_qc"."datePublish", "mysite_qc"."dateUpdate", "mysite_qc"."user_id" FROM mysite_qc LEFT JOIN mysite_machine on "mysite_machine"."id" ="mysite_qc"."machine_id" WHERE "mysite_qc"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_qc"."datePublish";""")
+    document_month_report = document_related.filter(datePublish__month=current_month)
+    count_document_month_report = 0
+    qty_document_month_report = 0
+    for dmr in document_month_report:
+        count_document_month_report += 1
+        qty_document_month_report += dmr.Quantity
 
-    painting_day_report = Painting.objects.raw("""SELECT * FROM mysite_painting WHERE "mysite_painting"."dateEnd" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_painting"."dateEnd";""")
-    painting_week_report = Painting.objects.raw("""SELECT *, to_char("dateEnd", 'day') as "day" FROM mysite_painting WHERE "mysite_painting"."dateEnd" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_painting"."dateEnd";""")
-    painting_month_report = Painting.objects.raw("""SELECT * FROM mysite_painting WHERE "mysite_painting"."dateEnd" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_painting"."dateEnd";""")
+    cutting_week_report = cutting_related.filter(datePublish__week=current_week)
+    count_cutting_week_report = 0
+    qty_cutting_week_report = 0
+    for cwr in cutting_week_report:
+        count_cutting_week_report += 1
+        qty_cutting_week_report += cwr.Quantity
 
-    qcpainting_day_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
-    qcpainting_week_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id", to_char("mysite_qcpainting"."datePublish", 'day') as "day" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
-    qcpainting_month_report = QcPainting.objects.raw("""SELECT "mysite_qcpainting"."id", "mysite_painting"."drawing_id", "mysite_qcpainting"."Quantity", "mysite_qcpainting"."datePublish", "mysite_qcpainting"."dateUpdate", "mysite_qcpainting"."user_id" FROM mysite_qcpainting LEFT JOIN mysite_painting on "mysite_painting"."id" ="mysite_qcpainting"."painting_id" WHERE "mysite_qcpainting"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_qcpainting"."datePublish";""")
+    cutting_month_report = cutting_related.filter(datePublish__month=current_month)
+    count_cutting_month_report = 0
+    qty_cutting_month_report = 0
+    for cmr in cutting_month_report:
+        count_cutting_month_report += 1
+        qty_cutting_month_report += cmr.Quantity
 
-    assembly_day_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('day', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
-    assembly_week_report = Assembly.objects.raw("""SELECT *, to_char("datePublish", 'day') as "day" FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('week', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
-    assembly_month_report = Assembly.objects.raw("""SELECT * FROM mysite_assembly WHERE "mysite_assembly"."datePublish" >= date_trunc('month', CURRENT_DATE) ORDER BY "mysite_assembly"."datePublish";""")
+
+    machine_week_report = machine_related.filter(datePublish__week=current_week)
+    count_machine_week_report = 0
+    qty_machine_week_report = 0
+    for mwr in machine_week_report:
+        count_machine_week_report += 1
+        qty_machine_week_report += mwr.Quantity
+
+    machine_month_report = machine_related.filter(datePublish__month=current_month)
+    count_machine_month_report = 0
+    qty_machine_month_report = 0
+    for mmr in machine_month_report:
+        count_machine_month_report += 1
+        qty_machine_month_report += mmr.Quantity
+
+    qc_week_report = qc_related.filter(datePublish__week=current_week)
+    count_qc_week_report = 0
+    qty_qc_week_report = 0
+    for qwr in qc_week_report:
+        count_qc_week_report += 1
+        qty_qc_week_report += qwr.Quantity
+
+    qc_month_report = qc_related.filter(datePublish__month=current_month)
+    count_qc_month_report = 0
+    qty_qc_month_report = 0
+    for qmr in qc_month_report:
+        count_qc_month_report += 1
+        qty_qc_month_report += qmr.Quantity
+
+    painting_week_report = painting_related.filter(datePublish__week=current_week)
+    count_painting_week_report = 0
+    qty_painting_week_report = 0
+    for pwr in painting_week_report:
+        count_painting_week_report += 1
+        qty_painting_week_report += pwr.Quantity
+
+    painting_month_report = painting_related.filter(datePublish__month=current_month)
+    count_painting_month_report = 0
+    qty_painting_month_report = 0
+    for pmr in painting_month_report:
+        count_painting_month_report += 1
+        qty_painting_month_report += pmr.Quantity
+
+
+    qcpainting_week_report = qcpainting_related.filter(datePublish__week=current_week)
+    count_qcpainting_week_report = 0
+    qty_qcpainting_week_report = 0
+    for qpwr in qcpainting_week_report:
+        count_qcpainting_week_report += 1
+        qty_qcpainting_week_report += qpwr.Quantity
+
+    qcpainting_month_report = qcpainting_related.filter(datePublish__month=current_month)
+    count_qcpainting_month_report = 0
+    qty_qcpainting_month_report = 0
+    for qpmr in qcpainting_month_report:
+        count_qcpainting_month_report += 1
+        qty_qcpainting_month_report += qpmr.Quantity
+
+
+    assembly_week_report = assembly_related.filter(datePublish__week=current_week)
+    count_assembly_week_report = 0
+    qty_assembly_week_report = 0
+    for awr in assembly_week_report:
+        count_assembly_week_report += 1
+        qty_assembly_week_report += awr.Quantity
+
+    assembly_month_report = assembly_related.filter(datePublish__month=current_month)
+    count_assembly_month_report = 0
+    qty_assembly_month_report = 0
+    for amr in assembly_month_report:
+        count_assembly_month_report += 1
+        qty_assembly_month_report += amr.Quantity
 
     search_date = request.GET.get('search')
     if search_date:
-        document_search = Document.objects.filter(datePublish__date=search_date)
-        cutting_search = Cutting.objects.filter(datePublish__date=search_date)
-        qc_search = Qc.objects.filter(datePublish__date=search_date)
-        painting_search = Painting.objects.filter(dateEnd__date=search_date)
-        qcpainting_search = QcPainting.objects.filter(datePublish__date=search_date)
-        assembly_search = Assembly.objects.filter(datePublish__date=search_date)
+        document_search = document_related.filter(datePublish__date=search_date)
+        cutting_search = cutting_related.filter(datePublish__date=search_date)
+        machine_search = machine_related.filter(datePublish__date=search_date)
+        qc_search = qc_related.filter(datePublish__date=search_date)
+        painting_search = painting_related.filter(dateEnd__date=search_date)
+        qcpainting_search = qcpainting_related.filter(datePublish__date=search_date)
+        assembly_search = assembly_related.filter(datePublish__date=search_date)
     else:
-        document_search = Document.objects.filter(datePublish__date=datetime.date.today())
-        cutting_search = Cutting.objects.filter(datePublish__date=datetime.date.today())
-        qc_search = Qc.objects.filter(datePublish__date=datetime.date.today())
-        painting_search = Painting.objects.filter(dateEnd__date=datetime.date.today())
-        qcpainting_search = QcPainting.objects.filter(datePublish__date=datetime.date.today())
-        assembly_search = Assembly.objects.filter(datePublish__date=datetime.date.today())
+        document_search = document_related.filter(datePublish__date=datetime.date.today())
+        cutting_search = cutting_related.filter(datePublish__date=datetime.date.today())
+        machine_search = machine_related.filter(datePublish__date=datetime.date.today())
+        qc_search = qc_related.filter(datePublish__date=datetime.date.today())
+        painting_search = painting_related.filter(dateEnd__date=datetime.date.today())
+        qcpainting_search = qcpainting_related.filter(datePublish__date=datetime.date.today())
+        assembly_search = assembly_related.filter(datePublish__date=datetime.date.today())
 
     count_document_qty = 0
     count_document = len(document_search)
@@ -101,7 +181,6 @@ def reportTable(request):
     for cutting in cutting_search:
         count_cutting_qty += cutting.Quantity
 
-    machine_search = Machine.objects.filter(datePublish__date=search_date)
     count_machine_qty = 0
     count_machine = len(machine_search)
     for machine in machine_search:
@@ -133,22 +212,22 @@ def reportTable(request):
 
     return render(request,'reportTable.html',
     {
-        'get_user_id':get_user_id,
         'select_all_report':select_all_report,
-        
-        'document_day_report':document_day_report, 'document_week_report':document_week_report, 'document_month_report':document_month_report,
-        # 'maker_day_report':maker_day_report, 'maker_week_report':maker_week_report, 'maker_month_report':maker_month_report,
-        'cutting_day_report':cutting_day_report, 'cutting_week_report':cutting_week_report, 'cutting_month_report':cutting_month_report,
-        'machine_day_report':machine_day_report, 'machine_week_report':machine_week_report, 'machine_month_report':machine_month_report,
-        'qc_day_report':qc_day_report, 'qc_week_report':qc_week_report, 'qc_month_report':qc_month_report,
-        'painting_day_report':painting_day_report, 'painting_week_report':painting_week_report, 'painting_month_report':painting_month_report,
-        'qcpainting_day_report':qcpainting_day_report, 'qcpainting_week_report':qcpainting_week_report, 'qcpainting_month_report':qcpainting_month_report,
-        'assembly_day_report':assembly_day_report, 'assembly_week_report':assembly_week_report, 'assembly_month_report':assembly_month_report,
+        'document_week_report':document_week_report, 'document_month_report':document_month_report,
+        'cutting_week_report':cutting_week_report, 'cutting_month_report':cutting_month_report,
+        'machine_week_report':machine_week_report, 'machine_month_report':machine_month_report,
+        'qc_week_report':qc_week_report, 'qc_month_report':qc_month_report,
+        'painting_week_report':painting_week_report, 'painting_month_report':painting_month_report,
+        'qcpainting_week_report':qcpainting_week_report, 'qcpainting_month_report':qcpainting_month_report,
+        'assembly_week_report':assembly_week_report, 'assembly_month_report':assembly_month_report,
         'document_search':document_search, 'cutting_search':cutting_search, 'machine_search':machine_search, 'qc_search':qc_search, 'painting_search':painting_search, 'qcpainting_search':qcpainting_search, 'assembly_search':assembly_search,
-        'get_painting_id':get_painting_id, 'get_cutting_id':get_cutting_id,
         'count_document_qty':count_document_qty, 'count_cutting_qty':count_cutting_qty, 'count_machine_qty':count_machine_qty, 'count_qc_qty':count_qc_qty, 'count_painting_qty':count_painting_qty, 'count_qcpainting_qty':count_qcpainting_qty, 'count_assembly_qty':count_assembly_qty,
         'count_document':count_document, 'count_cutting':count_cutting, 'count_machine':count_machine, 'count_qc':count_qc, 'count_painting':count_painting, 'count_qcpainting':count_qcpainting, 'count_assembly':count_assembly,
-    
+        'search_date':search_date,
+        'count_document_week_report':count_document_week_report, 'count_cutting_week_report':count_cutting_week_report, 'count_machine_week_report':count_machine_week_report, 'count_qc_week_report':count_qc_week_report, 'count_painting_week_report':count_painting_week_report, 'count_qcpainting_week_report':count_qcpainting_week_report, 'count_assembly_week_report':count_assembly_week_report,
+        'qty_document_week_report':qty_document_week_report, 'qty_cutting_week_report':qty_cutting_week_report, 'qty_machine_week_report':qty_machine_week_report, 'qty_qc_week_report':qty_qc_week_report, 'qty_painting_week_report':qty_painting_week_report, 'qty_qcpainting_week_report':qty_qcpainting_week_report, 'qty_assembly_week_report':qty_assembly_week_report,
+        'count_document_month_report':count_document_month_report, 'count_cutting_month_report':count_cutting_month_report, 'count_machine_month_report':count_machine_month_report, 'count_qc_month_report':count_qc_month_report, 'count_painting_month_report':count_painting_month_report, 'count_qcpainting_month_report':count_qcpainting_month_report, 'count_assembly_month_report':count_assembly_month_report,
+        'qty_document_month_report':qty_document_month_report, 'qty_cutting_month_report':qty_cutting_month_report, 'qty_machine_month_report':qty_machine_month_report, 'qty_qc_month_report':qty_qc_month_report, 'qty_painting_month_report':qty_painting_month_report, 'qty_qcpainting_month_report':qty_qcpainting_month_report, 'qty_assembly_month_report':qty_assembly_month_report,
     })
 
 
@@ -234,21 +313,29 @@ def realtimeReport(request):
 def jobTable(request):
     #Query Data from model
     search_job = request.GET.get('search')
-    sum_job = len(Job.objects.all())
+    sum_job = len(Job.objects.select_related('user'))
     if search_job:
         data = Job.objects.filter(Q(jobNo__icontains=search_job) & Q(jobNo__icontains=search_job))
         if str(data) == '<QuerySet []>':
             data = Job.objects.filter(Q(projectName__icontains=search_job) & Q(projectName__icontains=search_job))
     else:
-        data = Job.objects.all()
+        data = Job.objects.select_related('user')
     all_qty = Job.objects.raw('SELECT "mysite_job"."jobNo", sum("mysite_drawing"."Quantity") as "QTY" FROM mysite_drawing , mysite_job WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
     done_qty = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", sum("mysite_assembly"."Quantity") as "Assembly_QTY" FROM mysite_job, mysite_drawing LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" GROUP BY "mysite_job"."jobNo"')
-    sum_drawing = len(Drawing.objects.all())
-    sum_done = 0
-    for done in done_qty:
-        if done.Assembly_QTY != None:
-            sum_done += done.Assembly_QTY
-    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty, "sum_drawing":sum_drawing, "sum_job":sum_job, "sum_done":sum_done})
+    sum_drawing = len(Drawing.objects.select_related('job'))
+    all_percent = Job.objects.raw('SELECT "mysite_job"."jobNo" as "jobNo", ( sum((coalesce("mysite_document"."Quantity", 0)) + (coalesce("mysite_cutting"."Quantity", 0)) + (coalesce("mysite_machine"."Quantity", 0)) + (coalesce("mysite_qc"."Quantity", 0)) + (coalesce("mysite_painting"."Quantity", 0)) + (coalesce("mysite_assembly"."Quantity", 0)) + (coalesce("mysite_qcpainting"."Quantity", 0)))*100) / (sum("mysite_drawing"."Quantity")*7) as "Percent" \
+        FROM mysite_job, mysite_drawing\
+        LEFT JOIN mysite_document on "drawingNo" ="mysite_document"."drawing_id" \
+        LEFT JOIN mysite_cutting on "drawingNo" ="mysite_cutting"."drawing_id" \
+        LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id"\
+        LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id"\
+        LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
+        WHERE "mysite_job"."jobNo" = "mysite_drawing"."job_id" \
+        GROUP BY "mysite_job"."jobNo"')
+    sum_all = 0
+    for all in all_qty:
+        sum_all += all.QTY
+    return render(request,'job/jobTable.html',{'jobs':data, 'all_qty':all_qty, 'done_qty':done_qty, "sum_drawing":sum_drawing, "sum_job":sum_job, "sum_all":sum_all , "all_percent":all_percent})
 
 def jobReport(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
@@ -319,15 +406,15 @@ def createJob(request):
 
 def deleteJob(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
-    try:
-        get_drawing_id = Drawing.objects.get(job_id=get_job_id)
-        get_file_id = File.objects.get(drawing_id = get_drawing_id)
-        get_file_id.delete()
-        get_job_id.delete()
-        data = Job.objects.all()
-    except:
-        get_job_id.delete()
-        data = Job.objects.all()
+    if str(request.user.username) == str(get_job_id.user) or request.user.is_superuser or request.user.is_staff:
+        try:
+            get_drawing_id = Drawing.objects.get(job_id=get_job_id)
+            get_file_id = File.objects.get(drawing_id = get_drawing_id)
+            get_file_id.delete()
+            get_job_id.delete()
+        except:
+            get_job_id.delete()
+    data = Job.objects.select_related('user')
     return redirect("/jobTable",{'jobs':data})
 
 def editJob(request,job_id):
@@ -335,7 +422,7 @@ def editJob(request,job_id):
     return render(request,'job/editjob.html',{'jobs':get_job_id})
 
 def updateJob(request,job_id):
-    data = Job.objects.all()
+    data = Job.objects.select_related('user')
     get_job_id = Job.objects.get(jobNo=job_id)
     form = UpdateJobForm(request.POST, instance=get_job_id)
     if form.is_valid():
@@ -350,8 +437,14 @@ def updateJob(request,job_id):
 
 
 def drawingTable(request,job_id):
-    get_job_id = Job.objects.get(jobNo=job_id)
-    count_drawing = len(Drawing.objects.filter(job=get_job_id))
+    get_drawing_all = Drawing.objects.select_related('job','user')
+    get_drawing = get_drawing_all.filter(job = job_id)
+    get_fileassembly_all = AssemblyFile.objects.select_related('job','user')
+    get_fileassembly = get_fileassembly_all.filter(job = job_id)
+    count_drawing = len(get_drawing)
+    count_drawing_qty = 0
+    for drawing in get_drawing:
+        count_drawing_qty += drawing.Quantity
     done_qty = Drawing.objects.raw(
     'SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_document"."Quantity" as "Document_QTY", \
     "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_machine"."Quantity" as "Machine_QTY", "mysite_qc"."Quantity" as "QC_QTY",\
@@ -365,7 +458,7 @@ def drawingTable(request,job_id):
     LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
     LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
     LEFT JOIN mysite_maker on "drawingNo"="mysite_maker"."drawing_id"')
-    return render(request,'drawing/drawingTable.html',{'get_job_id':get_job_id, "done_qty":done_qty, 'count_drawing':count_drawing})
+    return render(request,'drawing/drawingTable.html',{'get_drawing':get_drawing, 'done_qty':done_qty, 'count_drawing':count_drawing , 'job_id':job_id, 'count_drawing_qty':count_drawing_qty, 'get_fileassembly':get_fileassembly})
 
 def createDrawing(request,job_id):
     user = request.user
@@ -383,12 +476,13 @@ def createDrawing(request,job_id):
 def deleteDrawing(request,job_id,drawing_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    try:
-        get_file_id = File.objects.get(drawing_id = get_drawing_id)
-        get_file_id.delete()
-        get_drawing_id.delete()
-    except:
-        get_drawing_id.delete()
+    if str(request.user.username) == str(get_drawing_id.user) or request.user.is_superuser or request.user.is_staff:
+        try:
+            get_file_id = File.objects.get(drawing_id = get_drawing_id)
+            get_file_id.delete()
+            get_drawing_id.delete()
+        except:
+            get_drawing_id.delete()
     
     return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
 
@@ -475,8 +569,9 @@ def createDocument(request,drawing_id):
 
 def deleteDocument(request,drawing_id,document_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_document_id = Document.objects.get(id=document_id)
-    get_document_id.delete()
+    if request.user.is_superuser:
+        get_document_id = Document.objects.get(id=document_id)
+        get_document_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editDocument(request,drawing_id,document_id):
@@ -545,10 +640,11 @@ def createMaker(request,drawing_id):
 
 def deleteMaker(reqest,drawing_id,maker_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_maker_id = Maker.objects.get(id=maker_id)
-    get_maker_id.delete()
-    Cutting.objects.filter(drawing_id=get_drawing_id).delete()
-    Machine.objects.filter(drawing_id=get_drawing_id).delete()
+    if request.user.is_superuser:
+        get_maker_id = Maker.objects.get(id=maker_id)
+        get_maker_id.delete()
+        Cutting.objects.filter(drawing_id=get_drawing_id).delete()
+        Machine.objects.filter(drawing_id=get_drawing_id).delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editMaker(request,drawing_id,maker_id):
@@ -602,8 +698,9 @@ def createCutting(request,drawing_id):
 
 def deleteCutting(reqest,drawing_id,cutting_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_cutting_id = Cutting.objects.get(id=cutting_id)
-    get_cutting_id.delete()
+    if request.user.is_superuser:
+        get_cutting_id = Cutting.objects.get(id=cutting_id)
+        get_cutting_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editCutting(request,drawing_id,cutting_id):
@@ -646,8 +743,9 @@ def createMachine(request,drawing_id):
 
 def deleteMachine(request,drawing_id,machine_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_machine_id = Machine.objects.get(id=machine_id)
-    get_machine_id.delete()
+    if request.user.is_superuser:
+        get_machine_id = Machine.objects.get(id=machine_id)
+        get_machine_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editMachine(request,drawing_id,machine_id):
@@ -691,8 +789,9 @@ def createQc(request,drawing_id):
 
 def deleteQc(request,drawing_id,qc_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_qc_id = Qc.objects.get(id=qc_id)
-    get_qc_id.delete()
+    if request.user.is_superuser:
+        get_qc_id = Qc.objects.get(id=qc_id)
+        get_qc_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editQc(request,drawing_id,qc_id):
@@ -735,8 +834,9 @@ def createPainting(request,drawing_id):
 
 def deletePainting(request,drawing_id,painting_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_painting_id = Painting.objects.get(id=painting_id)
-    get_painting_id.delete()
+    if request.user.is_superuser:
+        get_painting_id = Painting.objects.get(id=painting_id)
+        get_painting_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 
@@ -785,8 +885,9 @@ def createQcPainting(request,drawing_id):
 
 def deleteQcPainting(request,drawing_id,qcpainting_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_qcpainting_id = QcPainting.objects.get(id=qcpainting_id)
-    get_qcpainting_id.delete()
+    if request.user.is_superuser:
+        get_qcpainting_id = QcPainting.objects.get(id=qcpainting_id)
+        get_qcpainting_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editQcPainting(request,drawing_id,qcpainting_id):
@@ -829,8 +930,9 @@ def createAssembly(request,drawing_id):
 
 def deleteAssembly(request,drawing_id,assembly_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_assembly_id = Assembly.objects.get(id=assembly_id)
-    get_assembly_id.delete()
+    if request.user.is_superuser:
+        get_assembly_id = Assembly.objects.get(id=assembly_id)
+        get_assembly_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editAssembly(request,drawing_id,assembly_id):
@@ -868,8 +970,9 @@ def createRevise(request,drawing_id):
 
 def deleteRevise(request,drawing_id,revise_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_revise_id = Revise.objects.get(id=revise_id)
-    get_revise_id.delete()
+    if request.user.is_superuser:
+        get_revise_id = Revise.objects.get(id=revise_id)
+        get_revise_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
 def editRevise(request,drawing_id,revise_id):
@@ -906,12 +1009,36 @@ def uploadFile(request,drawing_id):
             form = UploadFileForm(initial={'drawing':get_drawing_id, 'user':user})
     return render(request, 'uploadfile.html', {'form':form, 'get_drawing_id':get_drawing_id})
 
-def deleteFile(requset,drawing_id,file_id):
+def deleteFile(request,drawing_id,file_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
-    get_file_id = File.objects.get(id=file_id)
-    get_file_id.delete()
+    if request.user.is_superuser:
+        get_file_id = File.objects.get(id=file_id)
+        get_file_id.delete()
     return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
 
+
+def uploadAssemblyFile(request,job_id):
+    user = request.user
+    get_job_id = Job.objects.get(jobNo=job_id)
+    try:
+        get_assemblyfile_id = AssemblyFile.objects.get(drawing_id=get_job_id)
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_job_id,)))
+    except:
+        if request.method == "POST":
+            form = UploadAssemblyFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
+        else:
+            form = UploadAssemblyFileForm(initial={'job':get_job_id, 'user':user})
+    return render(request, 'uploadassemblyfile.html', {'form':form, 'get_job_id':get_job_id})
+
+def deleteAssemblyFile(request,job_id,assemblyfile_id):
+    get_job_id = Job.objects.get(jobNo=job_id)
+    if request.user.is_superuser:
+        get_assemblyfile_id = AssemblyFile.objects.get(id=assemblyfile_id)
+        get_assemblyfile_id.delete()
+    return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
 
 def custom_page_not_found_view(request, exception):
     return render(request, "errors/404.html", {})
