@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <mate charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>3D-Model Files | OP AUTOTECH</title>
+</head>
+<body>
+<div class="table-wrapper">
+{% if user.is_authenticated%}
+<h2 align="center" style="margin-bottom: 20px;">3D-Model Files of {{get_job_id}}</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'mysite:jobTable' %}">Jobs</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'mysite:drawingTable' job_id=get_job_id %}">Drawings</a></li>
+      <li class="breadcrumb-item active" aria-current="page">3D-Model Files</li>
+    </ol>
+  </nav>
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <p hidden>{% render_field form.user class="form-control"%}</p>
+    <div class='form-group'>
+        <p hidden><lable for="exampleFormControlSelect1">job No.</lable>
+        {% render_field form.job class="form-control" %}</p> 
+    </div>
+
+    {% if not get_modelfile_id.filepdf %}
+        {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff or request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document'%}
+        <lable style="margin-left: 25px;">Upload 3D-PDF file</lable>
+        <div class="input-group wrap-input100 validate-input" style="margin-left: 25px; margin-top: 15px; margin-bottom: 20px; max-width: 90%">
+            <span class="input-group-btn">
+                <span class="btn btn-light" style=" border-color: black;" onclick="$(this).parent().find('input[type=file]').click();">Choose File...</span>
+                <input name="filepdf" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file" value="get_modelfile_id.filepdf">
+            </span>
+            <span class="form-control"></span>
+        </div>
+        {% endif %}
+    {% else %}
+        <lable style="margin-left: 25px;">Download 3D-PDF file</lable>
+        <div class="input-group wrap-input100 validate-input" style="margin-left: 25px; margin-top: 15px; margin-bottom: 20px; max-width: 90%">
+        <a href="{{ get_modelfile_id.filepdf.url }}" class="btn btn-primary"  role="button"target="_blank" rel="noopener noreferrer">Download 3D-Model File</a>       
+        {% if user.is_staff %}
+            <a class="delete" title="Delete" data-toggle="tooltip" href='{{get_job_id}}/modelfile/{{get_modelfile_id.id}}/delete/deletepdfFile' onclick="return confirm('Are you sure you want to delete this item?');">
+            <i class="material-icons fa-2x" style="margin-top: 5px;">&#xE872;</i></a>
+        {% endif %}
+        </div>
+    {% endif %}
+
+    {% if not get_modelfile_id.fileEdrawing %}
+        {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff or request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document'%}
+        <lable style="margin-left: 25px;">Upload E-Drawing file</lable>
+        <div class="input-group wrap-input100 validate-input" style="margin-left: 25px; margin-top: 15px; margin-bottom: 20px; max-width: 90%">
+            <span class="input-group-btn">
+                <span class="btn btn-light" style=" border-color: black;" onclick="$(this).parent().find('input[type=file]').click();">Choose File...</span>
+                <input name="fileEdrawing" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file" >
+            </span>
+            <span class="form-control"></span>
+        </div>
+        {% endif%}
+    {% else %}
+        <lable style="margin-left: 25px;">Download E-Drawing file</lable>
+        <div class="input-group wrap-input100 validate-input" style="margin-left: 25px; margin-top: 15px; margin-bottom: 20px; max-width: 90%">
+        <a href="{{ get_modelfile_id.fileEdrawing.url }}" class="btn btn-outline-primary"  role="button"target="_blank" rel="noopener noreferrer">Download E-Drawing File</a>       
+        {% if user.is_staff %}
+            <a class="delete" title="Delete" data-toggle="tooltip" href='{{get_job_id}}/modelfile/{{get_modelfile_id.id}}/delete/deleteEdrawingFile' onclick="return confirm('Are you sure you want to delete this item?');">
+            <i class="material-icons fa-2x" style="margin-top: 5px;">&#xE872;</i></a>
+        {% endif %}
+        </div>
+    {% endif %}
+
+ 
+
+    {% if not get_modelfile_id.fileEdrawing or not get_modelfile_id.filepdf %}
+        {% if request.user.groups.all.0.name == 'Design' or request.user.groups.all.1.name == 'Design' or request.user.groups.all.2.name == 'Design' or request.user.groups.all.3.name == 'Design' or request.user.groups.all.4.name == 'Design' or request.user.groups.all.5.name == 'Design' or request.user.groups.all.6.name == 'Design' or request.user.groups.all.7.name == 'Design' or user.is_staff or request.user.groups.all.0.name == 'Document' or request.user.groups.all.1.name == 'Document' or request.user.groups.all.2.name == 'Document' or request.user.groups.all.3.name == 'Document' or request.user.groups.all.4.name == 'Document' or request.user.groups.all.5.name == 'Document' or request.user.groups.all.6.name == 'Document' or request.user.groups.all.7.name == 'Document'%}
+            <input type="submit" class="btn btn-success" name="myButton" value="Submit">
+            <a href='/drawingTable/{{get_job_id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+            <a style="color: #c80000;">{{ form.errors }}</a>
+        {% endif %}
+    {% endif %}
+</form>
+
+
+
+
+
+{% else %}
+    <h1 align="center"><a href="/login" >You need to login first</a></h1>
+{% endif %}
+</div>
+</body>
+</html>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

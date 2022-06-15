@@ -214,8 +214,7 @@ class File(models.Model):
         
 class AssemblyFile(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='fileassembly')
-
-    file = models.FileField(upload_to='file/assembly/')
+    file = models.FileField(upload_to=f'file/assembly/')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
 
     datePublish = models.DateTimeField(auto_now_add=True, null=True)
@@ -225,4 +224,34 @@ class AssemblyFile(models.Model):
 
     def delete(self, *args, **kwaegs):
         self.file.delete()
+        super().delete(*args, **kwaegs)
+
+class PlanFile(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='fileplan')
+    file = models.FileField(upload_to=f'file/plan/')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
+
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return self.job.jobNo
+
+    def delete(self, *args, **kwaegs):
+        self.file.delete()
+        super().delete(*args, **kwaegs)
+
+class ModelFile(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='filemodel')
+    filepdf = models.FileField(upload_to=f'file/3D-model/3D-PDF', null = True, blank=True)
+    fileEdrawing = models.FileField(upload_to=f'file/3D-model/E-Drawing', null = True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
+
+    datePublish = models.DateTimeField(auto_now_add=True, null=True)
+    dateUpdate = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return self.job.jobNo
+
+    def delete(self, *args, **kwaegs):
+        self.filepdf.delete()
+        self.fileEdrawing.delete()
         super().delete(*args, **kwaegs)

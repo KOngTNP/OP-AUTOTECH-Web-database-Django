@@ -74,7 +74,11 @@
       </div>
         <div style="text-align: right; margin-top: -38px;">
         {% for upload in get_drawing_id.filedrawing.all %}
-          <a href="{{ upload.file.url }}" class="btn btn-danger" target="_blank" rel="noopener noreferrer" style="margin-top: -4px;">Download File</a>       
+          <a href="{{ upload.file.url }}" class="btn btn-danger" target="_blank" rel="noopener noreferrer" style="margin-top: -4px;">
+            <span>
+              <i class="fa fa-download" style="color: white;"></i>
+            </span>
+            Download File</a>       
           {% if user.is_staff %}
           <span class='fa-stack fa-lg'>
               <a class="delete" title="Delete" data-toggle="tooltip" href='/workflow/{{upload.drawing}}/delete/file/{{upload.id}}' onclick="return confirm('Are you sure you want to delete this item?');">
@@ -385,7 +389,7 @@
                 {% endif %}
               {% endfor %}
 
-              Painting
+              Painting and Treatment
             </h5>
           </button>
         </h5>
@@ -421,7 +425,7 @@
           {% endfor %}
           {% if not get_drawing_id.paintingdrawing.all%}
             {% if request.user.groups.all.0.name == 'Painting' or request.user.groups.all.1.name == 'Painting' or request.user.groups.all.2.name == 'Painting' or request.user.groups.all.3.name == 'Painting' or request.user.groups.all.4.name == 'Painting' or request.user.groups.all.5.name == 'Painting' or request.user.groups.all.6.name == 'Painting' or request.user.groups.all.7.name == 'Painting' or user.is_staff%}
-              <a href="{% url 'mysite:createPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Painting</a>
+              <a href="{% url 'mysite:createPainting' drawing_id=get_drawing_id.drawingNo %}" class="btn btn-light">Add Painting and Treatment</a>
             {% endif %}
           {% endif %}
         </div>
@@ -446,7 +450,7 @@
                 {% endif %}
               {% endfor %}
               
-              Painting QC
+              Final QC
             </h5>
           </button>
         </h5>

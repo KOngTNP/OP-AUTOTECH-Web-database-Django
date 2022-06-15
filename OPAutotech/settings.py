@@ -30,12 +30,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-(7oazmn5hwp+^fyay5prsxy++u(x!r^ctm0k5qweuhgk!a89+-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://opautotech-db.herokuapp.com', 'localhost', '192.168.1.12','127.0.0.1','192.168.1.28']
 
 CRISPY_TEMPLATE_PACK="bootstrap4"
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,9 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'widget_tweaks',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -147,6 +148,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
-
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "mysite/cache"
+    }
+}
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+import mimetypes
+mimetypes.add_type("application/javascript", ".js", True)
+def show_toolbar(request):
+    return True
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+}
+
+INTERNAL_IPS = ['127.0.0.1', '192.168.1.12',]

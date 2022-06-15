@@ -1,14 +1,15 @@
 from functools import total_ordering
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm, UploadAssemblyFileForm
-from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File ,AssemblyFile
+from .forms import CreateJobForm,CreateDrawingForm,UpdateDrawingForm, UpdateJobForm, CreateDocumentForm, UpdateDocumentForm, CreateMakerForm, UpdateMakerForm,CreateCuttingForm, UpdateCuttingForm, CreateMachineForm, UpdateMachineForm, CreateQcForm, UpdateQcForm, CreatePaintingForm ,UpdatePaintingForm, CreateQcPaintingForm ,UpdateQcPaintingForm, CreateAssemblyForm ,UpdateAssemblyForm, CreateReviseForm ,UpdateReviseForm, UploadFileForm, UploadAssemblyFileForm, UploadPlanFileForm, UploadModelFileForm
+from .models import Assembly, Job, Drawing, Document, Maker, Cutting, Machine, Qc, Painting, QcPainting, User, Revise, File, AssemblyFile,PlanFile, ModelFile
 from django.contrib import messages
 from django.http import HttpResponseRedirect, request
 from django.urls import reverse
 from django.db.models import Q
 import datetime
 from datetime import date
+import os
 
 
 def homepage(request):
@@ -408,6 +409,21 @@ def deleteJob(request,job_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     if str(request.user.username) == str(get_job_id.user) or request.user.is_superuser or request.user.is_staff:
         try:
+            try:
+                get_assemblyfile_id = AssemblyFile.objects.get(job = job_id)
+                get_assemblyfile_id.delete()
+            except:
+                pass
+            try:
+                get_planfile_id = PlanFile.objects.get(job = job_id)
+                get_planfile_id.delete()
+            except:
+                pass
+            try:
+                get_modelfile_id = ModelFile.objects.get(job = job_id)
+                get_modelfile_id.delete()
+            except:
+                pass
             get_drawing_id = Drawing.objects.get(job_id=get_job_id)
             get_file_id = File.objects.get(drawing_id = get_drawing_id)
             get_file_id.delete()
@@ -441,24 +457,31 @@ def drawingTable(request,job_id):
     get_drawing = get_drawing_all.filter(job = job_id)
     get_fileassembly_all = AssemblyFile.objects.select_related('job','user')
     get_fileassembly = get_fileassembly_all.filter(job = job_id)
+
+    get_fileplan_all = PlanFile.objects.select_related('job','user')
+    get_fileplan = get_fileplan_all.filter(job = job_id)
+
+    get_filemodel_all = ModelFile.objects.select_related('job','user')
+    get_filemodel = get_filemodel_all.filter(job = job_id)
     count_drawing = len(get_drawing)
     count_drawing_qty = 0
     for drawing in get_drawing:
         count_drawing_qty += drawing.Quantity
-    done_qty = Drawing.objects.raw(
-    'SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_document"."Quantity" as "Document_QTY", \
-    "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_machine"."Quantity" as "Machine_QTY", "mysite_qc"."Quantity" as "QC_QTY",\
-    "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."dateEnd" as "Painting_END", \
-    "mysite_qcpainting"."Quantity" as "QCPainting_QTY", "mysite_assembly"."Quantity" as "Assembly_QTY",\
-    "mysite_maker"."name" as "MakerName"\
-    FROM mysite_drawing \
-    LEFT JOIN mysite_document on "drawingNo" ="mysite_document"."drawing_id" \
-    LEFT JOIN mysite_cutting on "drawingNo" ="mysite_cutting"."drawing_id" \
-    LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id" \
-    LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
-    LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
-    LEFT JOIN mysite_maker on "drawingNo"="mysite_maker"."drawing_id"')
-    return render(request,'drawing/drawingTable.html',{'get_drawing':get_drawing, 'done_qty':done_qty, 'count_drawing':count_drawing , 'job_id':job_id, 'count_drawing_qty':count_drawing_qty, 'get_fileassembly':get_fileassembly})
+    done_qty = "None"
+    # done_qty = Drawing.objects.raw(
+    # 'SELECT "mysite_drawing"."drawingNo" as "drawingNo", "mysite_document"."Quantity" as "Document_QTY", \
+    # "mysite_cutting"."Quantity" as "Cutting_QTY", "mysite_machine"."Quantity" as "Machine_QTY", "mysite_qc"."Quantity" as "QC_QTY",\
+    # "mysite_painting"."Quantity" as "Painting_QTY", "mysite_painting"."dateEnd" as "Painting_END", \
+    # "mysite_qcpainting"."Quantity" as "QCPainting_QTY", "mysite_assembly"."Quantity" as "Assembly_QTY",\
+    # "mysite_maker"."name" as "MakerName"\
+    # FROM mysite_drawing \
+    # LEFT JOIN mysite_document on "drawingNo" ="mysite_document"."drawing_id" \
+    # LEFT JOIN mysite_cutting on "drawingNo" ="mysite_cutting"."drawing_id" \
+    # LEFT JOIN mysite_machine LEFT JOIN mysite_qc on "mysite_machine"."id" ="mysite_qc"."machine_id"  on  "drawingNo" ="mysite_machine"."drawing_id" \
+    # LEFT JOIN mysite_painting LEFT JOIN mysite_qcpainting on  "mysite_painting"."id" ="mysite_qcpainting"."painting_id"  on  "drawingNo" ="mysite_painting"."drawing_id" \
+    # LEFT JOIN mysite_assembly on "drawingNo" ="mysite_assembly"."drawing_id" \
+    # LEFT JOIN mysite_maker on "drawingNo"="mysite_maker"."drawing_id"')
+    return render(request,'drawing/drawingTable.html',{'get_drawing':get_drawing, 'done_qty':done_qty, 'count_drawing':count_drawing , 'job_id':job_id, 'count_drawing_qty':count_drawing_qty, 'get_fileassembly':get_fileassembly, 'get_filemodel':get_filemodel, 'get_fileplan':get_fileplan})
 
 def createDrawing(request,job_id):
     user = request.user
@@ -467,6 +490,12 @@ def createDrawing(request,job_id):
         form = CreateDrawingForm(request.POST)
         if form.is_valid():
             form.save()
+            data = request.POST
+            get_name = data.get('drawingNo')
+            get_drawingNo = Drawing.objects.get(drawingNo = get_name)
+            File.objects.create(drawing=get_drawingNo,file=f"file/drawing/{get_name}.pdf",user=user)
+                                                                                                                                                                                                                                                                                                                              
+            
             return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
             
     else:
@@ -638,7 +667,7 @@ def createMaker(request,drawing_id):
             form = CreateMakerForm(initial={'drawing':get_drawing_id, 'user':user})
         return render(request, 'maker/createmaker.html', { 'form':form, 'get_drawing_id':get_drawing_id })
 
-def deleteMaker(reqest,drawing_id,maker_id):
+def deleteMaker(request,drawing_id,maker_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     if request.user.is_superuser:
         get_maker_id = Maker.objects.get(id=maker_id)
@@ -696,7 +725,7 @@ def createCutting(request,drawing_id):
             form = CreateCuttingForm(initial={'drawing':get_drawing_id, 'user':user})
         return render(request, 'cutting/createcutting.html', { 'form':form, 'get_drawing_id':get_drawing_id })
 
-def deleteCutting(reqest,drawing_id,cutting_id):
+def deleteCutting(request,drawing_id,cutting_id):
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     if request.user.is_superuser:
         get_cutting_id = Cutting.objects.get(id=cutting_id)
@@ -997,7 +1026,7 @@ def uploadFile(request,drawing_id):
     user = request.user
     get_drawing_id = Drawing.objects.get(drawingNo=drawing_id)
     try:
-        get_file_id = File.objects.get(drawing_id=get_drawing_id)
+        get_file_id = File.objects.get(drawing=get_drawing_id)
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_drawing_id,)))
     except:
         if request.method == "POST":
@@ -1021,7 +1050,7 @@ def uploadAssemblyFile(request,job_id):
     user = request.user
     get_job_id = Job.objects.get(jobNo=job_id)
     try:
-        get_assemblyfile_id = AssemblyFile.objects.get(drawing_id=get_job_id)
+        get_assemblyfile_id = AssemblyFile.objects.get(job=get_job_id)
         return HttpResponseRedirect(reverse('mysite:workflow', args=(get_job_id,)))
     except:
         if request.method == "POST":
@@ -1036,9 +1065,76 @@ def uploadAssemblyFile(request,job_id):
 def deleteAssemblyFile(request,job_id,assemblyfile_id):
     get_job_id = Job.objects.get(jobNo=job_id)
     if request.user.is_superuser:
-        get_assemblyfile_id = AssemblyFile.objects.get(id=assemblyfile_id)
+        get_assemblyfile_id = AssemblyFile.objects.get(job=job_id)
         get_assemblyfile_id.delete()
     return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
+
+def uploadPlanFile(request,job_id):
+    user = request.user
+    get_job_id = Job.objects.get(jobNo=job_id)
+    try:
+        get_planfile_id = PlanFile.objects.get(job=get_job_id)
+        return HttpResponseRedirect(reverse('mysite:workflow', args=(get_job_id,)))
+    except:
+        if request.method == "POST":
+            form = UploadPlanFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
+        else:
+            form = UploadPlanFileForm(initial={'job':get_job_id, 'user':user})
+    return render(request, 'uploadplanfile.html', {'form':form, 'get_job_id':get_job_id})
+
+def deletePlanFile(request,job_id,planfile_id):
+    get_job_id = Job.objects.get(jobNo=job_id)
+    if request.user.is_superuser:
+        get_planfile_id = PlanFile.objects.get(job=job_id)
+        get_planfile_id.delete()
+    return HttpResponseRedirect(reverse('mysite:drawingTable', args=(get_job_id,)))
+
+
+def uploadModelFile(request,job_id):
+    user = request.user
+    get_job_id = Job.objects.get(jobNo=job_id)
+    get_modelfile_id = 0
+    try:
+        get_modelfile_id = ModelFile.objects.get(job=get_job_id)
+        form = UploadModelFileForm(instance=get_modelfile_id)
+        if request.method == "POST" and form.is_valid:
+            form = UploadModelFileForm(request.POST,request.FILES,instance=get_modelfile_id)
+            form.save()
+    except:
+        if request.method == "POST":
+            form = UploadModelFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('mysite:uploadModelFile', args=(get_job_id,)))
+        else:
+            form = UploadModelFileForm(initial={'job':get_job_id, 'user':user})
+    return render(request, 'uploadModelFile.html', {'form':form, 'get_job_id':get_job_id, 'get_modelfile_id':get_modelfile_id})
+
+def deletepdfFile(request,job_id,modelfile_id):
+    get_job_id = Job.objects.get(jobNo=job_id)
+    get_modelfile_id = ModelFile.objects.get(id=modelfile_id)
+    if request.user.is_superuser:
+        if not get_modelfile_id.fileEdrawing:
+            get_modelfile_id.delete()
+        else:
+            os.remove(get_modelfile_id.filepdf.path)
+            ModelFile.objects.filter(job=job_id).update(filepdf=None)
+    return HttpResponseRedirect(reverse('mysite:uploadModelFile', args=(get_job_id,)))
+
+def deleteEdrawingFile(request,job_id,modelfile_id):
+    get_job_id = Job.objects.get(jobNo=job_id)
+    get_modelfile_id = ModelFile.objects.get(id=modelfile_id)
+    if request.user.is_superuser:
+        if not get_modelfile_id.filepdf:
+            get_modelfile_id.delete()
+        else:
+            os.remove(get_modelfile_id.fileEdrawing.path)
+            ModelFile.objects.filter(job=job_id).update(fileEdrawing=None)
+    return HttpResponseRedirect(reverse('mysite:uploadModelFile', args=(get_job_id,)))
+
 
 def custom_page_not_found_view(request, exception):
     return render(request, "errors/404.html", {})

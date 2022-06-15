@@ -89,5 +89,12 @@ urlpatterns = [
     path('uploadAssemblyFile/<str:job_id>',views.uploadAssemblyFile, name='uploadAssemblyFile'),
     path('drawingTable/<str:job_id>/delete/assemblyfile/<int:assemblyfile_id>',views.deleteAssemblyFile),
 
+    path('uploadPlanFile/<str:job_id>',views.uploadPlanFile, name='uploadPlanFile'),
+    path('drawingTable/<str:job_id>/delete/planfile/<int:planfile_id>',views.deletePlanFile),
+
+    path('uploadModelFile/<str:job_id>',views.uploadModelFile, name='uploadModelFile'),
+    path('uploadModelFile/<str:job_id>/modelfile/<int:modelfile_id>/delete/deletepdfFile/',views.deletepdfFile),
+    path('uploadModelFile/<str:job_id>/modelfile/<int:modelfile_id>/delete/deleteEdrawingFile/',views.deleteEdrawingFile),
+
     path('workflow',views.flowSearch, name='flowSearch')
 ]
